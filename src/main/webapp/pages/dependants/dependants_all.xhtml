@@ -9,7 +9,7 @@
         <h:form class="autoMargin">
             <h1>System has the following dependants</h1>
 
-            <p:dataTable value="#{dependantdisplaybean.getAllDependants()}" var="dependant">
+            <p:dataTable value="#{dependantdisplaybean.getAllDependants()}" var= "dependant">
                 <p:column headerText="User name">
                     #{dependant.username}
                 </p:column>
