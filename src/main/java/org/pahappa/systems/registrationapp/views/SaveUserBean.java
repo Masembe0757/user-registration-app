@@ -24,5 +24,8 @@ public class SaveUserBean extends Account {
         UserRegDao.saveUser(user);
         return "/pages/users/users.xhtml?faces-redirect=true";
     }
+    public void deleteUser(String userName){
+        UserRegDao.deleteUser(userName);
+    }
 
 }

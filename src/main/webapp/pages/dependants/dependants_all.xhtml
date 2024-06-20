@@ -7,6 +7,8 @@
 
     <ui:define name="content">
         <h:form class="autoMargin">
+            <p:tabView>
+            <p:tab title="All Dependants">
             <h1>System has the following dependants</h1>
 
             <p:dataTable value="#{dependantdisplaybean.getAllDependants()}" var= "dependant">
@@ -32,9 +34,44 @@
                     <h:commandButton value="Delete" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/dependants/dependants_all.xhtml"/>
                 </p:column>
             </p:dataTable>
-            <br/>
+            </p:tab>
+
+            <p:tab title="Filter Dependants">
+            <h1>Filter Dependants</h1>
+            <h:panelGrid columns="2">
+                <h:outputLabel for="searchUsername" value="Username: " />
+                <h:inputText id="searchUsername" value="#{dependantdisplaybean.attribute}" />
+
+                <h:commandButton value="Search" action="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" update="searchResult" />
+            </h:panelGrid>
+            <p:dataTable value="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" var= "dependant">
+                <p:column headerText="User name">
+                    #{dependant.username}
+                </p:column>
+                <p:column headerText="First name">
+                    #{dependant.firstname}
+                </p:column>
+                <p:column headerText="Last name">
+                    #{dependant.lastname}
+                </p:column>
+                <p:column headerText="Date of birth">
+                    #{dependant.dateOfBirth}
+                </p:column>
+                <p:column headerText="Gender">
+                    #{dependant.gender}
+                </p:column>
+                <!-- Add more columns as per your user properties -->
+
+                <!-- Example of linking to dependants.xhtml -->
+                <p:column>
+                    <h:commandButton value="Delete" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/dependants/dependants_all.xhtml"/>
+                </p:column>
+            </p:dataTable>
+            </p:tab>
+        </p:tabView>
 
             <!-- Link back to home.xhtml -->
+            <br/>
             <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/home/home.xhtml">
                 <span class="ui-button-text">Back to home</span>
             </h:link>
