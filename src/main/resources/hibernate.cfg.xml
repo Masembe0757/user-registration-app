@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <!-- Database Connection Settings -->
+
+        <!-- Property used in Hibernate to specify the fully qualified class name of the JDBC driver that Hibernate should use to connect to the database -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/USER?createDatabaseIfNotExist=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="hibernate.jdbc.batch_size">20</property>
+        <!--property name="hibernate.connection.password">password123</property -->
+
+        <!-- An SQL dialect refers to a specific version or variant of the Structured Query Language (SQL) that is implemented by a particular database management system (DBMS) or database engine. -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">false</property>
+        <!-- configuration property in Hibernate that controls how Hibernate generates, updates, or validates database schemas based on the mappings defined in your Hibernate configuration (usually through Hibernate mapping files or annotations) -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+    </session-factory>
+</hibernate-configuration>

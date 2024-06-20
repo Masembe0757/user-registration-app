@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+    <ui:define name="content">
+            <div class="autoMargin">
+                <h1 style="color: blueviolet">User Registration System</h1>
+            <h:form>
+                <p:selectOneMenu styleClass="dropdown-menu" value="#{routebean.selectedPage}">
+                    <f:selectItem itemLabel="Actions" itemDisabled="true" />
+                    <f:selectItem itemLabel="Register user" itemValue="/user_registration_app_war_exploded/pages/users/register.xhtml" />
+                    <f:selectItem itemLabel="View users" itemValue="/user_registration_app_war_exploded/pages/users/users.xhtml" />
+                    <f:selectItem itemLabel="View dependants" itemValue="/user_registration_app_war_exploded/pages/dependants/dependants_all.xhtml" />
+                    <p:ajax event="change" listener="#{routebean.navigateToSelectedPage}" update="@form" />
+                </p:selectOneMenu>
+            </h:form>
+            </div>
+    </ui:define>
+</ui:composition>
+

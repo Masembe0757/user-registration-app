@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <style type="text/css">
+
+            .center {
+                text-align: center;
+            }
+            .flexDisplay{
+                display: flex;
+                color: grey;
+                background-color: darkblue;
+                box-shadow: 5px -5px 10px 5px rgba(1, 1, 1, 1);
+                padding-bottom: 25px ;
+                border-radius: 10px ;
+            }
+            .autoMargin{
+                margin: auto;
+            }
+            .list{
+                text-decoration: none;
+                color : white;
+                margin-right: 300px;
+                margin: auto;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="flexDisplay">
+            <ui:insert name="content"/>
+        </div>
+    </h:body>
+</html>

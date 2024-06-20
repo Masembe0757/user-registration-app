@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+
+    <ui:define name="content">
+        <h:form class="autoMargin">
+            <h1>System has the following dependants</h1>
+
+            <p:dataTable value="#{dependantdisplaybean.getAllDependants()}" var="dependant">
+                <p:column headerText="User name">
+                    #{dependant.username}
+                </p:column>
+                <p:column headerText="First name">
+                    #{dependant.firstname}
+                </p:column>
+                <p:column headerText="Last name">
+                    #{dependant.lastname}
+                </p:column>
+                <p:column headerText="Date of birth">
+                    #{dependant.dateOfBirth}
+                </p:column>
+                <p:column headerText="Gender">
+                    #{dependant.gender}
+                </p:column>
+                <!-- Add more columns as per your user properties -->
+
+                <!-- Example of linking to dependants.xhtml -->
+                <p:column>
+                    <h:commandButton value="Delete" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/dependants/dependants_all.xhtml"/>
+                </p:column>
+            </p:dataTable>
+            <br/>
+
+            <!-- Link back to home.xhtml -->
+            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/home/home.xhtml">
+                <span class="ui-button-text">Back to home</span>
+            </h:link>
+        </h:form>
+    </ui:define>
+</ui:composition>
