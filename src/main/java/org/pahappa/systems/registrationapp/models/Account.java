@@ -23,8 +23,16 @@ public class Account {
     private String lastname;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
+    @Column(name = "w_d")
+    private int wd;
 
+    public int getWd() {
+        return wd;
+    }
 
+    public void setWd(int wd) {
+        this.wd = wd;
+    }
 
     public Account(){
 

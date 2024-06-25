@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+    <f:metadata>
+        <f:viewParam name="name" value="#{saveuserbean.username}" />
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form class="autoMargin">
+                    <h1>These are your</h1>
+                    <p:dataTable value="#{displayusersbean.searchUserByName(saveuserbean.username)}" var="user" emptyMessage="No users found">
+                        <p:column headerText="User name">
+                            #{user.username}
+                        </p:column>
+                        <p:column headerText="First name">
+                            #{user.firstname}
+                        </p:column>
+                        <p:column headerText="Last name">
+                            #{user.lastname}
+                        </p:column>
+                        <p:column headerText="Date of birth">
+                            #{user.dateOfBirth}
+                        </p:column>
+                        <p:column resizable="true" headerText="Email">
+                            #{user.email}
+                        </p:column>
+                        <p:column headerText="Password">
+                            #{user.password}
+                        </p:column>
+                        <p:column>
+                            <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/users/update_user.xhtml?name=#{saveuserbean.username}">
+                                <span class="ui-button-text">Update</span>
+                            </p:link>
+                        </p:column>
+                    </p:dataTable>
+            <br/>
+            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/home/home_user.xhtml">
+                <span class="ui-button-text">Back to home</span>
+            </h:link>
+        </h:form>
+    </ui:define>
+</ui:composition>

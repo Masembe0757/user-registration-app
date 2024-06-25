@@ -120,4 +120,21 @@ public class DependantDao {
         }
         return dependants;
     }
+
+    public static void softDeleteDependant(String userName) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("update Dependant set w_d =1 where username = :userName");
+            qry.setParameter("userName", userName);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+            System.out.println("Dependant soft deleted successfully");
+        }catch (Exception e){
+            UserView.Print("Session to soft delete a dependant not created successfully");
+            SessionConfiguration.shutdown();
+        }
+    }
 }

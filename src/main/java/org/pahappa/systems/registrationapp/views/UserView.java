@@ -80,7 +80,7 @@ public class UserView {
         System.out.println("Enter users date of birth format yyyy-mm-dd (not beyond current date, right month of year, right day of month)");
         String dateOfBirth = scanner.nextLine();
 
-        user_service.addUser(firstName, lastName, userName, dateOfBirth);
+
 
     }
 
@@ -97,7 +97,7 @@ public class UserView {
     private void updateUserOfUsername() throws ParseException, RandomException {
         System.out.println("Enter user's username");
         String userName = scanner.nextLine();
-        user_service.updateUserOfUserName(userName);
+       ;
 
     }
     private void deleteUserOfUsername() throws RandomException {

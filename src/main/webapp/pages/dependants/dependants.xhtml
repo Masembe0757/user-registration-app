@@ -4,29 +4,25 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value="#{dependantdisplaybean.user_id}" />
+    </f:metadata>
 
     <ui:define name="content">
         <h:form id="dependantsForm">
-
             <h1>User has the following dependants</h1>
-            <f:metadata>
-                <f:viewParam name="id" value="#{dependantdisplaybean.user_id}" />
-            </f:metadata>
-
-
             <p:dataTable value="#{dependantdisplaybean.dependants(dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
                          paginator="true" rows="10" paginatorPosition="bottom">
 
                 <p:column headerText="User name">
                     <h:outputText value="#{dependant.username} " />
                 </p:column>
-
                 <p:column headerText="First name">
-                    <h:outputText value="#{dependant.lastname}" />
+                    <h:outputText value="#{dependant.firstname}" />
                 </p:column>
 
                 <p:column headerText="Last name">
-                    <h:outputText value="#{dependant.firstname}" />
+                    <h:outputText value="#{dependant.lastname}" />
                 </p:column>
                 <p:column headerText="Date of birth">
                     <h:outputText value="#{dependant.dateOfBirth}" />
@@ -35,15 +31,19 @@
                     <h:outputText value="#{dependant.gender}" />
                 </p:column>
                 <p:column>
-                    <h:commandButton value="Delete" action ="#{savedependantbean.deleteDependant(dependant.username)}"  outcome = "/pages/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>
+                    <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username,dependantdisplaybean.user_id)}"  style="color: red;" />  <span></span>
+                    <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username,dependantdisplaybean.user_id)}"  style="color: orangered;" />  <span></span>
+                    <p:link style = "color:green ; " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/dependants/update_dependant.xhtml?name=#{dependant.username}">
+                        <span class="ui-button-text">Update</span>
+                    </p:link>
                 </p:column>
                 <!-- Add more columns as per your dependant attributes -->
-
             </p:dataTable>
             <br></br>
 
-            <p:commandButton value="Back to users" action="/pages/users/users.xhtml" styleClass="button" />
-
+            <p:commandButton value="Back" action="#{savedependantbean.back()}" styleClass="button" />
+            <p:link value="Attach Dependant" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/dependants/register.xhtml?id=#{dependantdisplaybean.user_id}"/>
+            <p:link value="Delete all" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" action="#{savedependantbean.deleteAllDependantsOfUser(dependantdisplaybean.user_id)}" />
         </h:form>
     </ui:define>
 </ui:composition>

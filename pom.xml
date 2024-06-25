@@ -101,7 +101,16 @@
       <artifactId>primefaces</artifactId>
       <version>7.0</version>
     </dependency>
+
+    <!-- Java EE annotations, including PostConstruct -->
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version> <!-- Or the version you need -->
+    </dependency>
+
   </dependencies>
+
 
   <build>
     <finalName>user-registration-app</finalName>

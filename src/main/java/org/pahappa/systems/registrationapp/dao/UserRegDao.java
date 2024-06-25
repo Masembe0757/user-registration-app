@@ -118,18 +118,19 @@ public class UserRegDao {
         }
         return  result;
     }
-    public  static int updateUser(String firstName, String lastName, String userName, Date dateOfBirth){
-        int result = -1;
+    public  static void updateUser(String firstName, String lastName, String userName, Date dateOfBirth,String password, String email){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update User set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth where username = :userName");
+            Query qry = session.createQuery("update User set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth, email = :email, password =:password where username = :userName");
             qry.setParameter("userName", userName);
             qry.setParameter("firstName", firstName);
             qry.setParameter("lastName", lastName);
             qry.setParameter("dateOfBirth", dateOfBirth);
-            result = qry.executeUpdate();
+            qry.setParameter("email",email);
+            qry.setParameter("password",password);
+            qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
         }
@@ -137,6 +138,40 @@ public class UserRegDao {
             UserView.Print("Session to update a user not created successfully");
             SessionConfiguration.shutdown();
         }
-        return result;
     }
+
+    public static void softDeleteUser(String userName) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("update User set w_d = 1 where username = :userName");
+            qry.setParameter("userName", userName);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            UserView.Print("Session to soft delete a user not created successfully");
+            SessionConfiguration.shutdown();
+        }
+    }
+    public static void createAdmin(User user){
+        try {
+
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.getCurrentSession();
+            Transaction trs = session.beginTransaction();
+            session.saveOrUpdate(user);
+
+            trs.commit();
+            UserView.Print("Admin has been registered successfully (*_*) ");
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            UserView.Print("Session to save Admin not created successfully");
+            UserView.Print(e.getMessage());
+            SessionConfiguration.shutdown();
+        }
+    }
+
 }

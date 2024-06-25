@@ -71,52 +71,54 @@
             display: flex;
             justify-content: space-between;
         }
+
         .charts .ui-chart {
             width: 48%;
         }
         .logo{
             width: 40px;
             height: 40px;
+
         }
+
 
     </style>
 </h:head>
 <h:body>
     <div class="sidebar">
-        <h:graphicImage value="Admin.png"  alt="Admin" />
+        <h:graphicImage value="normal.png" alt="User logo" />
         <ul>
-            <li><h:link value="Dashboard" outcome="/pages/home/home.xhtml" /></li>
-            <li><h:link value="Users" outcome="/pages/users/users.xhtml" /></li>
-            <li><h:link value="Dependants" outcome="/pages/dependants/dependants_all.xhtml" /></li>
-            <li><h:link value="My profile" outcome="settings" /></li>
+            <li><h:link value="Dashboard" outcome="/pages/home/home_user.xhtml" /></li>
+            <li><h:link value="Dependants" outcome="/pages/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
+            <li><h:link value="My profile" outcome="/pages/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
             <li><h:link value="Log out" outcome="/pages/home/login.xhtml" action = "#{loginbean.logout()} " /></li>
         </ul>
     </div>
     <div class="content">
-        <h1>Admin #{saveuserbean.getCurrentUserName()} Dashboard</h1>
+        <h1>User #{saveuserbean.getCurrentUserName()} Dashboard</h1>
         <div class="cards">
             <p:panelGrid columns="4" styleClass="card-grid">
-                <p:panel header="Available Users" styleClass="card">
-                    <h:graphicImage value="Dependants.png" class="logo" alt="users" />
-                    <h:outputText value="#{saveuserbean.userCount()}" />
-                </p:panel>
-                <p:panel header="Available Dependants" styleClass="card">
+                <p:panel header="My Dependants" styleClass="card">
                     <h:graphicImage value="Dependants.png" class="logo" alt="dependants" />
-                    <h:outputText value="#{savedependantbean.dependantCount()}" />
+                    <h:outputText value="#{userChartBean.femaleCount()+userChartBean.maleCount()}" />
                 </p:panel>
-                <p:panel header="Users W/D" styleClass="card">
-                    <h:graphicImage value="soft.png" class="logo" alt="deleted users" />
-                    <h:outputText value="#{saveuserbean.softDeleteCount()}" />
+                <p:panel header="Male Dependants" styleClass="card">
+                    <h:graphicImage value="male.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.maleCount()}" />
+                </p:panel>
+                <p:panel header="Female Dependants" styleClass="card">
+                    <h:graphicImage value="img.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.femaleCount()}" />
                 </p:panel>
                 <p:panel header="Dependants W/D" styleClass="card">
-                    <h:graphicImage value="soft.png" class="logo" alt="deleted dependants" />
-                    <h:outputText value="#{savedependantbean.softDeleteCount()}" />
+                    <h:graphicImage value="soft.png" class="logo" alt="deleted users" />
+                    <h:outputText value="#{userChartBean.dependantsWithDelete()}" />
                 </p:panel>
             </p:panelGrid>
         </div>
         <div class="charts">
-            <p:chart type="bar" model="#{adminChartBean.weeklyActivityModel}" />
-            <p:chart type="pie" model="#{adminChartBean.genderStatisticsModel}" />
+            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
+            <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
         </div>
     </div>
 </h:body>

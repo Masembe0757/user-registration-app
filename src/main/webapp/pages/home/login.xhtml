@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+    <ui:define name="content">
+        <h:form class="autoMargin" style="max-width: 600px;">
+            <h1 style="color: blueviolet">User Management System</h1>
+            <p:panel header="Log in" styleClass="login-panel">
+                <p:messages id="messages" autoUpdate="true" closable="true" />
+                <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{loginbean.username}" required="true" label="Username" />
+
+                    <h:outputLabel for="password" value="Password/Email:" />
+                    <p:password id="password" value="#{loginbean.entry}" required="true" label="Password"  />
+                </p:panelGrid>
+
+                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.entry)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
