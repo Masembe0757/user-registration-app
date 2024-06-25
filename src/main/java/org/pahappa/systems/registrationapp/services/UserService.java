@@ -1,23 +1,33 @@
 package org.pahappa.systems.registrationapp.services;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.*;
 import java.util.Base64;
-import org.pahappa.systems.registrationapp.exception.RandomException;
+import org.pahappa.systems.registrationapp.dao.DependantDao;
+import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.views.UserView;
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
 
 public class UserService {
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    public static boolean isValidEmail(String email) {
+    //Generic method to return date
+    private static Date dateFormat(String date) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.parse(date);
+    }
+
+    private static boolean isValidEmail(String email) {
+        final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+        final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
 
-    public static boolean isValidPassword(String password) {
+    private static boolean isValidPassword(String password) {
         if (password.length() < 8) {
             return false; // Password must be at least 8 characters long
         }
@@ -182,12 +192,21 @@ public class UserService {
         }
         return  error_message;
    }
-   public static  String deleteUserOfUserName(String userName)  {
+   public static  String deleteUserOfUserName(String userName){
         String error_message= "";
         if(usersAvailable()) {
             User returnedUser = UserRegDao.returnUser(userName);
                 if (returnedUser!=null) {
+
+                    //Deleting user
                     UserRegDao.deleteUser(userName);
+
+                    //Deleting dependants attached to user
+                    User user = UserService.returnUserOfUserName(userName);
+                    List<Dependant> dependants =DependantService.getDependantsForUser(user.getId());
+                    if(!dependants.isEmpty()){
+                        DependantService.deleteAllDependantsForUser(user.getId());
+                    }
                 }
                 else {
                    error_message = "The username supplied is not in the database";
@@ -234,27 +253,21 @@ public class UserService {
         return  error_message;
     }
 
-    public  void deleteAllUsers() throws RandomException {
+    public  void deleteAllUsers()  {
+        String error_message ="";
        UserView userView = new UserView();
 
-       if(usersAvailable()){
-           UserView.Print("Are you sure you want to delete all users? 1-yes 0-no");
-           int confirmation = Integer.parseInt(userView.Scan());
-           if(confirmation==1){
-               int outCome = UserRegDao.deleteAllUsers();
-               if(outCome >0 ) {
-                   UserView.Print("All users have been deleted successfully");
-               }
-               else {
-                   throw new RandomException("Delete operation failed");
-               }
-           }else {
-                    throw new RandomException("Operation cancelling successful, thanks for using our system");
+       if(usersAvailable()) {
+           //Deleting all users
+           UserRegDao.deleteAllUsers();
+           //Deleting all dependants
+           List<Dependant> dependants = DependantDao.returnDependants();
+           if(!dependants.isEmpty()){
+               DependantService.deleteAllDependants();
            }
 
-       }
-       else {
-           throw  new RandomException("There are no users currently in the system");
+       }else {
+           error_message = "There are no users currently in the system";
        }
    }
 

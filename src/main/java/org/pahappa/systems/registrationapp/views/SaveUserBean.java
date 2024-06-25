@@ -2,6 +2,7 @@ package org.pahappa.systems.registrationapp.views;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.services.UserService;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.*;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -115,7 +116,7 @@ public class SaveUserBean implements Serializable {
         }
     }
 
-    public String deleteUser(String userName) {
+    public String deleteUser(String userName){
         String message = UserService.deleteUserOfUserName(userName);
         if(message.isEmpty()) {
             return  "/pages/users/users.xhtml?faces-redirect=true";

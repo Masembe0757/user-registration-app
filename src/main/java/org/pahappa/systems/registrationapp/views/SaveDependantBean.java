@@ -223,15 +223,15 @@ public class SaveDependantBean implements Serializable {
         }
     }
 
-    public String deleteAllDependantsOfUser(int userId) throws ParseException, RandomException {
-        List<Dependant> userDependants = DependantService.getDependantsForUser(UserRegDao.returnUserofId(userId));
+    public String deleteAllDependantsOfUser(int userId) throws ParseException {
+        List<Dependant> userDependants = DependantService.getDependantsForUser(userId);
         if(userDependants.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User has no dependants", null));
             return "/pages/dependants/dependants.xhtml";
         }
         else {
-            DependantService.deleteAllDependantsForUser(UserRegDao.returnUserofId(userId));
+            DependantService.deleteAllDependantsForUser(userId);
             return "/pages/dependants/dependants.xhtml";
         }
     }

@@ -2,13 +2,11 @@ package org.pahappa.systems.registrationapp.views;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.services.DependantService;
-
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.persistence.Column;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,8 +89,14 @@ public class DisplayDependantBean implements Serializable {
         this.user_id = user_id;
     }
 
-    public List<Dependant> dependants(int user_id){
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(user_id);
+    //Generic method to check date format
+    private static String dateFormat(String date){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public List<Dependant> dependantsForUser(int userId) {
+        List<Dependant> dependants = DependantService.getDependantsForUser(userId);
         List<Dependant> dependantList = new ArrayList<>();
         for(Dependant dependant : dependants){
             if(dependant.getWd()==0){

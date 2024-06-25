@@ -100,7 +100,7 @@ public class UserView {
        ;
 
     }
-    private void deleteUserOfUsername() throws RandomException {
+    private void deleteUserOfUsername() throws RandomException, ParseException {
         System.out.println("Enter user's username you wish to delete");
         String userName = scanner.nextLine();
         user_service.deleteUserOfUserName(userName);

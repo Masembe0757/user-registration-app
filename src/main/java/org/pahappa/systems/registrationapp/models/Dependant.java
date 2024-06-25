@@ -4,7 +4,6 @@ import javax.persistence.*;
 @Table(name = "dependant_table")
 public class Dependant extends Account{
     private String gender;
-
     @ManyToOne
     private User user;
 

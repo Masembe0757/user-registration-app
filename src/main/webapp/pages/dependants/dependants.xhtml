@@ -11,7 +11,7 @@
     <ui:define name="content">
         <h:form id="dependantsForm">
             <h1>User has the following dependants</h1>
-            <p:dataTable value="#{dependantdisplaybean.dependants(dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
+            <p:dataTable value="#{dependantdisplaybean.dependantsForUser(dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
                          paginator="true" rows="10" paginatorPosition="bottom">
 
                 <p:column headerText="User name">

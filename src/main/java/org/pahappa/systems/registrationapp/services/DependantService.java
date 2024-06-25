@@ -1,16 +1,9 @@
 package org.pahappa.systems.registrationapp.services;
-
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
-import org.pahappa.systems.registrationapp.exception.RandomException;
-import org.pahappa.systems.registrationapp.models.User;
-import org.pahappa.systems.registrationapp.views.UserView;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,14 +24,7 @@ public class DependantService {
         return correctGender;
     }
 
-    //Generic method to check date format
-    private static Date dateFormat(String date) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        System.out.println();
-        return dateFormat.parse(formatter.parse(date).toString().split(" ")[3]);
 
-    }
     //Generic method to check if username has only digits
     private static boolean onlyDigits(String str, int n)
     {
@@ -75,8 +61,8 @@ public class DependantService {
         return hasDigits;
     }
 
-    public static  List<Dependant> getDependantsForUser(User returnedUser) throws RandomException, ParseException {
-        List<Dependant> user_dependants = DependantDao.returnDependantsForUserId(returnedUser.getId());
+    public static  List<Dependant> getDependantsForUser(int userId){
+        List<Dependant> user_dependants = DependantDao.returnDependantsForUserId(userId);
         return  user_dependants;
     }
 
@@ -181,26 +167,14 @@ public class DependantService {
         return error_message;
     }
 
-    public static void deleteAllDependantsForUser(User returnedUser) throws RandomException {
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(returnedUser.getId());
-        UserView userView = new UserView();
+    public static void deleteAllDependantsForUser(int userId)  {
+        List<Dependant> dependants = DependantDao.returnDependantsForUserId(userId);
+        String error_message = "";
         if(!dependants.isEmpty()){
-            UserView.Print("Are you sure you want to delete all Dependants? 1-yes 0-no");
-            int confirmation = Integer.parseInt(userView.Scan());
-            if(confirmation==1){
-                int outCome = DependantDao.deleteDependants();
-                if(outCome >0 ) {
-                    UserView.Print("All users have been deleted successfully");
-                }
-                else {
-                    throw new RandomException("Delete operation failed");
-                }
-            }else {
-                throw new RandomException("Operation cancelling successful, thanks for using our system");
-            }
+                DependantDao.deleteDependants();
         }
         else {
-            throw  new RandomException("User has no dependants to delete");
+            error_message = "User has no dependants to delete";
         }
 
     }
