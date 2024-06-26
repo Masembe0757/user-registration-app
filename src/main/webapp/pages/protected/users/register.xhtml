@@ -29,7 +29,6 @@
             </p:panelGrid>
             <p:commandButton value="Register" action="#{saveuserbean.saveUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" outcome = "/pages/protected/users/users.xhtml" ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
         </p:panel>
-        <p:commandButton value="Back" immediate="true"  action="/pages/protected/users/users.xhtml" styleClass="button" update="@form"/>
     </h:form>
 </ui:define>
 </ui:composition>

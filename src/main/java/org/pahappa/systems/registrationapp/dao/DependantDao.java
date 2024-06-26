@@ -8,6 +8,7 @@ import org.pahappa.systems.registrationapp.config.SessionConfiguration;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.views.UserView;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -123,11 +124,13 @@ public class DependantDao {
 
     public static void softDeleteDependant(String userName) {
         try {
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update Dependant set w_d =1 where username = :userName");
+            Query qry = session.createQuery("update Dependant set deleted_at =:currentTimestamp where username = :userName");
             qry.setParameter("userName", userName);
+            qry.setParameter("currentTimestamp",currentTimestamp);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();

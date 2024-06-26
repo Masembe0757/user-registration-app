@@ -1,11 +1,10 @@
 package org.pahappa.systems.registrationapp.models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,15 +22,15 @@ public class Account {
     private String lastname;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    @Column(name = "w_d")
-    private int wd;
+    @Column(name = "deleted_at")
+    private Timestamp deleted_at;
 
-    public int getWd() {
-        return wd;
+    public Timestamp getDeleted_at() {
+        return deleted_at;
     }
 
-    public void setWd(int wd) {
-        this.wd = wd;
+    public void setDeleted_at(Timestamp deleted_at) {
+        this.deleted_at = deleted_at;
     }
 
     public Account(){

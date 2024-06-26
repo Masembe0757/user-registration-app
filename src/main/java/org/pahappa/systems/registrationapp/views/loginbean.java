@@ -11,6 +11,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
+
 @ManagedBean
 @RequestScoped
 public class loginbean {
@@ -58,6 +60,7 @@ public class loginbean {
         admin.setFirstname("manager");
         admin.setLastname("manager");
         admin.setUsername("manager");
+        admin.setDateOfBirth(new Date());
         admin.setPassword(Base64.getEncoder().encodeToString("manager".getBytes()));
         admin.setEmail("manager@gmail.com");
         admin.setRole(1);

@@ -25,14 +25,14 @@
                     <h:outputText value="#{dependant.lastname}" />
                 </p:column>
                 <p:column headerText="Date of birth">
-                    <h:outputText value="#{dependant.dateOfBirth}" />
+                    <h:outputText value="#{dependantdisplaybean.dateFormat(dependant.dateOfBirth)}" />
                 </p:column>
                 <p:column headerText="gender">
                     <h:outputText value="#{dependant.gender}" />
                 </p:column>
                 <p:column>
-                    <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username,dependantdisplaybean.user_id)}"  style="color: red;" />  <span></span>
-                    <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username,dependantdisplaybean.user_id)}"  style="color: orangered;" />  <span></span>
+                    <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username)}"  style="color: red;" />  <span></span>
+                    <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;" />  <span></span>
                     <p:link style = "color:green ; " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
                         <span class="ui-button-text">Update</span>
                     </p:link>

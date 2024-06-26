@@ -10,6 +10,7 @@
             <p:tabView>
                 <p:tab title="All Users">
                     <h1>System has the following users</h1>
+                    <p:messages id="messages" autoUpdate="true" closable="true" />
                     <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.get_users()}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}
@@ -21,7 +22,7 @@
                             #{user.lastname}
                         </p:column>
                         <p:column headerText="Date of birth">
-                            #{user.dateOfBirth}
+                            #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
                         <p:column>
                             <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
@@ -60,7 +61,7 @@
                             #{user.lastname}
                         </p:column>
                         <p:column headerText="Date of birth">
-                            #{user.dateOfBirth}
+                            #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
                         <p:column>
                             <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
@@ -81,11 +82,8 @@
                     </p:dataTable>
                 </p:tab>
             </p:tabView>
-            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all"  style="padding: 5px" outcome="/pages/protected/home/home.xhtml">
-                <span class="ui-button-text">Back to home</span>
-            </h:link>
             <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/>
-            <p:link value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" />
+            <p:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" />
         </h:form>
     </ui:define>
 </ui:composition>

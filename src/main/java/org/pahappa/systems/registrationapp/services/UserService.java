@@ -18,14 +18,14 @@ import javax.mail.internet.MimeMessage;
 
 public class UserService {
 
-    private static void EmailSender(String recipientEmail,String userName, String generatedPassword){
+    private static void EmailSender(String recipientEmail,String userName, String generatedPassword, String firstName, String lastName){
         // Sender's email credentials
         String senderEmail = "sendyj886@gmail.com";
         String senderPassword = "tolh dxyx hann prke";
         String subject = "Login Credentials";
 
         // Email body
-        String emailBody = "Dear User,\n\nYour login credentials are:\nUsername: " + userName + "\nPassword: " + generatedPassword;
+        String emailBody = "Dear "+firstName+" "+lastName+",\n\nYour login credentials for the user Management system are:\nUsername: " + userName + "\nPassword: " + generatedPassword;
 
         // Configure the SMTP properties
         Properties properties = new Properties();
@@ -35,8 +35,6 @@ public class UserService {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
         properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-
-
         // Create a Session object
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
@@ -71,11 +69,7 @@ public class UserService {
         }
     }
 
-    //Generic method to return date
-    private static Date dateFormat(String date) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(date);
-    }
+
 
     private static boolean isValidEmail(String email) {
         final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -177,7 +171,7 @@ public class UserService {
                     }else {
                         if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
                             //Sending email with credentials
-                            EmailSender(email, userName, password1);
+                            EmailSender(email, userName, password1,firstName,lastName);
                             // Encrypting the password with BCrypt
                             String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
 
@@ -235,7 +229,7 @@ public class UserService {
 
                             if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
                                 //Sending email with credentials
-                                EmailSender(email, userName, password1);
+                                EmailSender(email, userName, password1,firstName,lastName);
                                 // Encrypting the password with BCrypt
                                 String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
                                 UserRegDao.updateUser(firstName, lastName, userName, dateOfBirth, encodedPassword, email);
@@ -313,10 +307,8 @@ public class UserService {
         return  error_message;
     }
 
-    public  void deleteAllUsers()  {
+    public static String deleteAllUsers()  {
         String error_message ="";
-       UserView userView = new UserView();
-
        if(usersAvailable()) {
            //Deleting all users
            UserRegDao.deleteAllUsers();
@@ -329,6 +321,7 @@ public class UserService {
        }else {
            error_message = "There are no users currently in the system";
        }
+       return error_message;
    }
 
 

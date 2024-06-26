@@ -5,7 +5,6 @@ import org.pahappa.systems.registrationapp.services.DependantService;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,17 +88,12 @@ public class DisplayDependantBean implements Serializable {
         this.user_id = user_id;
     }
 
-    //Generic method to check date format
-    private static String dateFormat(String date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(date);
-    }
 
     public List<Dependant> dependantsForUser(int userId) {
         List<Dependant> dependants = DependantService.getDependantsForUser(userId);
         List<Dependant> dependantList = new ArrayList<>();
         for(Dependant dependant : dependants){
-            if(dependant.getWd()==0){
+            if(dependant.getDeleted_at()==null){
                 dependantList.add(dependant);
             }
         }
@@ -109,7 +103,7 @@ public class DisplayDependantBean implements Serializable {
         List<Dependant> dependants =  DependantDao.returnDependants();
         List<Dependant> dependantList = new ArrayList<>();
         for(Dependant dependant:dependants){
-            if(dependant.getWd()==0){
+            if(dependant.getDeleted_at()==null){
                 dependantList.add(dependant);
             }
         }
@@ -119,7 +113,7 @@ public class DisplayDependantBean implements Serializable {
         List<Dependant> returneddependants = DependantService.getDependantsByName(name);
         List<Dependant> dependantList = new ArrayList<>();
         for(Dependant dependant:returneddependants){
-            if(dependant.getWd()==0){
+            if(dependant.getDeleted_at()==null){
                 dependantList.add(dependant);
             }
         }
@@ -127,6 +121,15 @@ public class DisplayDependantBean implements Serializable {
         return  dependantList;
     }
 
+    //Generic method to return date
+    public String dateFormat(Date date) {
+        if(date==null){
+            return "";
+        }else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.format(date);
+        }
+    }
 
 
 }

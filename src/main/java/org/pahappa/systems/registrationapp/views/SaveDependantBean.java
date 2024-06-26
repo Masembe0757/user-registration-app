@@ -125,14 +125,14 @@ public class SaveDependantBean implements Serializable {
         return "";
 
     }
-    public String deleteDependant(String userName,int userId){
+    public String deleteDependant(String userName){
         String message = DependantService.deleteDependantsByUserName(userName);
 
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 return  "/pages/protected/dependants/dependants_all.xhtml";
             } else if (getCurrentUser().getRole()==0) {
-                return  "/pages/protected/dependants/dependants.xhtml?id="+userId;
+                return  "/pages/protected/dependants/dependants.xhtml";
             }
 
         }else {
@@ -167,13 +167,13 @@ public class SaveDependantBean implements Serializable {
             return"/pages/protected/home/home_user.xhtml";
         }
     }
-    public String softDeleteDependant(String userName,int userId){
+    public String softDeleteDependant(String userName){
         String message = DependantService.softDeleteDependantsByUserName(userName);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 return  "/pages/protected/dependants/dependants_all.xhtml?faces-redirect=true";
             } else if (getCurrentUser().getRole()==0) {
-                return  "/pages/protected/dependants/dependants.xhtml?id="+userId;
+                return  "/pages/protected/dependants/dependants.xhtml";
             }
 
         }else {
@@ -188,9 +188,9 @@ public class SaveDependantBean implements Serializable {
         List<Dependant> dependants = DependantDao.returnDependants();
         int softCount = 0;
         for(Dependant dependant: dependants){
-            if(dependant.getWd()==1){
-                softCount++;
-            }
+            if(dependant.getDeleted_at()==null){
+                
+            }else{softCount++;}
         }
         return softCount;
     }
@@ -212,7 +212,7 @@ public class SaveDependantBean implements Serializable {
         }
     }
 
-    public String getDeleteAllDependants() {
+    public String deleteAllDependants() {
         String message = DependantService.deleteAllDependants();
         if(message.isEmpty()){
             return "/pages/protected/dependants/dependants_all.xhtml";

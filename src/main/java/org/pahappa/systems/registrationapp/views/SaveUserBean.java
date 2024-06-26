@@ -131,8 +131,6 @@ public class SaveUserBean implements Serializable {
         }
 
     }
-
-
     public String updateUser(String firstName, String lastName, String userName, Date dateOfBirth, String password1,String password2, String email) {
         String message = UserService.updateUserOfUserName(firstName, lastName, userName, dateOfBirth, password1,password2, email);
         if(message.isEmpty()) {
@@ -157,16 +155,14 @@ public class SaveUserBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
             return "/pages/protected/users/users.xhtml";
         }
-
     }
-
     public int softDeleteCount() {
         List<User> users = UserService.returnAllUsers();
         int softCount = 0;
         for(User user: users){
-            if(user.getWd() ==1){
-                softCount++;
-            }
+            if(user.getDeleted_at()==null){
+                
+            }else{softCount++;}
         }
         return softCount;
 
@@ -190,15 +186,16 @@ public class SaveUserBean implements Serializable {
     }
 
     public String deleteAllUsers() {
-        List<User> users = UserService.returnAllUsers();
-        if(users.isEmpty()){
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,"No users to delete", null));
-            return "/pages/protected/users/users.xhtml";
-        }
-        else {
-            return "/pages/protected/users/users.xhtml";
-        }
+            String message = UserService.deleteAllUsers();
+            if(message.isEmpty()){
+                return "/pages/protected/users/users.xhtml";
+            }else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+                return "/pages/protected/users/users.xhtml" ;
+            }
+
+
     }
 
     public boolean isAdmin() {

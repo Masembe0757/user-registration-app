@@ -62,7 +62,7 @@ public class UserChartBean {
         int softCount = 0;
         List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
         for(Dependant d : dependants){
-            if(d.getWd()==1){
+            if(d.getDeleted_at()==null){
                 softCount++;
             }
         }

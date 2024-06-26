@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.systems.registrationapp.config.SessionConfiguration;
-import org.pahappa.systems.registrationapp.models.Dependant;
 import  org.pahappa.systems.registrationapp.models.User;
 import  org.pahappa.systems.registrationapp.views.UserView;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -101,14 +101,13 @@ public class UserRegDao {
         }
         return result;
     }
-    public  static int deleteAllUsers(){
-        int result = -1;
+    public  static void deleteAllUsers(){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("delete from User");
-            result = qry.executeUpdate();
+            qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();
         }
@@ -116,7 +115,6 @@ public class UserRegDao {
             UserView.Print("Session to delete users not created successfully");
             SessionConfiguration.shutdown();
         }
-        return  result;
     }
     public  static void updateUser(String firstName, String lastName, String userName, Date dateOfBirth,String password, String email){
         try {
@@ -142,11 +140,13 @@ public class UserRegDao {
 
     public static void softDeleteUser(String userName) {
         try {
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update User set w_d = 1 where username = :userName");
+            Query qry = session.createQuery("update User set deleted_at =:currentTimestamp where username = :userName");
             qry.setParameter("userName", userName);
+            qry.setParameter("currentTimestamp",currentTimestamp);
             qry.executeUpdate();
             trs.commit();
             SessionConfiguration.shutdown();

@@ -22,7 +22,7 @@
                             #{user.lastname}
                         </p:column>
                         <p:column headerText="Date of birth">
-                            #{user.dateOfBirth}
+                            #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
                         <p:column resizable="true" headerText="Email">
                             #{user.email}
@@ -37,9 +37,6 @@
                         </p:column>
                     </p:dataTable>
             <br/>
-            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" action="#{displayusersbean.back()}">
-                <span class="ui-button-text">Back to home</span>
-            </h:link>
         </h:form>
     </ui:define>
 </ui:composition>

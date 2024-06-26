@@ -1,19 +1,19 @@
 package org.pahappa.systems.registrationapp.views;
-
-import org.pahappa.systems.registrationapp.dao.UserRegDao;
-import org.pahappa.systems.registrationapp.models.Account;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.services.UserService;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+
 @SessionScoped
 @ManagedBean(name = "displayusersbean")
 public class DisplayUsersBean implements Serializable {
@@ -21,7 +21,6 @@ public class DisplayUsersBean implements Serializable {
     private String name;
     private String password;
     private String email;
-    private int role;
     private int id;
     private String username;
     private String firstname;
@@ -32,22 +31,6 @@ public class DisplayUsersBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 
     public int getId() {
@@ -119,7 +102,7 @@ public class DisplayUsersBean implements Serializable {
         }
         else {
             for(User user: users) {
-                if(user.getWd()==0) {
+                if(user.getDeleted_at()==null) {
                     users_list.add(user);
                 }
             }
@@ -134,7 +117,7 @@ public class DisplayUsersBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
         }
         for(User user: returnedUsers)
-            if(user.getWd()==0){
+            if(user.getDeleted_at()==null){
               userList.add(user);
             }
         return userList;
@@ -146,12 +129,13 @@ public class DisplayUsersBean implements Serializable {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-
-    public String back() {
-        if(getCurrentUser().getRole()==1){
-            return "/pages/protected/home/home.xhtml";
+    public String dateFormat(Date date) {
+        if(date==null){
+            return "";
         }else {
-            return "/pages/protected/home/home_user.xhtml";
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormat.format(date);
         }
     }
+
 }
