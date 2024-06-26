@@ -12,7 +12,64 @@ import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.views.UserView;
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class UserService {
+
+    private static void EmailSender(String recipientEmail,String userName, String generatedPassword){
+        // Sender's email credentials
+        String senderEmail = "sendyj886@gmail.com";
+        String senderPassword = "tolh dxyx hann prke";
+        String subject = "Login Credentials";
+
+        // Email body
+        String emailBody = "Dear User,\n\nYour login credentials are:\nUsername: " + userName + "\nPassword: " + generatedPassword;
+
+        // Configure the SMTP properties
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com"); // Replace with your SMTP server
+        properties.put("mail.smtp.port", "587"); // Replace with your SMTP port
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+
+        // Create a Session object
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+
+        try {
+            // Create a MimeMessage object
+            Message message = new MimeMessage(session);
+
+            // Set the sender's email address
+            message.setFrom(new InternetAddress(senderEmail));
+
+            // Set recipient's email address
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+
+            // Set email subject
+            message.setSubject(subject);
+
+            // Set email body
+            message.setText(emailBody);
+
+            // Send the email
+            Transport.send(message);
+
+            System.out.println("Email sent successfully!");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
     //Generic method to return date
     private static Date dateFormat(String date) throws ParseException {
@@ -117,12 +174,12 @@ public class UserService {
                 } else {
                     if(!isValidPassword(password1)){
                         error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters ";
-                    }
-                        if(dateOfBirth.getYear()+1900 < Calendar.getInstance().get(Calendar.YEAR)) {
-
+                    }else {
+                        if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
+                            //Sending email with credentials
+                            EmailSender(email, userName, password1);
                             // Encrypting the password with BCrypt
                             String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
-
 
                             User user = new User();
                             user.setFirstname(firstName);
@@ -132,10 +189,10 @@ public class UserService {
                             user.setPassword(encodedPassword);
                             user.setEmail(email);
                             UserRegDao.saveUser(user);
-                        }
-                        else {
+                        } else {
                             error_message = "Date provided is beyond current date, please enter correct date of birth bellow:";
                         }
+                    }
 
                     }
        }
@@ -172,19 +229,22 @@ public class UserService {
                     } else if (!password1.equals(password2)) {
                         error_message = "Passwords do not match";
                     } else {
-                        if(!isValidPassword(password1)){
+                        if (!isValidPassword(password1)) {
                             error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters";
-                        }
+                        } else {
 
-                            if (dateOfBirth.getYear()+1900 < Calendar.getInstance().get(Calendar.YEAR)){
+                            if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
+                                //Sending email with credentials
+                                EmailSender(email, userName, password1);
                                 // Encrypting the password with BCrypt
                                 String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
-                                UserRegDao.updateUser(firstName,lastName,userName,dateOfBirth,encodedPassword,email);
-                            }else {
+                                UserRegDao.updateUser(firstName, lastName, userName, dateOfBirth, encodedPassword, email);
+                            } else {
                                 error_message = "Date provided is beyond current date";
                             }
 
                         }
+                    }
                     }
                 else {
                     error_message = "User not registered in the database";

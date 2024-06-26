@@ -4,6 +4,20 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <context-param>
+    <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
+    <param-value>/resources/</param-value>
+  </context-param>
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>org.pahappa.systems.registrationapp.views.AuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/pages/protected/*</url-pattern>
+  </filter-mapping>
+
+
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -25,7 +39,11 @@
     <url-pattern>*.png</url-pattern>
   </servlet-mapping>
 
+
   <welcome-file-list>
-    <welcome-file>pages/home/login.xhtml</welcome-file>
+    <welcome-file>pages/login/login.xhtml</welcome-file>
   </welcome-file-list>
+
+
+
 </web-app>

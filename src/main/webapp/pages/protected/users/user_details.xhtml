@@ -31,13 +31,13 @@
                             #{user.password}
                         </p:column>
                         <p:column>
-                            <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/users/update_user.xhtml?name=#{saveuserbean.username}">
+                            <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{saveuserbean.username}">
                                 <span class="ui-button-text">Update</span>
                             </p:link>
                         </p:column>
                     </p:dataTable>
             <br/>
-            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/home/home_user.xhtml">
+            <h:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" action="#{displayusersbean.back()}">
                 <span class="ui-button-text">Back to home</span>
             </h:link>
         </h:form>

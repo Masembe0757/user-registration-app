@@ -8,6 +8,7 @@ import org.pahappa.systems.registrationapp.services.UserService;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -103,6 +104,11 @@ public class DisplayUsersBean implements Serializable {
     public DisplayUsersBean(){
 
     }
+    private User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
 
     public List<User> get_users(){
         List<User> users_list = new ArrayList<>();
@@ -139,5 +145,13 @@ public class DisplayUsersBean implements Serializable {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public String back() {
+        if(getCurrentUser().getRole()==1){
+            return "/pages/protected/home/home.xhtml";
+        }else {
+            return "/pages/protected/home/home_user.xhtml";
+        }
     }
 }

@@ -112,15 +112,15 @@ public class SaveDependantBean implements Serializable {
         String message = DependantService.attachDependant(dateOfBirth,firstName,lastName,userName,gender,user_id);
         if(message.isEmpty()){
             if(getCurrentUser().getRole()==1){
-                return "/pages/dependants/dependants_all.xhtml";
+                return "/pages/protected/dependants/dependants_all.xhtml";
             } else if (getCurrentUser().getRole() == 0) {
-                return "/pages/dependants/dependants.xhtml?id="+user_id;
+                return "/pages/protected/dependants/dependants.xhtml?id="+user_id;
             }
         }
         else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/dependants/register.xhtml?faces-redirect=true";
+            return "/pages/protected/dependants/register.xhtml?faces-redirect=true";
         }
         return "";
 
@@ -130,15 +130,15 @@ public class SaveDependantBean implements Serializable {
 
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
-                return  "/pages/dependants/dependants_all.xhtml";
+                return  "/pages/protected/dependants/dependants_all.xhtml";
             } else if (getCurrentUser().getRole()==0) {
-                return  "/pages/dependants/dependants.xhtml?id="+userId;
+                return  "/pages/protected/dependants/dependants.xhtml?id="+userId;
             }
 
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/dependants/dependants_all.xhtml";
+            return "/pages/protected/dependants/dependants_all.xhtml";
         }
         return "";
 
@@ -149,37 +149,37 @@ public class SaveDependantBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dependant updated successfully", null));
             if(getCurrentUser().getRole()==1){
-                return  "/pages/dependants/dependants_all.xhtml";
+                return  "/pages/protected/dependants/dependants_all.xhtml";
             } else if (getCurrentUser().getRole()==0) {
-                return  "/pages/dependants/dependants.xhtml";
+                return  "/pages/protected/dependants/dependants.xhtml";
             }
 
         }{
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/dependants/update_dependant.xhtml";
+            return "/pages/protected/dependants/update_dependant.xhtml";
         }
     }
     public String back(){
         if(getCurrentUser().getRole()==1){
-            return"/pages/users/users.xhtml";
+            return"/pages/protected/users/users.xhtml";
         }else {
-            return"/pages/home/home_user.xhtml";
+            return"/pages/protected/home/home_user.xhtml";
         }
     }
     public String softDeleteDependant(String userName,int userId){
         String message = DependantService.softDeleteDependantsByUserName(userName);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
-                return  "/pages/dependants/dependants_all.xhtml?faces-redirect=true";
+                return  "/pages/protected/dependants/dependants_all.xhtml?faces-redirect=true";
             } else if (getCurrentUser().getRole()==0) {
-                return  "/pages/dependants/dependants.xhtml?id="+userId;
+                return  "/pages/protected/dependants/dependants.xhtml?id="+userId;
             }
 
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/dependants/dependants_all.xhtml";
+            return "/pages/protected/dependants/dependants_all.xhtml";
         }
         return "";
 
@@ -205,21 +205,21 @@ public class SaveDependantBean implements Serializable {
 
     public String previous() {
         if(getCurrentUser().getRole()==1){
-            return"/pages/dependants/dependants_all.xhtml";
+            return"/pages/protected/dependants/dependants_all.xhtml";
         }
         else {
-            return "/pages/dependants/dependants.xhtml&id="+getCurrentUser().getId();
+            return "/pages/protected/dependants/dependants.xhtml&id="+getCurrentUser().getId();
         }
     }
 
     public String getDeleteAllDependants() {
         String message = DependantService.deleteAllDependants();
         if(message.isEmpty()){
-            return "/pages/dependants/dependants_all.xhtml";
+            return "/pages/protected/dependants/dependants_all.xhtml";
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/dependants/dependants_all.xhtml";
+            return "/pages/protected/dependants/dependants_all.xhtml";
         }
     }
 
@@ -228,11 +228,11 @@ public class SaveDependantBean implements Serializable {
         if(userDependants.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User has no dependants", null));
-            return "/pages/dependants/dependants.xhtml";
+            return "/pages/protected/dependants/dependants.xhtml";
         }
         else {
             DependantService.deleteAllDependantsForUser(userId);
-            return "/pages/dependants/dependants.xhtml";
+            return "/pages/protected/dependants/dependants.xhtml";
         }
     }
 }

@@ -5,17 +5,19 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
+<f:metadata>
+    <f:viewParam name="name" value="#{saveuserbean.username}" />
+</f:metadata>
+
 <ui:define name="content">
     <h:form class="autoMargin" style="max-width: 400px; margin: auto;">
-        <p:panel header="Register" styleClass="login-panel">
+        <p:panel header="Update user #{saveuserbean.username} " styleClass="login-panel">
             <p:messages id="messages" autoUpdate="true" closable="true" />
             <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
                 <h:outputLabel for="FirstName" value= "Firstname: "/>
                 <h:inputText id="FirstName" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
                 <h:outputLabel for="LastName" value="Lastname: "/>
                 <h:inputText id="LastName" value="#{saveuserbean.lastname}" required="false" label ="Lastname"/>
-                <h:outputLabel for="UserName" value="Username: "/>
-                <h:inputText id="UserName" value="#{saveuserbean.username}" required="true" label="Username"/>
                 <h:outputLabel for="password1" value="Password:" />
                 <p:password id="password1" value="#{saveuserbean.password1}" required="true" label="Password" feedback="true" />
                 <h:outputLabel for="password2" value="Confirm:" />
@@ -27,9 +29,10 @@
                     <f:convertDateTime pattern="yyyy-MM-dd" />
                 </p:calendar>
             </p:panelGrid>
-            <p:commandButton value="Register" action="#{saveuserbean.saveUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" outcome = "/pages/users/users.xhtml" ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
+            <p:commandButton value="Update" action="#{saveuserbean.updateUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
         </p:panel>
-        <p:commandButton value="Back" immediate="true"  action="/pages/users/users.xhtml" styleClass="button" update="@form"/>
+        <p:commandButton value="Back" immediate="true"  action="/pages/protected/users/users.xhtml" styleClass="button" update="@form"/>
+
     </h:form>
 </ui:define>
 </ui:composition>

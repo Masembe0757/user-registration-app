@@ -1,40 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <style type="text/css">
+<h:head>
+    <title>User management home</title>
+    <style type="text/css">
+        /* style.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 175px;
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
 
-            .center {
-                text-align: center;
-            }
-            .flexDisplay{
-                display: flex;
-                color: dimgray;
-                background-color: lightgrey;
-                box-shadow: 5px -5px 10px 5px rgba(0.3, 0.2, 0.3, 0.5);
-                padding-bottom: 25px ;
-                border-radius: 10px ;
-            }
-            .autoMargin{
-                margin: auto;
-                color: dimgrey ;
-            }
-            .list{
-                text-decoration: none;
-                color : white;
-                margin-right: 300px;
-                margin: auto;
-            }
-        </style>
-    </h:head>
-    <h:body>
+        .sidebar img {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f4f5f7;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            width: 100%;
+        }
+
+        .card {
+            width: 65%;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .charts .ui-chart {
+            width: 48%;
+        }
+        .logo{
+            width: 40px;
+            height: 40px;
+
+        }
+
+          .center {
+              text-align: center;
+          }
+        .flexDisplay{
+            display: flex;
+            color: dimgray;
+            background-color: lightgrey;
+            box-shadow: 5px -5px 10px 5px rgba(0.3, 0.2, 0.3, 0.5);
+            padding-bottom: 25px ;
+            border-radius: 10px ;
+        }
+        .autoMargin{
+            margin: auto;
+            color: dimgrey ;
+        }
+        .list{
+            text-decoration: none;
+            color : white;
+            margin-right: 300px;
+            margin: auto;
+        }
+        .ui-datatable-scrollable-body {
+            max-height: 255px;
+        }
+
+    </style>
+</h:head>
+<h:body>
+    <div class="sidebar">
+
+        <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+            <h:graphicImage name="images/Admin.png" alt="Admin" />
+            <ul>
+                <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
+                <li><h:link value="Users" outcome="/pages/protected/users/users.xhtml" /></li>
+                <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants_all.xhtml" /></li>
+                <li><h:link value="Register user" outcome="/pages/protected/users/register.xhtml" /></li>
+                <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+                <h:form>
+                    <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
+                </h:form>
+            </ul>
+        </ui:fragment>
+        <ui:fragment rendered="#{not saveuserbean.isAdmin()}">
+            <h:graphicImage name="images/normal.png" alt="User logo" />
+            <ul>
+                <li><h:link value="Dashboard" outcome="/pages/protected/home/home_user.xhtml" /></li>
+                <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
+                <li><h:link value="Add dependant" outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
+                <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+                <h:form>
+                    <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
+                </h:form>
+            </ul>
+        </ui:fragment>
+
+    </div>
+    <div class="content">
         <div class="flexDisplay">
             <ui:insert name="content"/>
         </div>
-    </h:body>
+    </div>
+</h:body>
 </html>

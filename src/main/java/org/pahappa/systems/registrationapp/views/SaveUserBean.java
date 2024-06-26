@@ -108,22 +108,26 @@ public class SaveUserBean implements Serializable {
 
         String message = UserService.addUser(firstName,lastName,userName,dateOfBirth,pass1,pass2,email);
         if(message.isEmpty()) {
-            return  "/pages/users/users.xhtml?faces-redirect=true";
+            return  "/pages/protected/users/users.xhtml?faces-redirect=true";
+            //Emailing
+
+
+
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/users/register.xhtml";
+            return "/pages/protected/users/register.xhtml";
         }
     }
 
     public String deleteUser(String userName){
         String message = UserService.deleteUserOfUserName(userName);
         if(message.isEmpty()) {
-            return  "/pages/users/users.xhtml?faces-redirect=true";
+            return  "/pages/protected/users/users.xhtml?faces-redirect=true";
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/users/users.xhtml";
+            return "/pages/protected/users/users.xhtml";
         }
 
     }
@@ -133,25 +137,25 @@ public class SaveUserBean implements Serializable {
         String message = UserService.updateUserOfUserName(firstName, lastName, userName, dateOfBirth, password1,password2, email);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
-                return  "/pages/users/users.xhtml?faces-redirect=true";
+                return  "/pages/protected/users/users.xhtml?faces-redirect=true";
             }else if(getCurrentUser().getRole()==0){
-                return  "/pages/users/user_details.xhtml?faces-redirect=true";
+                return  "/pages/protected/users/user_details.xhtml?faces-redirect=true";
             }
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/users/update_user.xhtml";
+            return "/pages/protected/users/update_user.xhtml";
         }
         return "";
     }
     public String softDeleteUser(String userName) {
         String message = UserService.softDeleteUserOfUserName(userName);
         if(message.isEmpty()) {
-            return  "/pages/users/users.xhtml?faces-redirect=true";
+            return  "/pages/protected/users/users.xhtml?faces-redirect=true";
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/users/users.xhtml";
+            return "/pages/protected/users/users.xhtml";
         }
 
     }
@@ -190,10 +194,14 @@ public class SaveUserBean implements Serializable {
         if(users.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,"No users to delete", null));
-            return "/pages/users/users.xhtml";
+            return "/pages/protected/users/users.xhtml";
         }
         else {
-            return "/pages/users/users.xhtml";
+            return "/pages/protected/users/users.xhtml";
         }
+    }
+
+    public boolean isAdmin() {
+        return getCurrentUser().getRole() == 1;
     }
 }

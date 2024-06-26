@@ -78,13 +78,13 @@ public class loginbean {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/home/home_user.xhtml";
+                    return "/pages/protected/home/home_user.xhtml";
                 }
                 else {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/home/home.xhtml";
+                    return "/pages/protected/home/home.xhtml";
                 }
 
             } else if (user.getEmail().equals(entry)) {
@@ -92,18 +92,18 @@ public class loginbean {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/home/home_user.xhtml";
+                    return "/pages/protected/home/home_user.xhtml";
                 }
                 else {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/home/home.xhtml";
+                    return "/pages/protected/home/home.xhtml";
                 }
             }else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password/email", null));
-                return "/pages/user/login.xhtml";
+                return "/pages/protected/user/login.xhtml";
             }
 
 
@@ -111,7 +111,7 @@ public class loginbean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User does not exist in database", null));
-            return "/pages/user/login.xhtml";
+            return "/pages/protected/user/login.xhtml";
         }
     }
 
@@ -119,6 +119,6 @@ public class loginbean {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.getSessionMap().put("currentUser", null);
-        externalContext.redirect(externalContext.getRequestContextPath() +"/pages/home/login.xhtml");
+        externalContext.redirect(externalContext.getRequestContextPath() +"/pages/login/login.xhtml");
     }
 }
