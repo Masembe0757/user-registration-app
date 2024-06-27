@@ -125,10 +125,11 @@
                 </p:panel>
             </p:panelGrid>
         </div>
-        <div class="charts">
-            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
-            <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
-        </div >
+            <f:event type="preRenderView" listener="#{userChartBean.updateCharts()}" />
+            <div class="charts">
+                <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
+                <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
+            </div>
     </div>
 </h:body>
 </html>

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -17,8 +18,13 @@ import java.util.List;
 public class UserChartBean {
     int mon_dep,tue_dep,wed_dep,thur_dep,fri_dep,sat_dep,sun_dep  =0;
 
+
+
+
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
+
+
     private static User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
@@ -27,6 +33,11 @@ public class UserChartBean {
 
     @PostConstruct
     public void init() {
+
+        createWeeklyActivityModel();
+        createGenderStatisticsModel();
+    }
+    public void updateCharts() {
         createWeeklyActivityModel();
         createGenderStatisticsModel();
     }
@@ -71,9 +82,7 @@ public class UserChartBean {
         return softCount;
 
     }
-    private void createWeeklyActivityModel() {
-        weeklyActivityModel = new BarChartModel();
-
+    public void createWeeklyActivityModel() {
         List<Dependant> dependantsReturned = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
         if(!dependantsReturned.isEmpty()) {
             for (Dependant dependant : dependantsReturned) {
@@ -101,8 +110,7 @@ public class UserChartBean {
                 }
             }
         }
-
-
+        weeklyActivityModel = new BarChartModel();
         ChartSeries dependants = new ChartSeries();
         dependants.setLabel("Dependants");
         dependants.set("Sat", sat_dep);
@@ -122,6 +130,14 @@ public class UserChartBean {
         yAxis.setLabel("Count");
         yAxis.setMin(0);
         yAxis.setMax(mon_dep+tue_dep+wed_dep+thur_dep+fri_dep+sat_dep+sun_dep+2);
+       mon_dep=0;
+       tue_dep=0;
+       wed_dep=0;
+       thur_dep=0;
+       fri_dep=0;
+       sat_dep=0;
+       sun_dep=0;
+
     }
 
     private void createGenderStatisticsModel() {

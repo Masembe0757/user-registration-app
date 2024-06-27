@@ -27,6 +27,10 @@ public class AdminChartBean {
         createWeeklyActivityModel();
         createGenderStatisticsModel();
     }
+    public void updateCharts() {
+        createWeeklyActivityModel();
+        createGenderStatisticsModel();
+    }
 
     public BarChartModel getWeeklyActivityModel() {
         return weeklyActivityModel;
@@ -145,6 +149,20 @@ public class AdminChartBean {
         yAxis.setLabel("Count");
         yAxis.setMin(0);
         yAxis.setMax(mon_dep+tue_dep+wed_dep+thur_dep+fri_dep+sat_dep+sun_dep+mon_user+tue_user+wed_user+thur_user+fri_user+sat_user+sun_user+1);
+        mon_dep=0;
+        tue_dep=0;
+        wed_dep=0;
+        thur_dep=0;
+        fri_dep=0;
+        sat_dep=0;
+        sun_dep=0;
+        mon_user=0;
+        tue_user=0;
+        wed_user=0;
+        thur_user=0;
+        fri_user=0;
+        sat_user=0;
+        sun_user=0;
     }
 
     private void createGenderStatisticsModel() {

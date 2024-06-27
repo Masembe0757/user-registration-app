@@ -122,6 +122,7 @@
                 </p:panel>
             </p:panelGrid>
         </div>
+        <f:event type="preRenderView" listener="#{adminChartBean.updateCharts()}" />
         <div class="charts">
             <p:chart type="bar" model="#{adminChartBean.weeklyActivityModel}" />
             <p:chart type="pie" model="#{adminChartBean.genderStatisticsModel}" />
