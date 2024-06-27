@@ -89,25 +89,23 @@ public class DisplayDependantBean implements Serializable {
     }
 
 
-    public List<Dependant> dependantsForUser(int userId) {
+    public List<Dependant> dependantsForUser(String attr,int userId) {
         List<Dependant> dependants = DependantService.getDependantsForUser(userId);
         List<Dependant> dependantList = new ArrayList<>();
-        for(Dependant dependant : dependants){
-            if(dependant.getDeleted_at()==null){
-                dependantList.add(dependant);
+        if(attr.isEmpty()) {
+            for (Dependant dependant : dependants) {
+                if (dependant.getDeleted_at() == null) {
+                    dependantList.add(dependant);
+                }
+            }
+        }else {
+            for (Dependant dependant: dependants){
+                if(dependant.getUsername().equalsIgnoreCase(attr) || dependant.getLastname().equalsIgnoreCase(attr) || dependant.getFirstname().equalsIgnoreCase(attr) ||dependant.getGender().equalsIgnoreCase(attr)   ){
+                    dependantList.add(dependant);
+                }
             }
         }
         return  dependantList;
-    }
-    public List<Dependant> getAllDependants(){
-        List<Dependant> dependants =  DependantDao.returnDependants();
-        List<Dependant> dependantList = new ArrayList<>();
-        for(Dependant dependant:dependants){
-            if(dependant.getDeleted_at()==null){
-                dependantList.add(dependant);
-            }
-        }
-        return dependantList;
     }
     public List<Dependant> searchDependantByName(String name) {
         List<Dependant> dependants = DependantDao.returnDependants();
@@ -126,6 +124,7 @@ public class DisplayDependantBean implements Serializable {
         }
         return dependantList;
     }
+
 
     //Generic method to return date
     public String dateFormat(Date date) {

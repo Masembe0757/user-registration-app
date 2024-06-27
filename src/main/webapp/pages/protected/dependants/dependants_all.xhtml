@@ -9,12 +9,12 @@
         <h:form class="autoMargin">
             <h1>System has the following dependants</h1>
             <h:panelGrid columns="2">
-                <h:outputLabel for="searchUsername" value="Name or gender: " />
-                <h:inputText id="searchUsername" value="#{dependantdisplaybean.attribute}" />
-
-                <h:commandButton value="Search" action="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" update="searchResult" />
+                <h:outputLabel for="searchUsername" value="Filter by name or gender: " />
+                <h:inputText id="searchUsername" value="#{dependantdisplaybean.attribute}" >
+                    <f:ajax event="keyup" render="results" listener="dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)"/>
+                </h:inputText>
             </h:panelGrid>
-            <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" var= "dependant" emptyMessage="No Dependants found">
+            <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" var= "dependant" emptyMessage="No Dependants found">
                 <p:column headerText="User name">
                     #{dependant.username}
                 </p:column>

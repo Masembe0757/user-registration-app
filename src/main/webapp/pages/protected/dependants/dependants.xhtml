@@ -11,9 +11,14 @@
     <ui:define name="content">
         <h:form id="dependantsForm">
             <h1>User has the following dependants</h1>
-            <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.dependantsForUser(dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
+            <h:panelGrid columns="2">
+                <h:outputLabel for="searchUsername" value="Filter by name or gender: " />
+                <h:inputText id="searchUsername" value="#{dependantdisplaybean.attribute}" >
+                    <f:ajax event="keyup" render="results" listener="dependantdisplaybean.searchDependantByNameForUser(dependantdisplaybean.dependantsForUser(dependantdisplaybean.attribute,dependantdisplaybean.user_id)"/>
+                </h:inputText>
+            </h:panelGrid>
+            <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.dependantsForUser(dependantdisplaybean.attribute,dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
                          paginator="true" rows="10" paginatorPosition="bottom">
-
                 <p:column headerText="User name">
                     <h:outputText value="#{dependant.username} " />
                 </p:column>
@@ -43,7 +48,7 @@
 
             <p:commandButton value="Back" action="#{savedependantbean.back()}" styleClass="button" />
             <p:link value="Attach Dependant" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/dependants/register.xhtml?id=#{dependantdisplaybean.user_id}"/>
-            <p:link value="Delete all" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" action="#{savedependantbean.deleteAllDependantsOfUser(dependantdisplaybean.user_id)}" />
+            <p:commandLink value="Delete all" onclick="return confirm('Are you sure You want to completely delete all dependants of this user from database?');" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px;color: red" action="#{savedependantbean.deleteAllDependantsOfUser(dependantdisplaybean.user_id)}" />
         </h:form>
     </ui:define>
 </ui:composition>

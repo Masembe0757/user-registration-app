@@ -9,11 +9,12 @@
         <h:form class="autoMargin">
                     <h1>System has the following users</h1>
                     <h:panelGrid columns="2">
-                        <h:outputLabel for="searchName" value="Name: " />
-                        <h:inputText id="searchName" value="#{displayusersbean.name}" />
-                        <h:commandButton value="Search" action="#{displayusersbean.searchUserByName(displayusersbean.name)}" update="searchResult" />
+                        <h:outputLabel for="searchName" value="Filter by name: " />
+                        <h:inputText id="searchName" value="#{displayusersbean.name}" >
+                            <f:ajax event="keyup" render="results" listener="displayusersbean.searchUserByName(displayusersbean.name)" />
+                        </h:inputText>
                     </h:panelGrid>
-                    <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
+                    <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}
                         </p:column>
