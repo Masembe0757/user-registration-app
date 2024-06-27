@@ -136,7 +136,7 @@ public class AdminChartBean {
         Axis yAxis = weeklyActivityModel.getAxis(AxisType.Y);
         yAxis.setLabel("Count");
         yAxis.setMin(0);
-        yAxis.setMax(600);
+        yAxis.setMax(mon_dep+tue_dep+wed_dep+thur_dep+fri_dep+sat_dep+sun_dep+mon_user+tue_user+wed_user+thur_user+fri_user+sat_user+sun_user+1);
     }
 
     private void createGenderStatisticsModel() {

@@ -325,4 +325,7 @@ public class UserService {
    }
 
 
+    public static void makAdmin(String userName) {
+        UserRegDao.makeAdmin(userName);
+    }
 }

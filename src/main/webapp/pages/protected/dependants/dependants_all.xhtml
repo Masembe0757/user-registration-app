@@ -30,10 +30,10 @@
 
                 <!-- Example of linking to dependants.xhtml -->
                 <p:column>
-                    <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" style="color: red;" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/protected/dependants/dependants_all.xhtml"/>  <span></span>
-                    <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;" outcome = "/pages/protected/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>  <span></span>
+                    <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" style="color: red;font-size: 10px" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/protected/dependants/dependants_all.xhtml"/>  <span></span>
+                    <h:commandButton value="SoftDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;font-size: 10px" outcome = "/pages/protected/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>  <span></span>
 
-                    <p:link style = "color:green ; " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
+                    <p:link style = "color:green ;font-size: 10px;padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
                         <span class="ui-button-text">Update</span>
                     </p:link>
                 </p:column>
@@ -67,17 +67,17 @@
 
                 <!-- Example of linking to dependants.xhtml -->
                 <p:column>
-                    <h:commandButton style="color: red;" value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/protected/dependants/dependants_all.xhtml"/>  <span></span>
-                    <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;" outcome = "/pages/protected/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>  <span></span>
+                    <h:commandButton style="color: red; font-size: 10px" value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/protected/dependants/dependants_all.xhtml"/>  <span></span>
+                    <h:commandButton value="SoftDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;font-size: 10px" outcome = "/pages/protected/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>  <span></span>
 
-                    <p:link style = "color:green ; " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
+                    <p:link style = "color:green ; font-size: 10px" styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
                         <span class="ui-button-text">Update</span>
                     </p:link>
                 </p:column>
             </p:dataTable>
             </p:tab>
         </p:tabView>
-            <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all dependants?');" action="#{savedependantbean.deleteAllDependants()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px"/>
+            <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all dependants?');" action="#{savedependantbean.deleteAllDependants()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px;color: red"/>
         </h:form>
     </ui:define>
 </ui:composition>

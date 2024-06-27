@@ -7,7 +7,7 @@
     <ui:define name="content">
         <h:form class="autoMargin" style="max-width: 600px;">
             <h1 style="color: blueviolet">User Management System</h1>
-            <p:panel header="Log in" styleClass="login-panel">
+            <p:panel header="Log in" style="background-color: ghostwhite" styleClass="login-panel">
                 <p:messages id="messages" autoUpdate="true" closable="true" />
                 <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
                     <h:outputLabel for="username" value="Username:" />
@@ -17,7 +17,7 @@
                     <p:password id="password" value="#{loginbean.entry}" required="true" label="Password"  />
                 </p:panelGrid>
 
-                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.entry)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
+                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.entry)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;background-color: lawngreen" />
             </p:panel>
         </h:form>
     </ui:define>

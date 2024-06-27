@@ -201,4 +201,14 @@ public class SaveUserBean implements Serializable {
     public boolean isAdmin() {
         return getCurrentUser().getRole() == 1;
     }
+
+    public void makeAdmin(String userName) {
+        User user = UserService.returnUserOfUserName(userName);
+        if(user.getRole()!=1){
+            UserService.makAdmin(userName);
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User is already an admin", null));
+        }
+    }
 }

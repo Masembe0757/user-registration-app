@@ -10,16 +10,43 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.util.Date;
 import java.util.List;
 
 @ManagedBean(name = "userChartBean")
 @SessionScoped
 public class UserChartBean {
+    int mon_dep,tue_dep,wed_dep,thur_dep,fri_dep,sat_dep,sun_dep  =0;
+
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
 
     @PostConstruct
     public void init() {
+        List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        if(!dependants.isEmpty()) {
+            for (Dependant dependant : dependants) {
+                Date date = (Date) dependant.getCreated_at();
+                if (date.getDay() == 1) {
+                    mon_dep++;
+                } else if (date.getDay() == 2) {
+                    tue_dep++;
+                } else if (date.getDay() == 3) {
+                    wed_dep++;
+                } else if (date.getDay() == 4) {
+                    thur_dep++;
+                } else if (date.getDay() == 5) {
+                    fri_dep++;
+                } else if (date.getDay() == 6) {
+                    sat_dep++;
+                } else {
+                    sun_dep++;
+                }
+            }
+        }
+
+
+
         createWeeklyActivityModel();
         createGenderStatisticsModel();
     }
@@ -63,6 +90,8 @@ public class UserChartBean {
         List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
         for(Dependant d : dependants){
             if(d.getDeleted_at()==null){
+
+            }else{
                 softCount++;
             }
         }
@@ -73,27 +102,16 @@ public class UserChartBean {
     private void createWeeklyActivityModel() {
         weeklyActivityModel = new BarChartModel();
 
-        ChartSeries users = new ChartSeries();
-        users.setLabel("Users");
-        users.set("Sat", 200);
-        users.set("Sun", 300);
-        users.set("Mon", 400);
-        users.set("Tue", 500);
-        users.set("Wed", 250);
-        users.set("Thu", 100);
-        users.set("Fri", 350);
 
         ChartSeries dependants = new ChartSeries();
         dependants.setLabel("Dependants");
-        dependants.set("Sat", 150);
-        dependants.set("Sun", 250);
-        dependants.set("Mon", 350);
-        dependants.set("Tue", 450);
-        dependants.set("Wed", 200);
-        dependants.set("Thu", 50);
-        dependants.set("Fri", 300);
-
-        weeklyActivityModel.addSeries(users);
+        dependants.set("Sat", sat_dep);
+        dependants.set("Sun", sun_dep);
+        dependants.set("Mon", mon_dep);
+        dependants.set("Tue", tue_dep);
+        dependants.set("Wed", wed_dep);
+        dependants.set("Thu", thur_dep);
+        dependants.set("Fri", fri_dep);
         weeklyActivityModel.addSeries(dependants);
 
         weeklyActivityModel.setTitle("Weekly Activity");
@@ -103,7 +121,7 @@ public class UserChartBean {
         Axis yAxis = weeklyActivityModel.getAxis(AxisType.Y);
         yAxis.setLabel("Count");
         yAxis.setMin(0);
-        yAxis.setMax(600);
+        yAxis.setMax(mon_dep+tue_dep+wed_dep+thur_dep+fri_dep+sat_dep+sun_dep+2);
     }
 
     private void createGenderStatisticsModel() {

@@ -10,7 +10,6 @@
             <p:tabView>
                 <p:tab title="All Users">
                     <h1>System has the following users</h1>
-                    <p:messages id="messages" autoUpdate="true" closable="true" />
                     <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.get_users()}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}
@@ -25,20 +24,20 @@
                             #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
                         <p:column>
-                            <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
+                            <p:link style="font-size: 10px;padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
                                 <span class="ui-button-text">Dependants</span>
                             </p:link>  <span></span>
-                            <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/register.xhtml?id=#{user.id}">
+                            <p:link style="font-size: 10px;padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/register.xhtml?id=#{user.id}">
                                 <span class="ui-button-text">Attach</span>
                             </p:link>
-                            <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{user.username}">
+                            <p:link style="color: green;font-size: 10px;padding: 3px "  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{user.username}">
                                 <span class="ui-button-text">Update</span>
                             </p:link>
                         </p:column>
                         <p:column>
-                            <h:commandButton style="color: red;" onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
-                            <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" style="color: orangered;" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
-
+                            <h:commandButton style="color: red;font-size: 10px" styleClass="sizedButton" onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/> <span></span>
+                            <h:commandButton value="SoftDelete" onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" style="color: orangered;font-size: 10px" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
+                            <h:commandButton onclick=" return confirm('Are you sure You want to make this user an admin?');" value="MakeAdmin" style="color: blueviolet;font-size: 10px" action="#{saveuserbean.makeAdmin(user.username)}" />
                         </p:column>
                     </p:dataTable>
                 </p:tab>
@@ -47,7 +46,6 @@
                     <h:panelGrid columns="2">
                         <h:outputLabel for="searchUsername" value="Name: " />
                         <h:inputText id="searchUsername" value="#{displayusersbean.name}" />
-
                         <h:commandButton value="Search" action="#{displayusersbean.searchUserByName(displayusersbean.name)}" update="searchResult" />
                     </h:panelGrid>
                     <p:dataTable scrollable="true"  styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
@@ -64,26 +62,26 @@
                             #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
                         <p:column>
-                            <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
+                            <p:link style="padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
                                 <span class="ui-button-text">Dependants</span>
                             </p:link>
-                            <p:link styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/register.xhtml?id=#{user.id}">
+                            <p:link style="padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/register.xhtml?id=#{user.id}">
                                 <span class="ui-button-text">Attach</span>
                             </p:link>
-                            <p:link style="color: green;" styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{user.username}">
+                            <p:link style="color: green;padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{user.username}">
                                 <span class="ui-button-text">Update</span>
                             </p:link>
                         </p:column>
                         <p:column>
-                            <h:commandButton onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" style="color: red;" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
-                            <h:commandButton onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" value="SDelete" style="color: orangered;" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
-
+                            <h:commandButton onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" style="color: red;" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/> <span></span>
+                            <h:commandButton onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" value="SoftDelete" style="color: orangered;" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
+                            <h:commandButton onclick="return confirm('Are you sure You want to make this user an admin?');" value="MakeAdmin" style="color: blueviolet;" />
                         </p:column>
                     </p:dataTable>
                 </p:tab>
             </p:tabView>
             <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/>
-            <p:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" />
+            <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 4.5px; color: red" />
         </h:form>
     </ui:define>
 </ui:composition>

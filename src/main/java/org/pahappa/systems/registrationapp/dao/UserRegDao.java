@@ -174,4 +174,19 @@ public class UserRegDao {
         }
     }
 
+    public static void makeAdmin(String userName) {
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("update User set role = 1 where username = :userName");
+            qry.setParameter("userName", userName);
+            qry.executeUpdate();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }catch (Exception e){
+            UserView.Print("Session to make user admin not created successfully");
+            SessionConfiguration.shutdown();
+        }
+    }
 }
