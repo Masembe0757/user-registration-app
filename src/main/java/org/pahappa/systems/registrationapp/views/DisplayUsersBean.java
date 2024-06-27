@@ -110,16 +110,22 @@ public class DisplayUsersBean implements Serializable {
         return  users_list;
     }
     public List<User> searchUserByName(String name){
-        List<User> returnedUsers = UserService.returnUserOFName(name);
+        List<User> users = UserService.returnAllUsers();
         List<User> userList = new ArrayList<>();
-        if(returnedUsers.isEmpty()){
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
-        }
-        for(User user: returnedUsers)
-            if(user.getDeleted_at()==null){
-              userList.add(user);
+        if(name.isEmpty()){
+            userList =users;
+
+        }else {
+            List<User> returnedUsers = UserService.returnUserOFName(name);
+            if (returnedUsers.isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
             }
+            for (User user : returnedUsers)
+                if (user.getDeleted_at() == null) {
+                    userList.add(user);
+                }
+        }
         return userList;
     }
     public List<User> getUsers() {

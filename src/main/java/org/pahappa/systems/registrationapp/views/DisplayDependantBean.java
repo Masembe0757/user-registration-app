@@ -109,16 +109,22 @@ public class DisplayDependantBean implements Serializable {
         }
         return dependantList;
     }
-    public List<Dependant> searchDependantByName(String name){
-        List<Dependant> returneddependants = DependantService.getDependantsByName(name);
+    public List<Dependant> searchDependantByName(String name) {
+        List<Dependant> dependants = DependantDao.returnDependants();
         List<Dependant> dependantList = new ArrayList<>();
-        for(Dependant dependant:returneddependants){
-            if(dependant.getDeleted_at()==null){
-                dependantList.add(dependant);
+
+        if (name.isEmpty()) {
+            dependantList = dependants;
+        } else {
+            List<Dependant> returneddependants = DependantService.getDependantsByName(name);
+
+            for (Dependant dependant : returneddependants) {
+                if (dependant.getDeleted_at() == null) {
+                    dependantList.add(dependant);
+                }
             }
         }
-
-        return  dependantList;
+        return dependantList;
     }
 
     //Generic method to return date

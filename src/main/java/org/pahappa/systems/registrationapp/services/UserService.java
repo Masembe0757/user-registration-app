@@ -256,10 +256,9 @@ public class UserService {
                     UserRegDao.deleteUser(userName);
 
                     //Deleting dependants attached to user
-                    User user = UserService.returnUserOfUserName(userName);
-                    List<Dependant> dependants =DependantService.getDependantsForUser(user.getId());
+                    List<Dependant> dependants =DependantService.getDependantsForUser(returnedUser.getId());
                     if(!dependants.isEmpty()){
-                        DependantService.deleteAllDependantsForUser(user.getId());
+                        DependantService.deleteAllDependantsForUser(returnedUser.getId());
                     }
                 }
                 else {
@@ -275,11 +274,11 @@ public class UserService {
        List<User> allUsers = UserService.returnAllUsers();
        List<User> returnedUsers = new ArrayList<>();
        for(User u : allUsers){
-           if(u.getUsername().equals(name)){
+           if(u.getUsername().equalsIgnoreCase(name)){
                returnedUsers.add(u);
-           } else if (u.getFirstname().equals(name)) {
+           } else if (u.getFirstname().equalsIgnoreCase(name)) {
                returnedUsers.add(u);
-           } else if (u.getLastname().equals(name)) {
+           } else if (u.getLastname().equalsIgnoreCase(name)) {
                returnedUsers.add(u);
            }
        }
@@ -296,6 +295,12 @@ public class UserService {
             User returnedUser = UserRegDao.returnUser(userName);
             if (returnedUser!=null) {
                 UserRegDao.softDeleteUser(userName);
+                List<Dependant> dependants = DependantService.getDependantsForUser(returnedUser.getId());
+                if(!dependants.isEmpty()){
+                    for(Dependant dependant : dependants) {
+                        DependantService.softDeleteDependantsByUserName(dependant.getUsername());
+                    }
+                }
             }
             else {
                 error_message = "The username supplied is not in the database";
