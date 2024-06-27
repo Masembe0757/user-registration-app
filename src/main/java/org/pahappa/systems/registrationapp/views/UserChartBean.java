@@ -1,20 +1,15 @@
 package org.pahappa.systems.registrationapp.views;
-
-import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
 import org.primefaces.model.chart.*;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 @ManagedBean(name = "userChartBean")

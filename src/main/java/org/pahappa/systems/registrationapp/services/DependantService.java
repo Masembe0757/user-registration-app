@@ -10,21 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 public class DependantService {
-    private static boolean genderOption(String gender){
-        boolean correctGender = false;
-        if(gender.equals("male")){
-            correctGender =true;
-        }
-        else if (gender.equals("female")){
-            correctGender=true;
-        }
-        else {
-            System.out.println("Gender not accepted");
-        }
-        return correctGender;
-    }
-
-
     //Generic method to check if username has only digits
     private static boolean onlyDigits(String str, int n)
     {

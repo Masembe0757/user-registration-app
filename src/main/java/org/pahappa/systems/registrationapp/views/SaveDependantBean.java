@@ -1,12 +1,8 @@
 package org.pahappa.systems.registrationapp.views;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
-import org.pahappa.systems.registrationapp.dao.UserRegDao;
-import org.pahappa.systems.registrationapp.exception.RandomException;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.services.DependantService;
-import org.pahappa.systems.registrationapp.services.UserService;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,15 +21,7 @@ public class SaveDependantBean implements Serializable {
     private String gender;
     private int id;
     private String username;
-    private  int role;
 
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
 
     public String getAttribute() {
         return attribute;
@@ -103,6 +91,8 @@ public class SaveDependantBean implements Serializable {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
+
+
     private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();

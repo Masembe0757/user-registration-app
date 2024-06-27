@@ -1,8 +1,6 @@
 package org.pahappa.systems.registrationapp.views;
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
 import org.pahappa.systems.registrationapp.models.User;
-import org.pahappa.systems.registrationapp.services.UserService;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -19,16 +17,6 @@ public class loginbean {
     private String username;
     private String entry;
     private int id;
-    private  int role;
-
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
 
     public String getUsername() {
         return username;

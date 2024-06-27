@@ -9,7 +9,6 @@ import java.util.Base64;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
-import org.pahappa.systems.registrationapp.views.UserView;
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
 
 import javax.mail.*;

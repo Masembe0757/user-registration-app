@@ -92,23 +92,6 @@ public class DisplayUsersBean implements Serializable {
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
     }
-
-    public List<User> get_users(){
-        List<User> users_list = new ArrayList<>();
-        users = UserService.returnAllUsers();
-        if(users.isEmpty()){
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "System currently has no users", null));
-        }
-        else {
-            for(User user: users) {
-                if(user.getDeleted_at()==null) {
-                    users_list.add(user);
-                }
-            }
-        }
-        return  users_list;
-    }
     public List<User> searchUserByName(String name){
         List<User> users = UserService.returnAllUsers();
         List<User> userList = new ArrayList<>();

@@ -2,14 +2,12 @@ package org.pahappa.systems.registrationapp.views;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.services.UserService;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.*;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean(name = "saveuserbean")
 @SessionScoped
