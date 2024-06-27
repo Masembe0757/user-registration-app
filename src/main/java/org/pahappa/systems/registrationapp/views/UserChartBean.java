@@ -1,5 +1,6 @@
 package org.pahappa.systems.registrationapp.views;
 
+import com.mysql.cj.protocol.a.LocalDateTimeValueEncoder;
 import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
@@ -10,6 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -20,33 +24,14 @@ public class UserChartBean {
 
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
+    private static User getCurrentUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        return (User) externalContext.getSessionMap().get("currentUser");
+    }
 
     @PostConstruct
     public void init() {
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
-        if(!dependants.isEmpty()) {
-            for (Dependant dependant : dependants) {
-                Date date = (Date) dependant.getCreated_at();
-                if (date.getDay() == 1) {
-                    mon_dep++;
-                } else if (date.getDay() == 2) {
-                    tue_dep++;
-                } else if (date.getDay() == 3) {
-                    wed_dep++;
-                } else if (date.getDay() == 4) {
-                    thur_dep++;
-                } else if (date.getDay() == 5) {
-                    fri_dep++;
-                } else if (date.getDay() == 6) {
-                    sat_dep++;
-                } else {
-                    sun_dep++;
-                }
-            }
-        }
-
-
-
         createWeeklyActivityModel();
         createGenderStatisticsModel();
     }
@@ -58,13 +43,6 @@ public class UserChartBean {
     public PieChartModel getGenderStatisticsModel() {
         return genderStatisticsModel;
     }
-
-    private static  User getCurrentUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        return (User) externalContext.getSessionMap().get("currentUser");
-    }
-
     public static  int maleCount(){
         int males = 0;
         List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
@@ -98,9 +76,36 @@ public class UserChartBean {
         return softCount;
 
     }
-
     private void createWeeklyActivityModel() {
         weeklyActivityModel = new BarChartModel();
+
+        List<Dependant> dependantsReturned = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        if(!dependantsReturned.isEmpty()) {
+            for (Dependant dependant : dependantsReturned) {
+                LocalDate localDate = dependant.getCreated_at().toLocalDateTime().toLocalDate();
+                LocalDate currentDateTime = LocalDate.now();
+                LocalDate sevenDaysAgo = currentDateTime.minus(7, ChronoUnit.DAYS);
+
+                //to check week
+                if (!localDate.isAfter(currentDateTime) && !localDate.isBefore(sevenDaysAgo)) {
+                    if (localDate.getDayOfWeek().getValue() == 1) {
+                        mon_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 2) {
+                        tue_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 3) {
+                        wed_dep++;
+                    } else if (localDate.getDayOfWeek().getValue()== 4) {
+                        thur_dep++;
+                    } else if (localDate.getDayOfWeek().getValue()== 5) {
+                        fri_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 6) {
+                        sat_dep++;
+                    } else {
+                        sun_dep++;
+                    }
+                }
+            }
+        }
 
 
         ChartSeries dependants = new ChartSeries();

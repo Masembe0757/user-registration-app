@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.systems.registrationapp.config.SessionConfiguration;
 import org.pahappa.systems.registrationapp.models.Dependant;
+import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.views.UserView;
 
 import java.sql.Timestamp;
@@ -19,7 +20,7 @@ public class DependantDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(dep);
+            session.save(dep);
             trs.commit();
             UserView.Print("Dependant has been registered on user successfully (*_*) ");
             SessionConfiguration.shutdown();
@@ -29,6 +30,24 @@ public class DependantDao {
             System.out.println(e);
             SessionConfiguration.shutdown();
         }
+    }
+    public  static Dependant returnDependant(String userName){
+        Dependant dependant = null;
+        try {
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from Dependant where username = :userName");
+            qry.setParameter("userName", userName);
+            dependant = (Dependant) qry.uniqueResult();
+            trs.commit();
+            SessionConfiguration.shutdown();
+        }
+        catch (Exception e){
+            UserView.Print("Session to return a dependant not created successfully");
+            SessionConfiguration.shutdown();
+        }
+        return dependant;
     }
     public  static List<Dependant> returnDependantsForUserId(int userId){
         List<Dependant> dependants = null;
@@ -69,7 +88,7 @@ public class DependantDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update Dependant set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth ,gender = :gender where username = :userName ");
+            Query qry = session.createQuery("update Dependant set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth ,gender = :gender , deleted_at = null where username = :userName ");
             qry.setParameter("userName", userName);
             qry.setParameter("firstName", firstName);
             qry.setParameter("lastName", lastName);

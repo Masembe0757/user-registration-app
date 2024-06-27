@@ -11,6 +11,9 @@ import org.pahappa.systems.registrationapp.services.DependantService;
 import org.pahappa.systems.registrationapp.services.UserService;
 import org.primefaces.model.chart.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -24,52 +27,6 @@ public class AdminChartBean {
 
     @PostConstruct
     public void init() {
-        List<User> users = UserService.returnAllUsers();
-        List<Dependant> dependants = DependantDao.returnDependants();
-
-        if(!users.isEmpty()) {
-            for (User user : users) {
-                Date date = (Date) user.getCreated_at();
-                if (date.getDay() == 1) {
-                    mon_user++;
-                } else if (date.getDay() == 2) {
-                    tue_user++;
-                } else if (date.getDay() == 3) {
-                    wed_user++;
-                } else if (date.getDay() == 4) {
-                    thur_user++;
-                } else if (date.getDay() == 5) {
-                    fri_user++;
-                } else if (date.getDay() == 6) {
-                    sat_user++;
-                } else {
-                    sun_user++;
-                }
-            }
-        }
-
-        if(!dependants.isEmpty()) {
-            for (Dependant dependant : dependants) {
-                Date date = (Date) dependant.getCreated_at();
-                if (date.getDay() == 1) {
-                    mon_dep++;
-                } else if (date.getDay() == 2) {
-                    tue_dep++;
-                } else if (date.getDay() == 3) {
-                    wed_dep++;
-                } else if (date.getDay() == 4) {
-                    thur_dep++;
-                } else if (date.getDay() == 5) {
-                    fri_dep++;
-                } else if (date.getDay() == 6) {
-                    sat_dep++;
-                } else {
-                    sun_dep++;
-                }
-            }
-        }
-
-
 
         createWeeklyActivityModel();
         createGenderStatisticsModel();
@@ -106,6 +63,34 @@ public class AdminChartBean {
     private void createWeeklyActivityModel() {
         weeklyActivityModel = new BarChartModel();
 
+        List<User> usersReturned = UserService.returnAllUsers();
+        List<Dependant> dependantsReturned = DependantDao.returnDependants();
+
+        if(!usersReturned.isEmpty()) {
+            for (User user : usersReturned) {
+                LocalDate localDate = user.getCreated_at().toLocalDateTime().toLocalDate();
+                LocalDate currentDate = LocalDate.now();
+                LocalDate sevenDaysAgo = currentDate.minus(7, ChronoUnit.DAYS);
+                if (!localDate.isAfter(currentDate) && !localDate.isBefore(sevenDaysAgo)) {
+                    if (localDate.getDayOfWeek().getValue() == 1) {
+                        mon_user++;
+                    } else if (localDate.getDayOfWeek().getValue() == 2) {
+                        tue_user++;
+                    } else if (localDate.getDayOfWeek().getValue() == 3) {
+                        wed_user++;
+                    } else if (localDate.getDayOfWeek().getValue() == 4) {
+                        thur_user++;
+                    } else if (localDate.getDayOfWeek().getValue() == 5) {
+                        fri_user++;
+                    } else if (localDate.getDayOfWeek().getValue() == 6) {
+                        sat_user++;
+                    } else {
+                        sun_user++;
+                    }
+                }
+            }
+        }
+
         ChartSeries users = new ChartSeries();
         users.setLabel("Users");
         users.set("Sat", sat_user);
@@ -115,6 +100,33 @@ public class AdminChartBean {
         users.set("Wed", wed_user);
         users.set("Thu", thur_user);
         users.set("Fri", fri_user);
+
+
+
+        if(!dependantsReturned.isEmpty()) {
+            for (Dependant dependant : dependantsReturned) {
+                LocalDate localDate = dependant.getCreated_at().toLocalDateTime().toLocalDate();
+                LocalDate currentDate = LocalDate.now();
+                LocalDate sevenDaysAgo = currentDate.minus(7, ChronoUnit.DAYS);
+                if (!localDate.isAfter(currentDate) && !localDate.isBefore(sevenDaysAgo)) {
+                    if (localDate.getDayOfWeek().getValue() == 1) {
+                        mon_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 2) {
+                        tue_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 3) {
+                        wed_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 4) {
+                        thur_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 5) {
+                        fri_dep++;
+                    } else if (localDate.getDayOfWeek().getValue() == 6) {
+                        sat_dep++;
+                    } else {
+                        sun_dep++;
+                    }
+                }
+            }
+        }
 
         ChartSeries dependants = new ChartSeries();
         dependants.setLabel("Dependants");

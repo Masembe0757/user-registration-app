@@ -17,7 +17,7 @@ public class UserRegDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.getCurrentSession();
             Transaction trs = session.beginTransaction();
-            session.saveOrUpdate(user);
+            session.save(user);
 
             trs.commit();
             UserView.Print("User has been registered successfully (*_*) ");
@@ -121,7 +121,7 @@ public class UserRegDao {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update User set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth, email = :email, password =:password where username = :userName");
+            Query qry = session.createQuery("update User set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth, email = :email, password =:password, deleted_at =null where username = :userName");
             qry.setParameter("userName", userName);
             qry.setParameter("firstName", firstName);
             qry.setParameter("lastName", lastName);

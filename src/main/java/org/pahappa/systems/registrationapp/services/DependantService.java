@@ -67,18 +67,14 @@ public class DependantService {
     }
 
     public  static String attachDependant(Date dateOfBirth, String firstName, String lastName,String userName,String gender,int user_id) {
-        List<Dependant> dependants = DependantDao.returnDependants();
+        Dependant dependantReturned = DependantDao.returnDependant(userName);
         String error_message = "";
-        for(Dependant d: dependants){
-            if(d.getUsername().equals(userName)){
-                error_message ="Dependant user name already taken.";
-            }
-        }
 
         if(hasDigits(firstName) || hasSpecialCharacters(firstName) ){
             error_message = "First name field has digits or special characters in it";
-        }
-        else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
+        } else if (dependantReturned!=null) {
+            error_message = "User name already taken please chose a different one";
+        } else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
             error_message = "Last name field has digits or special characters  in it";
         } else if (userName.length() < 6 || hasSpecialCharacters(userName) ) {
             error_message = "User name field has characters less than 6 or has special characters ";
@@ -186,7 +182,6 @@ public class DependantService {
             for(Dependant d: dependants){
                 if ((d.getUsername().equals(uName))){
                     DependantDao.softDeleteDependant(uName);
-                    error_message = "Dependant soft deleted successfully";
                 }else {
                     error_message = "Dependant provided not in the database";
                 }
