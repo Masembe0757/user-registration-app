@@ -130,14 +130,13 @@ public class AdminChartBean {
 
         ChartSeries dependants = new ChartSeries();
         dependants.setLabel("Dependants");
-        dependants.set("Sat", sat_dep);
-        dependants.set("Sun", sun_dep);
         dependants.set("Mon", mon_dep);
         dependants.set("Tue", tue_dep);
         dependants.set("Wed", wed_dep);
         dependants.set("Thu", thur_dep);
         dependants.set("Fri", fri_dep);
-
+        dependants.set("Sat", sat_dep);
+        dependants.set("Sun", sun_dep);
         weeklyActivityModel.addSeries(users);
         weeklyActivityModel.addSeries(dependants);
 
