@@ -109,7 +109,7 @@ public class DisplayDependantBean implements Serializable {
             }
         }else {
             for (Dependant dependant: dependants){
-                if(dependant.getUsername().equalsIgnoreCase(attr) || dependant.getLastname().equalsIgnoreCase(attr) || dependant.getFirstname().equalsIgnoreCase(attr) ||dependant.getGender().equalsIgnoreCase(attr)   ){
+                if(dependant.getUsername().equalsIgnoreCase(attr) || dependant.getLastname().equalsIgnoreCase(attr) || dependant.getFirstname().equalsIgnoreCase(attr) ||dependant.getGender().toString().equalsIgnoreCase(attr)   ){
                     if(dependant.getDeleted_at()==null) {
                         dependantList.add(dependant);
                     }

@@ -84,7 +84,7 @@ public class DependantService {
                 dependant.setFirstname(firstName);
                 dependant.setLastname(lastName);
                 dependant.setUsername(userName);
-                dependant.setGender(gender);
+                dependant.setGender(Dependant.Gender.valueOf(gender));
                 dependant.setDateOfBirth(dateOfBirth);
 
                 //attaching dependant to user
@@ -112,7 +112,7 @@ public class DependantService {
                     deps.add(d);
                 } else if (d.getLastname().equalsIgnoreCase(Name)) {
                     deps.add(d);
-                } else if (d.getGender().equalsIgnoreCase(Name)) {
+                } else if (d.getGender().toString().equalsIgnoreCase(Name)) {
                     deps.add(d);
                 }
             }

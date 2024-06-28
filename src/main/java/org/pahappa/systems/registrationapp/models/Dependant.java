@@ -3,9 +3,21 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dependant_table")
 public class Dependant extends Account{
-    private String gender;
+    public enum Gender {
+        male,
+        female,
+    }
+    private Gender gender;
     @ManyToOne
     private User user;
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     public User getUser() {
         return user;
@@ -15,13 +27,6 @@ public class Dependant extends Account{
         this.user = user;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     @Override
     public String toString() {
