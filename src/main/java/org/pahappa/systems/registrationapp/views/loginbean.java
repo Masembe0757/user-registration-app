@@ -4,6 +4,7 @@ import org.pahappa.systems.registrationapp.models.User;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -13,23 +14,25 @@ import java.util.Date;
 @ManagedBean
 @RequestScoped
 public class loginbean {
+
     private String username;
-    private String entry;
+    private String password;
     private int id;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEntry() {
-        return entry;
-    }
-
-    public void setEntry(String entry) {
-        this.entry = entry;
     }
 
     public int getId() {
@@ -49,18 +52,18 @@ public class loginbean {
         admin.setPassword(Base64.getEncoder().encodeToString("manager".getBytes()));
         admin.setEmail("manager@gmail.com");
         admin.setRole(1);
-        User user = UserRegDao.returnUser(admin.getUsername());
+        User user = UserRegDao.getUserRegDao().returnUser(admin.getUsername());
         if(user==null){
-            UserRegDao.createAdmin(admin);
+            UserRegDao.getUserRegDao().createAdmin(admin);
         }
     }
 
 
     public String login(String userName, String passWord) {
-        User user = UserRegDao.returnUser(userName);
+        User user = UserRegDao.getUserRegDao().returnUser(userName);
         if (user != null) {
             String decodedPassword = new String(Base64.getDecoder().decode(user.getPassword()));
-            if(decodedPassword.equals(entry)){
+            if(decodedPassword.equals(passWord)){
                 if(user.getRole() == 0){
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
@@ -74,20 +77,7 @@ public class loginbean {
                     return "/pages/protected/home/home.xhtml";
                 }
 
-            } else if (user.getEmail().equals(entry)) {
-                if(user.getRole() == 0){
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = context.getExternalContext();
-                    externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/home/home_user.xhtml";
-                }
-                else {
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = context.getExternalContext();
-                    externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/home/home.xhtml";
-                }
-            }else {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password/email", null));
                 return "/pages/protected/user/login.xhtml";

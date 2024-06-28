@@ -6,32 +6,35 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.pahappa.systems.registrationapp.config.SessionConfiguration;
 import org.pahappa.systems.registrationapp.models.Dependant;
-import org.pahappa.systems.registrationapp.models.User;
-import org.pahappa.systems.registrationapp.views.UserView;
-
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class DependantDao {
-    public static void saveDependant(Dependant dep){
-        try {
 
+    //initialising a singleton
+    private static DependantDao dependantDao = new DependantDao();
+    private DependantDao(){};
+    public static DependantDao getDependantDao() {
+        return dependantDao;
+    }
+
+    public  void saveDependant(Dependant dep){
+        try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             session.save(dep);
             trs.commit();
-            UserView.Print("Dependant has been registered on user successfully (*_*) ");
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to save dependant not created successfully");
             System.out.println(e);
             SessionConfiguration.shutdown();
         }
     }
-    public  static Dependant returnDependant(String userName){
+    public  Dependant returnDependant(String userName){
         Dependant dependant = null;
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -44,13 +47,12 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to return a dependant not created successfully");
             SessionConfiguration.shutdown();
         }
         return dependant;
     }
-    public  static List<Dependant> returnDependantsForUserId(int userId){
-        List<Dependant> dependants = null;
+    public   List<Dependant> returnDependantsForUserId(int userId){
+        List<Dependant> dependants = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -62,12 +64,11 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to return a dependant not created successfully");
             SessionConfiguration.shutdown();
         }
         return dependants;
     }
-    public  static void deleteDependant(String userName){
+    public   void deleteDependant(String userName){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -79,11 +80,10 @@ public class DependantDao {
             SessionConfiguration.shutdown();
             System.out.println("Dependant deleted successfully");
         }catch (Exception e){
-            UserView.Print("Session to delete a dependant not created successfully");
             SessionConfiguration.shutdown();
         }
     }
-    public  static void updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
+    public  void updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -100,12 +100,11 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to update a dependant not created successfully");
             SessionConfiguration.shutdown();
         }
     }
 
-    public static int deleteDependants() {
+    public  int deleteDependants() {
         int result = -1;
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -117,14 +116,13 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to delete dependants not created successfully");
             SessionConfiguration.shutdown();
         }
         return result;
     }
 
-    public static List<Dependant> returnDependants() {
-        List<Dependant> dependants = null;
+    public  List<Dependant> returnDependants() {
+        List<Dependant> dependants = new ArrayList<>();
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
@@ -135,13 +133,12 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
-            UserView.Print("Session to return all dependants not created successfully");
             SessionConfiguration.shutdown();
         }
         return dependants;
     }
 
-    public static void softDeleteDependant(String userName) {
+    public  void softDeleteDependant(String userName) {
         try {
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
             SessionFactory sf = SessionConfiguration.getSessionFactory();
@@ -155,7 +152,6 @@ public class DependantDao {
             SessionConfiguration.shutdown();
             System.out.println("Dependant soft deleted successfully");
         }catch (Exception e){
-            UserView.Print("Session to soft delete a dependant not created successfully");
             SessionConfiguration.shutdown();
         }
     }

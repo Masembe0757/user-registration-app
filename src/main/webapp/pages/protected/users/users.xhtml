@@ -41,7 +41,7 @@
                         <p:column>
                             <h:commandButton onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" style="color: red; font-size: 10px;padding: 3px" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/> <span></span>
                             <h:commandButton onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" value="SoftDelete" style="color: orangered;font-size: 10px;padding: 3px" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
-                            <h:commandButton onclick="return confirm('Are you sure You want to make this user an admin?');" value="MakeAdmin" style="color: blueviolet;font-size: 10px;padding: 3px" />
+                            <h:commandButton onclick="return confirm('Are you sure You want to make this user an admin?');" value="MakeAdmin" action="#{saveuserbean.makeAdmin(user.username)}" style="color: blueviolet;font-size: 10px;padding: 3px" />
                         </p:column>
                     </p:dataTable>
             <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/>

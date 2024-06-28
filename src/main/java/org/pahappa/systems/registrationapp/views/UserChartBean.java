@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -19,13 +18,11 @@ public class UserChartBean {
     int mon_dep,tue_dep,wed_dep,thur_dep,fri_dep,sat_dep,sun_dep  =0;
 
 
-
-
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
 
 
-    private static User getCurrentUser() {
+    private User getCurrentUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         return (User) externalContext.getSessionMap().get("currentUser");
@@ -49,21 +46,21 @@ public class UserChartBean {
     public PieChartModel getGenderStatisticsModel() {
         return genderStatisticsModel;
     }
-    public static  int maleCount(){
+    public   int maleCount(){
         int males = 0;
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        List<Dependant> dependants = DependantDao.getDependantDao().returnDependantsForUserId(new UserChartBean().getCurrentUser().getId());
         for(Dependant d : dependants){
-            if(d.getGender().equals("male")){
+            if(d.getGender().toString().equals("male")){
                 males++;
             }
         }
         return  males;
     }
-    public static int femaleCount(){
+    public  int femaleCount(){
         int females = 0;
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        List<Dependant> dependants = DependantDao.getDependantDao().returnDependantsForUserId(new UserChartBean().getCurrentUser().getId());
         for(Dependant d : dependants){
-            if(d.getGender().equals("female")){
+            if(d.getGender().toString().equals("female")){
                 females++;
             }
         }
@@ -71,7 +68,7 @@ public class UserChartBean {
     }
     public int dependantsWithDelete(){
         int softCount = 0;
-        List<Dependant> dependants = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        List<Dependant> dependants = DependantDao.getDependantDao().returnDependantsForUserId(new UserChartBean().getCurrentUser().getId());
         for(Dependant d : dependants){
             if(d.getDeleted_at()==null){
 
@@ -83,7 +80,7 @@ public class UserChartBean {
 
     }
     public void createWeeklyActivityModel() {
-        List<Dependant> dependantsReturned = DependantDao.returnDependantsForUserId(getCurrentUser().getId());
+        List<Dependant> dependantsReturned = DependantDao.getDependantDao().returnDependantsForUserId(getCurrentUser().getId());
         if(!dependantsReturned.isEmpty()) {
             for (Dependant dependant : dependantsReturned) {
                 LocalDate localDate = dependant.getCreated_at().toLocalDateTime().toLocalDate();
@@ -137,13 +134,11 @@ public class UserChartBean {
        fri_dep=0;
        sat_dep=0;
        sun_dep=0;
-
     }
-
     private void createGenderStatisticsModel() {
         genderStatisticsModel = new PieChartModel();
-        genderStatisticsModel.set("Males", maleCount());
-        genderStatisticsModel.set("Females", femaleCount());
+        genderStatisticsModel.set("Males", new UserChartBean().maleCount());
+        genderStatisticsModel.set("Females", new UserChartBean().femaleCount());
         genderStatisticsModel.setTitle("Dependant Gender Statistics");
         genderStatisticsModel.setLegendPosition("w");
         genderStatisticsModel.setFill(false);

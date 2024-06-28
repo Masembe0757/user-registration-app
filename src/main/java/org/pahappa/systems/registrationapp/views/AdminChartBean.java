@@ -1,9 +1,7 @@
 package org.pahappa.systems.registrationapp.views;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.annotation.PostConstruct;
-
 import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
@@ -16,25 +14,20 @@ import java.util.List;
 @ManagedBean(name = "adminChartBean")
 @SessionScoped
 public class AdminChartBean {
+
     int mon_user,mon_dep,tue_user,tue_dep,wed_user,wed_dep,thur_user,thur_dep,fri_user,fri_dep,sat_user,sat_dep,sun_user,sun_dep  =0;
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
-    private  UserService userService;
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
     @PostConstruct
     public void init() {
-
-        createWeeklyActivityModel();
-        createGenderStatisticsModel();
+        try {
+            createWeeklyActivityModel();
+            createGenderStatisticsModel();
+        } catch (Exception e) {
+            e.printStackTrace(); // Better to use a logging framework
+        }
     }
+
     public void updateCharts() {
         createWeeklyActivityModel();
         createGenderStatisticsModel();
@@ -47,21 +40,21 @@ public class AdminChartBean {
     public PieChartModel getGenderStatisticsModel() {
         return genderStatisticsModel;
     }
-    public static  int maleCount(){
+    public   int maleCount(){
         int males = 0;
-        List<Dependant> dependants = DependantDao.returnDependants();
+        List<Dependant> dependants = DependantDao.getDependantDao().returnDependants();
         for(Dependant d : dependants){
-            if(d.getGender().equals("male")){
+            if(d.getGender().toString().equals("male")){
                 males++;
             }
         }
         return  males;
     }
-    public static int femaleCount(){
+    public  int femaleCount(){
         int females = 0;
-        List<Dependant> dependants = DependantDao.returnDependants();
+        List<Dependant> dependants = DependantDao.getDependantDao().returnDependants();
         for(Dependant d : dependants){
-            if(d.getGender().equals("female")){
+            if(d.getGender().toString().equals("female")){
                 females++;
             }
         }
@@ -71,8 +64,8 @@ public class AdminChartBean {
     private void createWeeklyActivityModel() {
         weeklyActivityModel = new BarChartModel();
 
-        List<User> usersReturned = userService.returnAllUsers();
-        List<Dependant> dependantsReturned = DependantDao.returnDependants();
+        List<User> usersReturned = UserService.getUserService().returnAllUsers();
+        List<Dependant> dependantsReturned = DependantDao.getDependantDao().returnDependants();
 
         if(!usersReturned.isEmpty()) {
             for (User user : usersReturned) {
@@ -172,8 +165,8 @@ public class AdminChartBean {
 
     private void createGenderStatisticsModel() {
         genderStatisticsModel = new PieChartModel();
-        genderStatisticsModel.set("Males", maleCount());
-        genderStatisticsModel.set("Females", femaleCount());
+        genderStatisticsModel.set("Males", new AdminChartBean().maleCount());
+        genderStatisticsModel.set("Females", new  AdminChartBean().femaleCount());
         genderStatisticsModel.setTitle("Dependant Gender Statistics");
         genderStatisticsModel.setLegendPosition("w");
         genderStatisticsModel.setFill(false);

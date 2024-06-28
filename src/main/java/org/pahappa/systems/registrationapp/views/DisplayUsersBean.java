@@ -3,6 +3,7 @@ import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.services.UserService;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -21,14 +22,12 @@ public class DisplayUsersBean implements Serializable {
     private int id;
     private String username;
     private String firstname;
-    private UserService userService;
-
-    public UserService getUserService() {
-        return userService;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public String getPassword() {
@@ -99,7 +98,7 @@ public class DisplayUsersBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
     public List<User> searchUserByName(String name){
-        List<User> users = userService.returnAllUsers();
+        List<User> users = UserService.getUserService().returnAllUsers();
         List<User> userList = new ArrayList<>();
         if(name.isEmpty()){
             for (User user : users) {
@@ -109,7 +108,7 @@ public class DisplayUsersBean implements Serializable {
             }
 
         }else {
-            List<User> returnedUsers = userService.returnUserOFName(name);
+            List<User> returnedUsers = UserService.getUserService().returnUserOfName(name);
             if (returnedUsers.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
@@ -122,13 +121,7 @@ public class DisplayUsersBean implements Serializable {
         }
         return userList;
     }
-    public List<User> getUsers() {
-        return users;
-    }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
     public String dateFormat(Date date) {
         if(date==null){
             return "";

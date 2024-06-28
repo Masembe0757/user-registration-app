@@ -10,7 +10,7 @@
 
     <ui:define name="content">
         <h:form class="autoMargin">
-                    <h1>These are your details</h1>
+                    <h1>These are your details #{saveuserbean.username}</h1>
                     <p:dataTable value="#{displayusersbean.searchUserByName(saveuserbean.username)}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}

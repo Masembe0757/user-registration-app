@@ -14,10 +14,10 @@
                     <p:inputText id="username" value="#{loginbean.username}" required="true" label="Username" />
 
                     <h:outputLabel for="password" value="Password/Email:" />
-                    <p:password id="password" value="#{loginbean.entry}" required="true" label="Password"  />
+                    <p:password id="password" value="#{loginbean.password}" required="true" label="Password"  />
                 </p:panelGrid>
 
-                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.entry)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;background-color: lawngreen" />
+                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.password)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;background-color: lawngreen" />
             </p:panel>
         </h:form>
     </ui:define>
