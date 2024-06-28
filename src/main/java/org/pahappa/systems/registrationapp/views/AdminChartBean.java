@@ -93,15 +93,13 @@ public class AdminChartBean {
 
         ChartSeries users = new ChartSeries();
         users.setLabel("Users");
-        users.set("Sat", sat_user);
-        users.set("Sun", sun_user);
         users.set("Mon", mon_user);
         users.set("Tue", tue_user);
         users.set("Wed", wed_user);
         users.set("Thu", thur_user);
         users.set("Fri", fri_user);
-
-
+        users.set("Sat", sat_user);
+        users.set("Sun", sun_user);
 
         if(!dependantsReturned.isEmpty()) {
             for (Dependant dependant : dependantsReturned) {
