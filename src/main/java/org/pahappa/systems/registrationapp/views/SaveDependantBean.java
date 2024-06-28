@@ -103,27 +103,23 @@ public class SaveDependantBean implements Serializable {
         if(message.isEmpty()){
             if(getCurrentUser().getRole()==1){
                 return "/pages/protected/dependants/dependants_all.xhtml";
-            } else if (getCurrentUser().getRole() == 0) {
+            } else{
                 return "/pages/protected/home/home_user.xhtml";
             }
-        }
-        else {
+        } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/protected/dependants/register.xhtml?faces-redirect=true";
+            return "/pages/protected/dependants/register.xhtml";
         }
-        return "";
-
     }
     public String deleteDependant(String userName){
         String message = DependantService.deleteDependantsByUserName(userName);
-
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dependant deleted successfully", null));
                 return  "/pages/protected/dependants/dependants_all.xhtml";
-            } else if (getCurrentUser().getRole()==0) {
+            } else{
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dependant deleted successfully", null));
                 return  "/pages/protected/dependants/dependants.xhtml";
@@ -133,15 +129,12 @@ public class SaveDependantBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,message, null));
                 return  "/pages/protected/dependants/dependants_all.xhtml";
-            } else if (getCurrentUser().getRole()==0) {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,message, null));
                 return  "/pages/protected/dependants/dependants.xhtml";
             }
-
         }
-        return "";
-
     }
     public String updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
         String message = DependantService.updateDependantByUserName(firstName,lastName,userName,dateOfBirth,gender);
