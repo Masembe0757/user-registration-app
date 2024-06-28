@@ -32,7 +32,6 @@ public class AuthFilter implements Filter {
             chain.doFilter(request, response);
         }
     }
-
     public void destroy() {
         // If you have any filter cleanup, put it here
     }

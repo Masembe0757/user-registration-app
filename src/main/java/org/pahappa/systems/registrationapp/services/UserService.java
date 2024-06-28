@@ -1,7 +1,4 @@
-package org.pahappa.systems.registrationapp.services;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+package org.pahappa.systems.registrationapp.services;;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.*;
@@ -10,14 +7,31 @@ import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
 import org.pahappa.systems.registrationapp.dao.UserRegDao;
-
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class UserService {
+    UserService userService;
+    DependantService dependantService;
 
-    private static void EmailSender(String recipientEmail,String userName, String generatedPassword, String firstName, String lastName){
+    public DependantService getDependantService() {
+        return dependantService;
+    }
+
+    public void setDependantService(DependantService dependantService) {
+        this.dependantService = dependantService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    private void EmailSender(String recipientEmail, String userName, String generatedPassword, String firstName, String lastName){
         // Sender's email credentials
         String senderEmail = "sendyj886@gmail.com";
         String senderPassword = "tolh dxyx hann prke";
@@ -70,14 +84,14 @@ public class UserService {
 
 
 
-    private static boolean isValidEmail(String email) {
+    private  boolean isValidEmail(String email) {
         final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
         final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
     }
 
-    private static boolean isValidPassword(String password) {
+    private boolean isValidPassword(String password) {
         if (password.length() < 8) {
             return false; // Password must be at least 8 characters long
         }
@@ -99,7 +113,7 @@ public class UserService {
         return hasUpper && hasLower && hasDigit && hasSpecial;
     }
 
-    private static boolean hasSpecialCharacters(String s){
+    private boolean hasSpecialCharacters(String s){
         boolean hasCharacter = false;
         for (int i = 0; i < s.length(); i++) {
             // Checking the character for not being a letter,digit or space
@@ -114,7 +128,7 @@ public class UserService {
     }
 
     //Generic method to check if username has only digits
-    private static boolean onlyDigits(String str, int n)
+    private boolean onlyDigits(String str, int n)
     {
         for (int i = 0; i < n; i++) {
             if (str.charAt(i) < '0'
@@ -125,7 +139,7 @@ public class UserService {
         return true;
     }
     //Generic method to check if name provided has digits in it
-    private static boolean hasDigits(String str){
+    private boolean hasDigits(String str){
         boolean hasDigits = false;
         for(int i =0 ; i < str.length(); i++){
             if(Character.isDigit(str.charAt(i))){
@@ -136,27 +150,27 @@ public class UserService {
     }
 
     //Generic method to check if there are users in the database
-    private static boolean usersAvailable(){
+    private  boolean usersAvailable(){
         List<User> usersList = UserRegDao.returnAllUsers();
         return !usersList.isEmpty();
     }
-   public static String addUser(String firstName, String lastName, String userName, Date dateOfBirth,String password1,String password2, String email) {
+   public String addUser(String firstName, String lastName, String userName, Date dateOfBirth,String password1,String password2, String email) {
         String error_message= "";
        User newUser = new User();
-       if(firstName.isEmpty() || hasDigits(firstName) || hasSpecialCharacters(firstName) ){
+       if(firstName.isEmpty() || userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
            error_message = "First name field  has digits or special characters in it";
        }
-       else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
+       else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
            error_message = "Last name field has digits or special characters  in it";
-       } else if ( userName.length() < 6 || hasSpecialCharacters(userName) ) {
+       } else if ( userName.length() < 6 || userService.hasSpecialCharacters(userName) ) {
            error_message = "User name field has special characters less than 6 or has special characters";
 
        } else if (Character.isDigit(userName.charAt(0))) {
            error_message = "User name field  can not start with a digit";
 
-       } else if (onlyDigits(userName, userName.length())) {
+       } else if (userService.onlyDigits(userName, userName.length())) {
            error_message = "User name field can not contain only digits";
-       } else  if(!isValidEmail(email)){
+       } else  if(!userService.isValidEmail(email)){
            error_message = "Email provided is of incorrect format";
        }else if (!password1.equals(password2)) {
            error_message = "Passwords do not match";
@@ -165,12 +179,12 @@ public class UserService {
                 if (returnedUser!= null) {
                     error_message ="User name already taken please enter new user name";
                 } else {
-                    if(!isValidPassword(password1)){
+                    if(!userService.isValidPassword(password1)){
                         error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters ";
                     }else {
                         if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
                             //Sending email with credentials
-                            EmailSender(email, userName, password1,firstName,lastName);
+                            userService.EmailSender(email, userName, password1,firstName,lastName);
                             // Encrypting the password with BCrypt
                             String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
 
@@ -192,17 +206,17 @@ public class UserService {
        return  error_message;
 
    }
-   public static List<User> returnAllUsers()  {
+   public List<User> returnAllUsers()  {
        List<User> usersList = UserRegDao.returnAllUsers();
            return usersList;
        }
 
-   public static User returnUserOfUserName(String userName)  {
+   public  User returnUserOfUserName(String userName)  {
        return UserRegDao.returnUser(userName);
    }
-   public static String updateUserOfUserName(String firstName, String lastName, String userName, Date dateOfBirth,String password1,String password2, String email) {
+   public String updateUserOfUserName(String firstName, String lastName, String userName, Date dateOfBirth,String password1,String password2, String email) {
        String error_message = "";
-        if(!usersAvailable()) {
+        if(!userService.usersAvailable()) {
             error_message = "No users to update, system currently empty";
         }
         else {
@@ -210,32 +224,31 @@ public class UserService {
                 if (returnedUser!=null) {
                     //update validation
 
-                    if( hasDigits(firstName) || hasSpecialCharacters(firstName) ){
+                    if( userService.hasDigits(firstName) || userService.hasSpecialCharacters(firstName) ){
                         error_message ="First name field has digits or special characters  in it";
 
                     }
-                    else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
+                    else if(userService.hasDigits(lastName) || userService.hasSpecialCharacters(lastName)){
                         error_message ="Last name field has digits or special characters in it";
 
-                    }else  if(!isValidEmail(email)){
+                    }else  if(!userService.isValidEmail(email)){
                         error_message = "Email provided is of incorrect format";
                     } else if (!password1.equals(password2)) {
                         error_message = "Passwords do not match";
                     } else {
-                        if (!isValidPassword(password1)) {
+                        if (!userService.isValidPassword(password1)) {
                             error_message = "Password must have more than 8 lowercase, uppercase, digits and special characters";
                         } else {
 
                             if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
                                 //Sending email with credentials
-                                EmailSender(email, userName, password1,firstName,lastName);
+                                userService.EmailSender(email, userName, password1,firstName,lastName);
                                 // Encrypting the password with BCrypt
                                 String encodedPassword = Base64.getEncoder().encodeToString(password1.getBytes());
                                 UserRegDao.updateUser(firstName, lastName, userName, dateOfBirth, encodedPassword, email);
                             } else {
                                 error_message = "Date provided is beyond current date";
                             }
-
                         }
                     }
                     }
@@ -245,7 +258,7 @@ public class UserService {
         }
         return  error_message;
    }
-   public static  String deleteUserOfUserName(String userName){
+   public   String deleteUserOfUserName(String userName){
         String error_message= "";
         if(usersAvailable()) {
             User returnedUser = UserRegDao.returnUser(userName);
@@ -255,22 +268,21 @@ public class UserService {
                     UserRegDao.deleteUser(userName);
 
                     //Deleting dependants attached to user
-                    List<Dependant> dependants =DependantService.getDependantsForUser(returnedUser.getId());
+                    List<Dependant> dependants =dependantService.getDependantsForUser(returnedUser.getId());
                     if(!dependants.isEmpty()){
-                        DependantService.deleteAllDependantsForUser(returnedUser.getId());
+                        dependantService.deleteAllDependantsForUser(returnedUser.getId());
                     }
                 }
                 else {
                    error_message = "The username supplied is not in the database";
                 }
-        }
-        else {
+        } else {
             error_message = "No users in system to delete yet";
         }
         return  error_message;
    }
-   public static List<User> returnUserOFName(String name){
-       List<User> allUsers = UserService.returnAllUsers();
+   public  List<User> returnUserOFName(String name){
+       List<User> allUsers = userService.returnAllUsers();
        List<User> returnedUsers = new ArrayList<>();
        for(User u : allUsers){
            if(u.getUsername().equalsIgnoreCase(name)){
@@ -288,16 +300,16 @@ public class UserService {
        return returnedUsers;
    }
 
-    public static String softDeleteUserOfUserName(String userName) {
+    public  String softDeleteUserOfUserName(String userName) {
         String error_message= "";
         if(usersAvailable()) {
             User returnedUser = UserRegDao.returnUser(userName);
             if (returnedUser!=null) {
                 UserRegDao.softDeleteUser(userName);
-                List<Dependant> dependants = DependantService.getDependantsForUser(returnedUser.getId());
+                List<Dependant> dependants = dependantService.getDependantsForUser(returnedUser.getId());
                 if(!dependants.isEmpty()){
                     for(Dependant dependant : dependants) {
-                        DependantService.softDeleteDependantsByUserName(dependant.getUsername());
+                        dependantService.softDeleteDependantsByUserName(dependant.getUsername());
                     }
                 }
             }
@@ -311,7 +323,7 @@ public class UserService {
         return  error_message;
     }
 
-    public static String deleteAllUsers()  {
+    public String deleteAllUsers()  {
         String error_message ="";
        if(usersAvailable()) {
            //Deleting all users
@@ -319,7 +331,7 @@ public class UserService {
            //Deleting all dependants
            List<Dependant> dependants = DependantDao.returnDependants();
            if(!dependants.isEmpty()){
-               DependantService.deleteAllDependants();
+               dependantService.deleteAllDependants();
            }
 
        }else {

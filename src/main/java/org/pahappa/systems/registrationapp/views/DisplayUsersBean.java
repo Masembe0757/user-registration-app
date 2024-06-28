@@ -12,18 +12,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
 @SessionScoped
 @ManagedBean(name = "displayusersbean")
 public class DisplayUsersBean implements Serializable {
     private List<User> users = new ArrayList<User>();
     private String name;
     private String password;
-    private String email;
     private int id;
     private String username;
     private String firstname;
+    private UserService userService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public String getPassword() {
         return password;
@@ -93,21 +99,26 @@ public class DisplayUsersBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
     public List<User> searchUserByName(String name){
-        List<User> users = UserService.returnAllUsers();
+        List<User> users = userService.returnAllUsers();
         List<User> userList = new ArrayList<>();
         if(name.isEmpty()){
-            userList =users;
+            for (User user : users) {
+                if (user.getDeleted_at() == null) {
+                    userList.add(user);
+                }
+            }
 
         }else {
-            List<User> returnedUsers = UserService.returnUserOFName(name);
+            List<User> returnedUsers = userService.returnUserOFName(name);
             if (returnedUsers.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "No user found for that name", null));
             }
-            for (User user : returnedUsers)
+            for (User user : returnedUsers) {
                 if (user.getDeleted_at() == null) {
                     userList.add(user);
                 }
+            }
         }
         return userList;
     }

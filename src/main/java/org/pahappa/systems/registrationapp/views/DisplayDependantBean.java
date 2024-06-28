@@ -21,6 +21,15 @@ public class DisplayDependantBean implements Serializable {
     private String firstname;
     private String lastname;
     private Date dateOfBirth;
+    private DependantService dependantService;
+
+    public DependantService getDependantService() {
+        return dependantService;
+    }
+
+    public void setDependantService(DependantService dependantService) {
+        this.dependantService = dependantService;
+    }
 
     public int getId() {
         return id;
@@ -90,7 +99,7 @@ public class DisplayDependantBean implements Serializable {
 
 
     public List<Dependant> dependantsForUser(String attr,int userId) {
-        List<Dependant> dependants = DependantService.getDependantsForUser(userId);
+        List<Dependant> dependants = dependantService.getDependantsForUser(userId);
         List<Dependant> dependantList = new ArrayList<>();
         if(attr.isEmpty()) {
             for (Dependant dependant : dependants) {
@@ -101,7 +110,9 @@ public class DisplayDependantBean implements Serializable {
         }else {
             for (Dependant dependant: dependants){
                 if(dependant.getUsername().equalsIgnoreCase(attr) || dependant.getLastname().equalsIgnoreCase(attr) || dependant.getFirstname().equalsIgnoreCase(attr) ||dependant.getGender().equalsIgnoreCase(attr)   ){
-                    dependantList.add(dependant);
+                    if(dependant.getDeleted_at()==null) {
+                        dependantList.add(dependant);
+                    }
                 }
             }
         }
@@ -112,9 +123,13 @@ public class DisplayDependantBean implements Serializable {
         List<Dependant> dependantList = new ArrayList<>();
 
         if (name.isEmpty()) {
-            dependantList = dependants;
+            for (Dependant dependant : dependants) {
+                if (dependant.getDeleted_at() == null) {
+                    dependantList.add(dependant);
+                }
+            }
         } else {
-            List<Dependant> returneddependants = DependantService.getDependantsByName(name);
+            List<Dependant> returneddependants = dependantService.getDependantsByName(name);
 
             for (Dependant dependant : returneddependants) {
                 if (dependant.getDeleted_at() == null) {

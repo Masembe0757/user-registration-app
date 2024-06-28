@@ -20,7 +20,6 @@ public class AdminChartBean {
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
 
-
     @PostConstruct
     public void init() {
 

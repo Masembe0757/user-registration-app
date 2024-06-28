@@ -10,14 +10,12 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
-
 @ManagedBean
 @RequestScoped
 public class loginbean {
     private String username;
     private String entry;
     private int id;
-
     public String getUsername() {
         return username;
     }
@@ -41,7 +39,6 @@ public class loginbean {
     public void setId(int id) {
         this.id = id;
     }
-
     @PostConstruct
     public void init() {
         User admin = new User();
@@ -56,7 +53,6 @@ public class loginbean {
         if(user==null){
             UserRegDao.createAdmin(admin);
         }
-
     }
 
 

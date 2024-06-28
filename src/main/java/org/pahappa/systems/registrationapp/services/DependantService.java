@@ -10,8 +10,18 @@ import java.util.Date;
 import java.util.List;
 
 public class DependantService {
+    DependantService dependantService;
+
+    public DependantService getDependantService() {
+        return dependantService;
+    }
+
+    public void setDependantService(DependantService dependantService) {
+        this.dependantService = dependantService;
+    }
+
     //Generic method to check if username has only digits
-    private static boolean onlyDigits(String str, int n)
+    private boolean onlyDigits(String str, int n)
     {
         for (int i = 0; i < n; i++) {
             if (str.charAt(i) < '0'
@@ -22,7 +32,7 @@ public class DependantService {
         return true;
     }
 
-    private static boolean hasSpecialCharacters(String s){
+    private boolean hasSpecialCharacters(String s){
         boolean hasCharacter = false;
         for (int i = 0; i < s.length(); i++) {
             // Checking the character for not being a letter,digit or space
@@ -36,7 +46,7 @@ public class DependantService {
         return hasCharacter;
     }
     //Generic method to check if name provided has digits in it
-    private static boolean hasDigits(String str){
+    private  boolean hasDigits(String str){
         boolean hasDigits = false;
         for(int i =0 ; i < str.length(); i++){
             if(Character.isDigit(str.charAt(i))){
@@ -46,26 +56,26 @@ public class DependantService {
         return hasDigits;
     }
 
-    public static  List<Dependant> getDependantsForUser(int userId){
+    public   List<Dependant> getDependantsForUser(int userId){
         List<Dependant> user_dependants = DependantDao.returnDependantsForUserId(userId);
         return  user_dependants;
     }
 
-    public  static String attachDependant(Date dateOfBirth, String firstName, String lastName,String userName,String gender,int user_id) {
+    public  String attachDependant(Date dateOfBirth, String firstName, String lastName,String userName,String gender,int user_id) {
         Dependant dependantReturned = DependantDao.returnDependant(userName);
         String error_message = "";
 
-        if(hasDigits(firstName) || hasSpecialCharacters(firstName) ){
+        if(dependantService.hasDigits(firstName) || dependantService.hasSpecialCharacters(firstName) ){
             error_message = "First name field has digits or special characters in it";
         } else if (dependantReturned!=null) {
             error_message = "User name already taken please chose a different one";
-        } else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
+        } else if(dependantService.hasDigits(lastName) || dependantService.hasSpecialCharacters(lastName)){
             error_message = "Last name field has digits or special characters  in it";
-        } else if (userName.length() < 6 || hasSpecialCharacters(userName) ) {
+        } else if (userName.length() < 6 || dependantService.hasSpecialCharacters(userName) ) {
             error_message = "User name field has characters less than 6 or has special characters ";
         } else if (Character.isDigit(userName.charAt(0))) {
             error_message = "User name field  can not start with a digit, please refill the field correctly below";
-        } else if (onlyDigits(userName, userName.length())) {
+        } else if (dependantService.onlyDigits(userName, userName.length())) {
             error_message ="User name field can not contain only digits, please refill the field correctly below :";
         }  else {
             if(dateOfBirth.getYear()+1900 < Calendar.getInstance().get(Calendar.YEAR)) {
@@ -90,7 +100,7 @@ public class DependantService {
 
     }
 
-    public static List<Dependant> getDependantsByName(String Name ){
+    public  List<Dependant> getDependantsByName(String Name ){
 
         List<Dependant> dependants = DependantDao.returnDependants();
         List<Dependant> deps = new ArrayList<>();
@@ -110,7 +120,7 @@ public class DependantService {
         return  deps;
     }
 
-    public static String deleteDependantsByUserName(String uName) {
+    public  String deleteDependantsByUserName(String uName) {
         List<Dependant> dependants = DependantDao.returnDependants();
         String error_message= "";
         if(!dependants.isEmpty()) {
@@ -131,12 +141,12 @@ public class DependantService {
 
     }
 
-    public static String updateDependantByUserName(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
+    public  String updateDependantByUserName(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
         String error_message = "";
-        if(hasDigits(firstName) || hasSpecialCharacters(firstName) ){
+        if(dependantService.hasDigits(firstName) || dependantService.hasSpecialCharacters(firstName) ){
             error_message = "First name field  has digits or special characters in it";
         }
-        else if(hasDigits(lastName) || hasSpecialCharacters(lastName)){
+        else if(dependantService.hasDigits(lastName) || dependantService.hasSpecialCharacters(lastName)){
             error_message = "Last name field has digits or special characters  in it, please refill the field correctly below :";
         } else {
             if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
@@ -148,7 +158,7 @@ public class DependantService {
         return error_message;
     }
 
-    public static void deleteAllDependantsForUser(int userId)  {
+    public void deleteAllDependantsForUser(int userId)  {
         List<Dependant> dependants = DependantDao.returnDependantsForUserId(userId);
         String error_message = "";
         if(!dependants.isEmpty()){
@@ -160,7 +170,7 @@ public class DependantService {
 
     }
 
-    public static String softDeleteDependantsByUserName(String uName) {
+    public  String softDeleteDependantsByUserName(String uName) {
         List<Dependant> dependants = DependantDao.returnDependants();
         String error_message= "";
         if(!dependants.isEmpty()) {
@@ -179,7 +189,7 @@ public class DependantService {
         return  error_message;
     }
 
-    public static String deleteAllDependants() {
+    public String deleteAllDependants() {
         List<Dependant> dependants = DependantDao.returnDependants();
         String error = "";
         if(dependants.isEmpty()){

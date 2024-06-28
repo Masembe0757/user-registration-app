@@ -21,7 +21,15 @@ public class SaveDependantBean implements Serializable {
     private String gender;
     private int id;
     private String username;
+    DependantService dependantService;
 
+    public DependantService getDependantService() {
+        return dependantService;
+    }
+
+    public void setDependantService(DependantService dependantService) {
+        this.dependantService = dependantService;
+    }
 
     public String getAttribute() {
         return attribute;
@@ -99,7 +107,7 @@ public class SaveDependantBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
     public String saveDependant(Date dateOfBirth, String firstName, String lastName,String userName,String gender,int user_id){
-        String message = DependantService.attachDependant(dateOfBirth,firstName,lastName,userName,gender,user_id);
+        String message = dependantService.attachDependant(dateOfBirth,firstName,lastName,userName,gender,user_id);
         if(message.isEmpty()){
             if(getCurrentUser().getRole()==1){
                 return "/pages/protected/dependants/dependants_all.xhtml";
@@ -113,7 +121,7 @@ public class SaveDependantBean implements Serializable {
         }
     }
     public String deleteDependant(String userName){
-        String message = DependantService.deleteDependantsByUserName(userName);
+        String message = dependantService.deleteDependantsByUserName(userName);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 FacesContext.getCurrentInstance().addMessage(null,
@@ -137,7 +145,7 @@ public class SaveDependantBean implements Serializable {
         }
     }
     public String updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
-        String message = DependantService.updateDependantByUserName(firstName,lastName,userName,dateOfBirth,gender);
+        String message = dependantService.updateDependantByUserName(firstName,lastName,userName,dateOfBirth,gender);
         if(message.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dependant updated successfully", null));
@@ -161,7 +169,7 @@ public class SaveDependantBean implements Serializable {
         }
     }
     public String softDeleteDependant(String userName){
-        String message = DependantService.softDeleteDependantsByUserName(userName);
+        String message = dependantService.softDeleteDependantsByUserName(userName);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 FacesContext.getCurrentInstance().addMessage(null,
@@ -217,7 +225,7 @@ public class SaveDependantBean implements Serializable {
     }
 
     public String deleteAllDependants() {
-        String message = DependantService.deleteAllDependants();
+        String message = dependantService.deleteAllDependants();
         if(message.isEmpty()){
             return "/pages/protected/dependants/dependants_all.xhtml";
         }else {
@@ -228,14 +236,14 @@ public class SaveDependantBean implements Serializable {
     }
 
     public String deleteAllDependantsOfUser(int userId) throws ParseException {
-        List<Dependant> userDependants = DependantService.getDependantsForUser(userId);
+        List<Dependant> userDependants = dependantService.getDependantsForUser(userId);
         if(userDependants.isEmpty()){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User has no dependants", null));
             return "/pages/protected/dependants/dependants.xhtml";
         }
         else {
-            DependantService.deleteAllDependantsForUser(userId);
+            dependantService.deleteAllDependantsForUser(userId);
             return "/pages/protected/dependants/dependants.xhtml";
         }
     }

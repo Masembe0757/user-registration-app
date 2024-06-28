@@ -21,6 +21,15 @@ public class SaveUserBean implements Serializable {
     private String email;
     private String password1;
     private String password2;
+    UserService userService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public String getPassword1() {
         return password1;
@@ -104,7 +113,7 @@ public class SaveUserBean implements Serializable {
 
     public String saveUser(String firstName, String lastName, String userName, Date dateOfBirth, String pass1,String pass2, String email) {
 
-        String message = UserService.addUser(firstName,lastName,userName,dateOfBirth,pass1,pass2,email);
+        String message = userService.addUser(firstName,lastName,userName,dateOfBirth,pass1,pass2,email);
         if(message.isEmpty()) {
             return  "/pages/protected/users/users.xhtml?faces-redirect=true";
             //Emailing
@@ -119,7 +128,7 @@ public class SaveUserBean implements Serializable {
     }
 
     public String deleteUser(String userName){
-        String message = UserService.deleteUserOfUserName(userName);
+        String message = userService.deleteUserOfUserName(userName);
         if(message.isEmpty()) {
             return  "/pages/protected/users/users.xhtml?faces-redirect=true";
         }else {
@@ -130,7 +139,7 @@ public class SaveUserBean implements Serializable {
 
     }
     public String updateUser(String firstName, String lastName, String userName, Date dateOfBirth, String password1,String password2, String email) {
-        String message = UserService.updateUserOfUserName(firstName, lastName, userName, dateOfBirth, password1,password2, email);
+        String message = userService.updateUserOfUserName(firstName, lastName, userName, dateOfBirth, password1,password2, email);
         if(message.isEmpty()) {
             if(getCurrentUser().getRole()==1){
                 return  "/pages/protected/users/users.xhtml?faces-redirect=true";
@@ -145,7 +154,7 @@ public class SaveUserBean implements Serializable {
         return "";
     }
     public String softDeleteUser(String userName) {
-        String message = UserService.softDeleteUserOfUserName(userName);
+        String message = userService.softDeleteUserOfUserName(userName);
         if(message.isEmpty()) {
             return  "/pages/protected/users/users.xhtml?faces-redirect=true";
         }else {
@@ -155,7 +164,7 @@ public class SaveUserBean implements Serializable {
         }
     }
     public int softDeleteCount() {
-        List<User> users = UserService.returnAllUsers();
+        List<User> users = userService.returnAllUsers();
         int softCount = 0;
         for(User user: users){
             if(user.getDeleted_at()==null){
@@ -167,7 +176,7 @@ public class SaveUserBean implements Serializable {
     }
     public int userCount(){
         int userNumber =0 ;
-        List<User> users = UserService.returnAllUsers();
+        List<User> users = userService.returnAllUsers();
         for(User user:users){
             userNumber++;
         }
@@ -184,7 +193,7 @@ public class SaveUserBean implements Serializable {
     }
 
     public String deleteAllUsers() {
-            String message = UserService.deleteAllUsers();
+            String message = userService.deleteAllUsers();
             if(message.isEmpty()){
                 return "/pages/protected/users/users.xhtml";
             }else {
@@ -201,7 +210,7 @@ public class SaveUserBean implements Serializable {
     }
 
     public void makeAdmin(String userName) {
-        User user = UserService.returnUserOfUserName(userName);
+        User user = userService.returnUserOfUserName(userName);
         if(user.getRole()!=1){
             UserService.makAdmin(userName);
         }else {
