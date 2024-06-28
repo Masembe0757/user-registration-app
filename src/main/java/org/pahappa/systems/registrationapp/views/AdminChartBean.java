@@ -19,6 +19,15 @@ public class AdminChartBean {
     int mon_user,mon_dep,tue_user,tue_dep,wed_user,wed_dep,thur_user,thur_dep,fri_user,fri_dep,sat_user,sat_dep,sun_user,sun_dep  =0;
     private BarChartModel weeklyActivityModel;
     private PieChartModel genderStatisticsModel;
+    private  UserService userService;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostConstruct
     public void init() {
@@ -62,7 +71,7 @@ public class AdminChartBean {
     private void createWeeklyActivityModel() {
         weeklyActivityModel = new BarChartModel();
 
-        List<User> usersReturned = UserService.returnAllUsers();
+        List<User> usersReturned = userService.returnAllUsers();
         List<Dependant> dependantsReturned = DependantDao.returnDependants();
 
         if(!usersReturned.isEmpty()) {
