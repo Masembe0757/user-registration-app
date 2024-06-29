@@ -104,7 +104,7 @@ public class SaveDependantBean implements Serializable {
             if(getCurrentUser().getRole()==1){
                 return "/pages/protected/dependants/dependants_all.xhtml";
             } else{
-                return "/pages/protected/home/home_user.xhtml";
+                return "/pages/protected/home/home.xhtml";
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -157,7 +157,7 @@ public class SaveDependantBean implements Serializable {
         if(getCurrentUser().getRole()==1){
             return"/pages/protected/users/users.xhtml";
         }else {
-            return"/pages/protected/home/home_user.xhtml";
+            return"/pages/protected/home/home.xhtml";
         }
     }
     public String softDeleteDependant(String userName){

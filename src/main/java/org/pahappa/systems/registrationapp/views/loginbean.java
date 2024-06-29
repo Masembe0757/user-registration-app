@@ -68,7 +68,7 @@ public class loginbean {
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/home/home_user.xhtml";
+                    return "/pages/protected/home/home.xhtml";
                 }
                 else {
                     FacesContext context = FacesContext.getCurrentInstance();

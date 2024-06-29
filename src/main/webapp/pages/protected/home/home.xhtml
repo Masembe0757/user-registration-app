@@ -87,6 +87,11 @@
     </style>
 </h:head>
 <h:body>
+
+
+
+    <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+
     <div class="sidebar">
         <h:graphicImage name="images/Admin.png" alt="Admin" />
         <ul>
@@ -128,5 +133,55 @@
             <p:chart type="pie" model="#{adminChartBean.genderStatisticsModel}" />
         </div>
     </div>
+
+
+
+</ui:fragment>
+
+
+<ui:fragment rendered="#{not saveuserbean.isAdmin()}">
+
+    <div class="sidebar">
+        <h:graphicImage name="images/normal.png" alt="User logo" />
+        <ul>
+            <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
+            <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
+            <li><h:link value="Add dependant" outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
+            <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+            <h:form>
+                <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
+            </h:form>
+        </ul>
+    </div>
+    <div class="content">
+        <h1 style="color: blueviolet" >User #{saveuserbean.getCurrentUserName()} Dashboard</h1>
+        <div class="cards">
+            <p:panelGrid columns="4" styleClass="card-grid">
+                <p:panel header="My Dependants" styleClass="card">
+                    <h:graphicImage name="images/Dependants.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.femaleCount()+userChartBean.maleCount()}" />
+                </p:panel>
+                <p:panel header="Male Dependants" styleClass="card">
+                    <h:graphicImage name="images/male.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.maleCount()}" />
+                </p:panel>
+                <p:panel header="Female Dependants" styleClass="card">
+                    <h:graphicImage name="images/img.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.femaleCount()}" />
+                </p:panel>
+                <p:panel header="Dependants W/D" styleClass="card">
+                    <h:graphicImage name="images/soft.png" class="logo" alt="deleted users" />
+                    <h:outputText value="#{userChartBean.dependantsWithDelete()}" />
+                </p:panel>
+            </p:panelGrid>
+        </div>
+        <f:event type="preRenderView" listener="#{userChartBean.updateCharts()}" />
+        <div class="charts">
+            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
+            <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
+        </div>
+    </div>
+</ui:fragment>
+
 </h:body>
 </html>

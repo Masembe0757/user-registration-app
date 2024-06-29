@@ -126,7 +126,7 @@
         <ui:fragment rendered="#{not saveuserbean.isAdmin()}">
             <h:graphicImage name="images/normal.png" alt="User logo" />
             <ul>
-                <li><h:link value="Dashboard" outcome="/pages/protected/home/home_user.xhtml" /></li>
+                <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
                 <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
                 <li><h:link value="Add dependant" outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
                 <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
