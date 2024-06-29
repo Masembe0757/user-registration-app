@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 public class DependantService {
 
+
     //initialising a singleton
     private static DependantService dependantService = new DependantService();
     private DependantService(){};
@@ -29,6 +30,13 @@ public class DependantService {
             }
         }
         return true;
+    }
+    public Dependant.Gender dependantGender(String gender){
+        if(gender.equals("female")){
+            return Dependant.Gender.female;
+        }else {
+            return Dependant.Gender.male;
+        }
     }
 
     private boolean hasSpecialCharacters(String s){
@@ -83,7 +91,7 @@ public class DependantService {
                 dependant.setFirstname(firstName);
                 dependant.setLastname(lastName);
                 dependant.setUsername(userName);
-                dependant.setGender(Dependant.Gender.valueOf(gender));
+                dependant.setGender(gender);
                 dependant.setDateOfBirth(dateOfBirth);
 
                 //attaching dependant to user

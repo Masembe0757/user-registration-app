@@ -7,6 +7,7 @@ public class Dependant extends Account{
         male,
         female,
     }
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     @ManyToOne
     private User user;
@@ -15,8 +16,8 @@ public class Dependant extends Account{
         return gender;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setGender(String gender) {
+        this.gender = Gender.valueOf(gender);
     }
 
     public User getUser() {
