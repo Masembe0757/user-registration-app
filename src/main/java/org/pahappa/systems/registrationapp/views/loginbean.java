@@ -64,19 +64,10 @@ public class loginbean {
         if (user != null) {
             String decodedPassword = new String(Base64.getDecoder().decode(user.getPassword()));
             if(decodedPassword.equals(passWord)){
-                if(user.getRole() == 0){
                     FacesContext context = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = context.getExternalContext();
                     externalContext.getSessionMap().put("currentUser", user);
                     return "/pages/protected/home/home.xhtml";
-                }
-                else {
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = context.getExternalContext();
-                    externalContext.getSessionMap().put("currentUser", user);
-                    return "/pages/protected/home/home.xhtml";
-                }
-
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password/email", null));

@@ -6,6 +6,7 @@
                 template="/template/template.xhtml">
 
     <ui:define name="content">
+        <ui:fragment rendered="#{saveuserbean.isAdmin()}">
         <h:form class="autoMargin">
                     <h1>System has the following users</h1>
                     <h:panelGrid columns="2">
@@ -47,5 +48,12 @@
             <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/>
             <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 4.5px; color: red" />
         </h:form>
+    </ui:fragment>
+        <ui:fragment rendered="#{not saveuserbean.isAdmin()}"  >
+            <script>
+                window.alert("you are not authorized to view this page")
+                window.location.href = '/user_registration_app_war_exploded/pages/protected/home/home.xhtml';
+            </script>
+        </ui:fragment>
     </ui:define>
 </ui:composition>

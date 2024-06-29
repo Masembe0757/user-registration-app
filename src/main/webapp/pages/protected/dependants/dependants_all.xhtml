@@ -5,7 +5,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
 
+
+
     <ui:define name="content">
+        <ui:fragment rendered="#{saveuserbean.isAdmin()}">
         <h:form class="autoMargin">
             <h1>System has the following dependants</h1>
             <h:panelGrid columns="2">
@@ -44,5 +47,13 @@
             </p:dataTable>
             <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all dependants?');" action="#{savedependantbean.deleteAllDependants()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px;color: red"/>
         </h:form>
+    </ui:fragment>
+        <ui:fragment rendered="#{not saveuserbean.isAdmin()}"  >
+            <script>
+                window.alert("you are not authorized to view this page")
+                window.location.href = '/user_registration_app_war_exploded/pages/protected/home/home.xhtml';
+            </script>
+        </ui:fragment>
+
     </ui:define>
 </ui:composition>
