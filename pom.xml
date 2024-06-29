@@ -8,6 +8,14 @@
   <name>user-registration-app Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -101,7 +109,16 @@
       <artifactId>primefaces</artifactId>
       <version>7.0</version>
     </dependency>
+
+    <!-- Java EE annotations, including PostConstruct -->
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version> <!-- Or the version you need -->
+    </dependency>
+
   </dependencies>
+
 
   <build>
     <finalName>user-registration-app</finalName>
