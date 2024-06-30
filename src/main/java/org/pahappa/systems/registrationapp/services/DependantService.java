@@ -113,13 +113,13 @@ public class DependantService {
         List<Dependant> deps = new ArrayList<>();
         if(!dependants.isEmpty()) {
             for (Dependant d : dependants) {
-                if (d.getUsername().equalsIgnoreCase(Name)) {
+                if (d.getUsername().toLowerCase().contains(Name.toLowerCase())) {
                     deps.add(d);
-                } else if (d.getFirstname().equalsIgnoreCase(Name)) {
+                } else if (d.getFirstname().toLowerCase().contains(Name.toLowerCase())) {
                     deps.add(d);
-                } else if (d.getLastname().equalsIgnoreCase(Name)) {
+                } else if (d.getLastname().toLowerCase().contains(Name.toLowerCase())) {
                     deps.add(d);
-                } else if (d.getGender().toString().equalsIgnoreCase(Name)) {
+                } else if (d.getGender().toString().toLowerCase().contains(Name.toLowerCase())) {
                     deps.add(d);
                 }
             }

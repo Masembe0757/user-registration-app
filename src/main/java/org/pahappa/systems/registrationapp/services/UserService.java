@@ -276,11 +276,11 @@ public class UserService {
        List<User> allUsers = UserRegDao.getUserRegDao().returnAllUsers();
        List<User> returnedUsers = new ArrayList<>();
        for(User u : allUsers){
-           if(u.getUsername().equalsIgnoreCase(name)){
+           if(u.getUsername().toLowerCase().contains(name.toLowerCase())){
                returnedUsers.add(u);
-           } else if (u.getFirstname().equalsIgnoreCase(name)) {
+           } else if (u.getFirstname().toLowerCase().contains(name.toLowerCase())) {
                returnedUsers.add(u);
-           } else if (u.getLastname().equalsIgnoreCase(name)) {
+           } else if (u.getLastname().toLowerCase().contains(name.toLowerCase())) {
                returnedUsers.add(u);
            }
        }

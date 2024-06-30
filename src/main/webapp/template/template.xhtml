@@ -102,8 +102,8 @@
         }
         .ui-datatable-scrollable-body {
             max-height: 350px;
+            padding: 5px;
         }
-
 
     </style>
 </h:head>
@@ -124,7 +124,7 @@
             </ul>
         </ui:fragment>
         <ui:fragment rendered="#{not saveuserbean.isAdmin()}">
-            <h:graphicImage name="images/normal.png" alt="User logo" />
+            <h:graphicImage name="images/R.png" alt="User logo" />
             <ul>
                 <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
                 <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>

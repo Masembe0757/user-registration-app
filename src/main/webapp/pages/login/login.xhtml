@@ -1,24 +1,97 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/template2/template.xhtml">
-    <ui:define name="content">
-        <h:form class="autoMargin" style="max-width: 600px;">
-            <h1 style="color: blueviolet">User Management System</h1>
-            <p:panel header="Log in" style="background-color: ghostwhite" styleClass="login-panel">
-                <p:messages id="messages" autoUpdate="true" closable="true" />
-                <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText id="username" value="#{loginbean.username}" required="true" label="Username" />
+ <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://xmlns.jcp.org/jsf/html"
+          xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login Page</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
 
-                    <h:outputLabel for="password" value="Password/Email:" />
-                    <p:password id="password" value="#{loginbean.password}" required="true" label="Password"  />
-                </p:panelGrid>
+            .login-container {
+                width: 100%;
+                max-width: 400px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: white;
+                border-radius: 10px;
+            }
 
-                <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.password)}"  ajax="false" styleClass="ui-button-primary" style="width: 100%;background-color: lawngreen" />
-            </p:panel>
+            .login-panel {
+                border: none;
+                box-shadow: none;
+            }
+
+            .ui-panel-title {
+                font-size: 1.5em;
+                color: #333333;
+                text-align: center;
+            }
+
+            .ui-panelgrid-label {
+                color: #666666;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .ui-panelgrid-value input {
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+
+            .login-button {
+                width: 100%;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                padding: 10px;
+                font-size: 1em;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .login-button:hover {
+                background-color: #218838;
+            }
+
+            .ui-messages {
+                margin-bottom: 10px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+            <div class="login-container">
+                <p:panel header="Log in" styleClass="login-panel">
+                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                    <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{loginbean.username}" required="true" label="Username" />
+
+                        <h:outputLabel for="password" value="Password" />
+                        <p:password id="password" value="#{loginbean.password}" required="true" label="Password"  />
+                    </p:panelGrid>
+
+                    <p:commandButton value="Log in" action="#{loginbean.login(loginbean.username,loginbean.password)}"  ajax="false" styleClass="ui-button-primary login-button" />
+                </p:panel>
+            </div>
         </h:form>
-    </ui:define>
-</ui:composition>
+
+        <h:outputScript>
+            // JavaScript for additional functionality if needed
+        </h:outputScript>
+    </h:body>
+    </html>
+

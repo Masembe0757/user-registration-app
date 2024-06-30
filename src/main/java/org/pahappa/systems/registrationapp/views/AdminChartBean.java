@@ -141,6 +141,9 @@ public class AdminChartBean {
 
         weeklyActivityModel.setTitle("Weekly Activity");
         weeklyActivityModel.setLegendPosition("ne");
+        weeklyActivityModel.setLegendPosition("ne");
+        weeklyActivityModel.setAnimate(true); // Adding animation
+        weeklyActivityModel.setExtender("barChartExtender");
         Axis xAxis = weeklyActivityModel.getAxis(AxisType.X);
         xAxis.setLabel("Day");
         Axis yAxis = weeklyActivityModel.getAxis(AxisType.Y);
@@ -172,5 +175,8 @@ public class AdminChartBean {
         genderStatisticsModel.setFill(false);
         genderStatisticsModel.setShowDataLabels(true);
         genderStatisticsModel.setDiameter(200);
+        genderStatisticsModel.setShadow(true); // Adding shadow for depth
+        genderStatisticsModel.setSliceMargin(5); // Adding margin between slices
+        genderStatisticsModel.setExtender("pieChartExtender");
     }
 }
