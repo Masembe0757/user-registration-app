@@ -6,6 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>User management home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/4.1.0/primeicons.css" />
     <style type="text/css">
         /* style.css */
         body {
@@ -14,9 +15,8 @@
             padding: 0;
             display: flex;
         }
-
         .sidebar {
-            width: 150px;
+            width: 130px;
             background-color: #2d3e50;
             color: white;
             padding: 20px;
@@ -24,7 +24,7 @@
         }
 
         .sidebar img {
-            width: 100%;
+            width: 80%;
             margin-bottom: 20px;
         }
 
@@ -35,6 +35,7 @@
 
         .sidebar ul li {
             margin-bottom: 10px;
+            font-size: 12px;
         }
 
         .sidebar ul li a {
@@ -114,6 +115,10 @@
             border-radius: 10px;
             max-width: 90%;
         }
+        .sidebar .pi {
+            margin-right: 10px;
+            font-size: 1em;
+        }
 
     </style>
 </h:head>
@@ -126,13 +131,43 @@
     <div class="sidebar">
         <h:graphicImage name="images/Admin.png" alt="Admin" />
         <ul>
-            <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
-            <li><h:link value="Users" outcome="/pages/protected/users/users.xhtml" /></li>
-            <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants_all.xhtml" /></li>
-            <li><h:link value="Register user" outcome="/pages/protected/users/register.xhtml" /> </li>
-            <li><h:link value="My profile" icon="pi pi-folder-open" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+            <li>
+                <h:link outcome="/pages/protected/home/home.xhtml">
+                    <span class="pi pi-home"></span>
+                    <h:outputText value="Dashboard" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/users.xhtml">
+                    <span class="pi pi-users"></span>
+                    <h:outputText value="Users" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/dependants_all.xhtml">
+                    <span class="pi pi-user-plus"></span>
+                    <h:outputText value="Dependants" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/register.xhtml">
+                    <span class="pi pi-user-edit"></span>
+                    <h:outputText value="Register user" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
+                    <span class="pi pi-folder-open"></span>
+                    <h:outputText value="My profile" />
+                </h:link>
+            </li>
             <h:form>
-            <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
+                <li>
+                    <h:commandLink action="#{loginbean.logout()}">
+                        <span class="pi pi-sign-out"></span>
+                        <h:outputText value="Log out" />
+                    </h:commandLink>
+                </li>
             </h:form>
         </ul>
     </div>
@@ -173,12 +208,37 @@
     <div class="sidebar">
         <h:graphicImage name="images/R.png" alt="User logo" />
         <ul>
-            <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
-            <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
-            <li><h:link value="Add dependant" outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}" /></li>
-            <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+            <li>
+                <h:link outcome="/pages/protected/home/home.xhtml">
+                    <span class="pi pi-home"></span>
+                    <h:outputText value="Dashboard" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}">
+                    <span class="pi pi-users"></span>
+                    <h:outputText value="Dependants" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}">
+                    <span class="pi pi-user-plus"></span>
+                    <h:outputText value="Add dependant" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
+                    <span class="pi pi-folder-open"></span>
+                    <h:outputText value="My profile" />
+                </h:link>
+            </li>
             <h:form>
-                <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
+                <li>
+                    <h:commandLink action="#{loginbean.logout()}">
+                        <span class="pi pi-sign-out"></span>
+                        <h:outputText value="Log out" />
+                    </h:commandLink>
+                </li>
             </h:form>
         </ul>
     </div>
