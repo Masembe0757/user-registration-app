@@ -17,7 +17,7 @@
                     <f:ajax event="keyup" render="results" listener="dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)"/>
                 </h:inputText>
             </h:panelGrid>
-            <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" var= "dependant" emptyMessage="No Dependants found">
+            <p:dataTable scrollable="true" id="results" paginator="true" rows="10" paginatorPosition="bottom" styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.searchDependantByName(dependantdisplaybean.attribute)}" var= "dependant" emptyMessage="No Dependants found">
                 <p:column headerText="User name">
                     #{dependant.username}
                 </p:column>
