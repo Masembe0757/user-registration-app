@@ -131,4 +131,8 @@ public class DisplayUsersBean implements Serializable {
         }
     }
 
+    public User searchUserOfName(String userName) {
+        User user = UserService.getUserService().returnUserOfUserName(userName);
+        return  user;
+    }
 }

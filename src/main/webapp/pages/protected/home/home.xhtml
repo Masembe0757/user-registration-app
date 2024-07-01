@@ -129,8 +129,8 @@
             <li><h:link value="Dashboard" outcome="/pages/protected/home/home.xhtml" /></li>
             <li><h:link value="Users" outcome="/pages/protected/users/users.xhtml" /></li>
             <li><h:link value="Dependants" outcome="/pages/protected/dependants/dependants_all.xhtml" /></li>
-            <li><h:link value="Register user" outcome="/pages/protected/users/register.xhtml" /></li>
-            <li><h:link value="My profile" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
+            <li><h:link value="Register user" outcome="/pages/protected/users/register.xhtml" /> </li>
+            <li><h:link value="My profile" icon="pi pi-folder-open" outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}" /></li>
             <h:form>
             <li><h:commandLink value="Log out"  action = "#{loginbean.logout()}" /></li>
             </h:form>

@@ -33,9 +33,6 @@
                 <p:column headerText="Gender">
                     #{dependant.gender}
                 </p:column>
-                <!-- Add more columns as per your user properties -->
-
-                <!-- Example of linking to dependants.xhtml -->
                 <p:column headerText="Actions">
                     <h:commandButton style="color: red; font-size: 10px" value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username)}" outcome ="/pages/protected/dependants/dependants_all.xhtml"/>  <span></span>
                     <h:commandButton value="SoftDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;font-size: 10px" outcome = "/pages/protected/dependants/dependants.xhtml?id=#{dependantdisplaybean.user_id}"/>  <span></span>

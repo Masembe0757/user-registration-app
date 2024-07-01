@@ -11,7 +11,7 @@
     <ui:define name="content">
         <h:form class="autoMargin">
                     <h1>These are your details #{saveuserbean.username}</h1>
-                    <p:dataTable value="#{displayusersbean.searchUserByName(saveuserbean.username)}" var="user" emptyMessage="No users found">
+                    <p:dataTable value="#{displayusersbean.searchUserOfName(saveuserbean.username)}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}
                         </p:column>
@@ -24,13 +24,13 @@
                         <p:column headerText="Date of birth">
                             #{displayusersbean.dateFormat(user.dateOfBirth)}
                         </p:column>
-                        <p:column resizable="true" headerText="Email">
+                        <p:column resizable="true" colspan="3" headerText="Email">
                             #{user.email}
                         </p:column>
-                        <p:column headerText="Password">
+                        <p:column colspan="2" headerText="Password">
                             #{user.password}
                         </p:column>
-                        <p:column>
+                        <p:column headerText="Actions">
                             <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{saveuserbean.username}">
                                 <span class="ui-button-text">Update</span>
                             </p:link>
