@@ -108,11 +108,11 @@ public class DisplayDependantBean implements Serializable {
         return  dependantList;
     }
     public List<Dependant> searchDependantByName(String name) {
-        List<Dependant> dependants = DependantDao.getDependantDao().returnDependants();
+        List<Dependant> dependantsPag = DependantDao.getDependantDao().returnDependantsPaginated(1,5);
         List<Dependant> dependantList = new ArrayList<>();
 
         if (name.isEmpty()) {
-            for (Dependant dependant : dependants) {
+            for (Dependant dependant : dependantsPag) {
                 if (dependant.getDeleted_at() == null) {
                     dependantList.add(dependant);
                 }

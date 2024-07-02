@@ -53,6 +53,33 @@ public class UserRegDao {
             }
                 return users;
     }
+
+    public  List<User> returnAllUsersPaginated(int start, int size){
+        List<User> users = null;
+        try{
+            SessionFactory sf = SessionConfiguration.getSessionFactory();
+            Session session = sf.openSession();
+            Transaction trs = session.beginTransaction();
+            Query qry = session.createQuery("from User");
+            qry.setFirstResult(start-1);
+            qry.setMaxResults(size);
+            users = qry.list();
+            trs.commit();
+            SessionConfiguration.shutdown();
+
+        }
+        catch (Exception e){
+            SessionConfiguration.shutdown();
+        }
+        return users;
+    }
+
+
+
+
+
+
+
     public   User returnUser(String userName){
         User user = null;
         try {
