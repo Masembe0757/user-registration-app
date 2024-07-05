@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>User management home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/4.1.0/primeicons.css" />
+    <style type="text/css">
+        /* style.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 130px;
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px;
+            height: 115vh;
+        }
+
+        .sidebar img {
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f4f5f7;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f4f4f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-grid {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+
+        .card {
+            flex: 1;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card h:outputText {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-between;
+        }
+        .charts .ui-chart {
+            width: 48%;
+        }
+        .logo{
+            width: 40px;
+            height: 40px;
+        }
+        .dashboard-title {
+            color: blueviolet;
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to right, #f4f4f9, #e0e0eb);
+            border-radius: 10px;
+            max-width: 90%;
+        }
+        .sidebar .pi {
+            margin-right: 10px;
+            font-size: 1em;
+        }
+
+    </style>
+</h:head>
+<h:body>
+
+
+
+    <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+
+    <div class="sidebar">
+        <h:graphicImage name="images/Admin.png" alt="Admin" />
+        <ul>
+            <li>
+                <h:link outcome="/pages/protected/home/home.xhtml">
+                    <span class="pi pi-home"></span>
+                    <h:outputText value="Dashboard" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/users.xhtml">
+                    <span class="pi pi-users"></span>
+                    <h:outputText value="Users" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/dependants_all.xhtml">
+                    <span class="pi pi-user-plus"></span>
+                    <h:outputText value="Dependants" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/register.xhtml">
+                    <span class="pi pi-user-edit"></span>
+                    <h:outputText value="Register user" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
+                    <span class="pi pi-folder-open"></span>
+                    <h:outputText value="My profile" />
+                </h:link>
+            </li>
+            <h:form>
+                <li>
+                    <h:commandLink action="#{loginbean.logout()}">
+                        <span class="pi pi-sign-out"></span>
+                        <h:outputText value="Log out" />
+                    </h:commandLink>
+                </li>
+            </h:form>
+        </ul>
+    </div>
+    <div class="content">
+        <h1 class="dashboard-title">Admin #{saveuserbean.getCurrentUserName()} Dashboard</h1>
+        <div class="cards">
+            <p:panelGrid columns="4" styleClass="card-grid">
+                <p:panel header="Available Users" styleClass="card">
+                    <h:graphicImage name="images/Dependants.png" class="logo" alt="users" />
+                    <h:outputText value="#{saveuserbean.userCount()}" />
+                </p:panel>
+                <p:panel header="Available Dependants" styleClass="card">
+                    <h:graphicImage name="images/Dependants.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{savedependantbean.dependantCount()}" />
+                </p:panel>
+                <p:panel header="Users W/D" styleClass="card">
+                    <h:graphicImage name="images/soft.png" class="logo" alt="deleted users" />
+                    <h:outputText value="#{saveuserbean.softDeleteCount()}" />
+                </p:panel>
+                <p:panel header="Dependants W/D" styleClass="card">
+                    <h:graphicImage name="images/soft.png" class="logo" alt="deleted dependants" />
+                    <h:outputText value="#{savedependantbean.softDeleteCount()}" />
+                </p:panel>
+            </p:panelGrid>
+        </div>
+        <f:event type="preRenderView" listener="#{adminChartBean.updateCharts()}" />
+        <div class="charts">
+            <p:chart type="bar" model="#{adminChartBean.weeklyActivityModel}" />
+            <p:chart type="pie" model="#{adminChartBean.genderStatisticsModel}" />
+        </div>
+    </div>
+
+</ui:fragment>
+
+
+<ui:fragment rendered="#{not saveuserbean.isAdmin()}">
+
+    <div class="sidebar">
+        <h:graphicImage name="images/R.png" alt="User logo" />
+        <ul>
+            <li>
+                <h:link outcome="/pages/protected/home/home.xhtml">
+                    <span class="pi pi-home"></span>
+                    <h:outputText value="Dashboard" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/dependants.xhtml?id=#{saveuserbean.getCurrentId()}">
+                    <span class="pi pi-users"></span>
+                    <h:outputText value="Dependants" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}">
+                    <span class="pi pi-user-plus"></span>
+                    <h:outputText value="Add dependant" />
+                </h:link>
+            </li>
+            <li>
+                <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
+                    <span class="pi pi-folder-open"></span>
+                    <h:outputText value="My profile" />
+                </h:link>
+            </li>
+            <h:form>
+                <li>
+                    <h:commandLink action="#{loginbean.logout()}">
+                        <span class="pi pi-sign-out"></span>
+                        <h:outputText value="Log out" />
+                    </h:commandLink>
+                </li>
+            </h:form>
+        </ul>
+    </div>
+    <div class="content">
+        <h1  class="dashboard-title" >User #{saveuserbean.getCurrentUserName()} Dashboard</h1>
+        <div class="cards">
+            <p:panelGrid columns="4" styleClass="card-grid">
+                <p:panel header="My Dependants" styleClass="card">
+                    <h:graphicImage name="images/Dependants.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.femaleCount()+userChartBean.maleCount()}" />
+                </p:panel>
+                <p:panel header="Male Dependants" styleClass="card">
+                    <h:graphicImage name="images/male.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.maleCount()}" />
+                </p:panel>
+                <p:panel header="Female Dependants" styleClass="card">
+                    <h:graphicImage name="images/img.png" class="logo" alt="dependants" />
+                    <h:outputText value="#{userChartBean.femaleCount()}" />
+                </p:panel>
+                <p:panel header="Dependants W/D" styleClass="card">
+                    <h:graphicImage name="images/soft.png" class="logo" alt="deleted users" />
+                    <h:outputText value="#{userChartBean.dependantsWithDelete()}" />
+                </p:panel>
+            </p:panelGrid>
+        </div>
+        <f:event type="preRenderView" listener="#{userChartBean.updateCharts()}" />
+        <div class="charts">
+            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
+            <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
+        </div>
+    </div>
+</ui:fragment>
+
+    <h:outputScript>
+        function chartExtender() {
+            this.cfg.seriesDefaults.rendererOptions = {
+                barPadding: 10,
+                barMargin: 15,
+                shadowDepth: 2,
+                shadowAlpha: 0.3
+            };
+            this.cfg.grid = {
+                background: '#f9f9f9',
+                borderColor: '#ccc',
+                gridLineColor: '#eee',
+                drawBorder: true,
+                shadow: false
+            };
+        }
+
+        function pieChartExtender() {
+            this.cfg.seriesDefaults.rendererOptions = {
+                showDataLabels: true,
+                sliceMargin: 4,
+                shadow: true,
+                shadowAngle: 45,
+                shadowOffset: 1.25,
+                shadowDepth: 2
+            };
+            this.cfg.grid = {
+                background: '#f9f9f9',
+                borderColor: '#ccc',
+                gridLineColor: '#eee',
+                drawBorder: true,
+                shadow: false
+            };
+        }
+        function barChartExtender() {
+            this.cfg.seriesColors = ['#007bff', '#28a745', '#ffc107', '#dc3545']; // Set colors for bars
+            this.cfg.grid = {
+                background: '#ffffff', // Chart background
+                borderColor: '#ddd',
+                gridLineColor: '#eee',
+                drawBorder: true,
+                shadow: false
+            };
+        }
+    </h:outputScript>
+
+
+</h:body>
+</html>
