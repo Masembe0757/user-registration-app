@@ -137,25 +137,6 @@ public class DependantDao {
         }
         return dependants;
     }
-    public  List<Dependant> returnDependantsPaginated(int start, int size) {
-        List<Dependant> dependants = new ArrayList<>();
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Dependant");
-            qry.setFirstResult(start-1);
-            qry.setMaxResults(size);
-            dependants = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return dependants;
-    }
-
     public  void softDeleteDependant(String userName) {
         try {
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

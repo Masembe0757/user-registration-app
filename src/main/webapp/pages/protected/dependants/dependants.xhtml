@@ -18,7 +18,7 @@
                 </h:inputText>
             </h:panelGrid>
             <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.dependantsForUser(dependantdisplaybean.attribute,dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
-                         paginator="true" rows="10" paginatorPosition="bottom">
+                         paginator="true" rows="5" paginatorPosition="bottom">
                 <p:column headerText="User name">
                     <h:outputText value="#{dependant.username} " />
                 </p:column>

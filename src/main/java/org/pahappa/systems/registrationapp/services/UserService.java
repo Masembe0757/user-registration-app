@@ -201,10 +201,6 @@ public class UserService {
        List<User> usersList = UserRegDao.getUserRegDao().returnAllUsers();
            return usersList;
        }
-    public List<User> returnPaginatedAllUsers(int start , int size)  {
-        List<User> usersList = UserRegDao.getUserRegDao().returnAllUsersPaginated(start,size);
-        return usersList;
-    }
 
    public  User returnUserOfUserName(String userName)  {
        return UserRegDao.getUserRegDao().returnUser(userName);

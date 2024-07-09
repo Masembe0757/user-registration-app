@@ -99,10 +99,9 @@ public class DisplayUsersBean implements Serializable {
     }
     public List<User> searchUserByName(String name){
         List<User> users = UserService.getUserService().returnAllUsers();
-        List<User> usersPag = UserService.getUserService().returnPaginatedAllUsers(1,5);
         List<User> userList = new ArrayList<>();
         if(name.isEmpty()){
-            for (User user : usersPag) {
+            for (User user : users) {
                 if (user.getDeleted_at() == null) {
                     userList.add(user);
                 }

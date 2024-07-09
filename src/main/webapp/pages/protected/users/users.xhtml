@@ -15,7 +15,7 @@
                             <f:ajax event="keyup" render="results" listener="displayusersbean.searchUserByName(displayusersbean.name)" />
                         </h:inputText>
                     </h:panelGrid>
-                    <p:dataTable scrollable="true" id="results" paginator="true" rows="10" paginatorPosition="bottom"   styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
+                    <p:dataTable scrollable="true" id="results" paginator="true" rows="5" paginatorPosition="bottom"   styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
                         <p:column headerText="User name">
                             #{user.username}
                         </p:column>
