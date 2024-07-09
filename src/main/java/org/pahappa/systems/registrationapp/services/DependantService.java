@@ -157,7 +157,7 @@ public class DependantService {
             error_message = "Last name field has digits or special characters  in it, please refill the field correctly below :";
         } else {
             if (dateOfBirth.getYear() + 1900 < Calendar.getInstance().get(Calendar.YEAR)) {
-                DependantDao.getDependantDao().updateDependant(firstName, lastName, userName, dateOfBirth, gender);
+                DependantDao.getDependantDao().updateDependant(firstName, lastName, userName, dateOfBirth, Dependant.Gender.valueOf(gender));
             } else {
                 error_message = "Date of birth provided is a future date";
             }

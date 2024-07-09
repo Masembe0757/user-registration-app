@@ -7,18 +7,77 @@
     <f:metadata>
         <f:viewParam name="id" value="#{dependantdisplaybean.user_id}" />
     </f:metadata>
-
     <ui:define name="content">
+
+        <h:form id="updateDependantForm">
+            <p:dialog  widgetVar="updateDependantDialog" modal="true" resizable="false">
+                <p:panel header="Update Dependant" styleClass="login-panel">
+                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                    <p:panelGrid columns="2" id="content" style="margin-bottom: 10px;" columnClasses="label, value">
+                        <h:outputLabel for="UserName" value= "User name: "/>
+                        <h:inputText id="UserName" value="#{savedependantbean.username}" disabled="true" label ="Username"/>
+                        <h:outputLabel for="FirstName" value= "Firstname: "/>
+                        <h:inputText id="FirstName" value="#{savedependantbean.firstname}" required="true" label ="Firstname"/>
+                        <h:outputLabel for="LastName" value="Lastname: "/>
+                        <h:inputText id="LastName" value="#{savedependantbean.lastname}" required="false" label ="Lastname"/>
+                        <h:outputLabel for="gender" value="Gender: " />
+                        <p:selectOneRadio id="gender" value="#{savedependantbean.gender}" required="true" label="gender">
+                            <f:selectItem itemLabel="Male" itemValue="male" />
+                            <f:selectItem itemLabel="Female" itemValue="female" />
+                        </p:selectOneRadio>
+                        <h:outputLabel for="DateOfBirth" value="Birthdate: "/>
+                        <p:calendar id="DateOfBirth" value="#{savedependantbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:commandButton value="Update" action="#{savedependantbean.updateDependant(savedependantbean.firstname,savedependantbean.lastname,savedependantbean.username,savedependantbean.dateOfBirth,savedependantbean.gender)}" update=":updateDependantForm @form"  oncomplete="handleDialog3Close();" styleClass="ui-button-primary" style="width: 100%;" />
+                </p:panel>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="registerDependantDialog">
+            <p:dialog widgetVar="registerDependantDialog" modal="true" resizable="false">
+                <p:panel header="Register dependant" styleClass="login-panel">
+                    <p:messages id= "messages2"  autoUpdate="true" closable="true" />
+                    <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                        <h:outputLabel for="FirstName2" value= "Firstname: "/>
+                        <h:inputText id="FirstName2" value="#{savedependantbean.firstname}" required="true" label ="Firstname"/>
+                        <h:outputLabel for="LastName2" value="Lastname: "/>
+                        <h:inputText id="LastName2" value="#{savedependantbean.lastname}" required="false" label ="Lastname"/>
+                        <h:outputLabel for="username2" value="Username:" />
+                        <h:inputText id="username2" value="#{savedependantbean.username}" required="true" label="Username" />
+                        <h:outputLabel for="gender2" value="Gender: " />
+                        <p:selectOneRadio id="gender2" value="#{savedependantbean.gender}" required="true" label="gender">
+                            <f:selectItem itemLabel="Male" itemValue="male" />
+                            <f:selectItem itemLabel="Female" itemValue="female" />
+                        </p:selectOneRadio>
+                        <h:outputLabel for="DateOfBirth2" value="Birthdate: "/>
+                        <p:calendar id="DateOfBirth2" value="#{savedependantbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:commandButton value="Register" action="#{savedependantbean.saveDependant(savedependantbean.dateOfBirth,savedependantbean.firstname,savedependantbean.lastname,savedependantbean.username,savedependantbean.gender,saveuserbean.id)}" update=":registerDependantDialog @form" oncomplete="handleDialog4Close();" styleClass="ui-button-primary" style="width: 100%;" />
+                </p:panel>
+
+            </p:dialog>
+        </h:form>
+
+
+
         <h:form id="dependantsForm">
             <h1>User has the following dependants</h1>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="4">
                 <h:outputLabel for="searchUsername" value="Filter by name or gender: " />
                 <h:inputText id="searchUsername" value="#{dependantdisplaybean.attribute}" >
                     <f:ajax event="keyup" render="results" listener="dependantdisplaybean.searchDependantByNameForUser(dependantdisplaybean.dependantsForUser(dependantdisplaybean.attribute,dependantdisplaybean.user_id)"/>
                 </h:inputText>
+                <p:commandLink value="Delete all" onclick="return confirm('Are you sure You want to completely delete all dependants of this user from database?');" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 9.7px;color: red; font-size: 12px" action="#{savedependantbean.deleteAllDependantsOfUser(dependantdisplaybean.user_id)}" />
+                <p:commandButton value="Add Dependant" style="font-size: 12px;padding: 6px; color: green" styleClass="ui-button ui-widget ui-state-default ui-corner-all" onclick="showDialog4();" >
+                    <f:setPropertyActionListener value="#{savedependantbean.getCurrentId()}" target="#{saveuserbean.id}" />
+                </p:commandButton>
             </h:panelGrid>
             <p:dataTable scrollable="true" id="results"  styleClass="ui-datatable-scrollable-body" value="#{dependantdisplaybean.dependantsForUser(dependantdisplaybean.attribute,dependantdisplaybean.user_id)}" var="dependant" emptyMessage="No dependants found"
-                         paginator="true" rows="10" paginatorPosition="bottom">
+                         paginator="true" rows="5" paginatorPosition="bottom">
                 <p:column headerText="User name">
                     <h:outputText value="#{dependant.username} " />
                 </p:column>
@@ -35,20 +94,25 @@
                 <p:column headerText="gender">
                     <h:outputText value="#{dependant.gender}" />
                 </p:column>
+
                 <p:column headerText="Actions">
                     <h:commandButton value="Delete" onclick="return confirm('Are you sure You want to completely delete this dependant from database?');" action ="#{savedependantbean.deleteDependant(dependant.username)}"  style="color: red;font-size: 10px" outcome="/pages/protected/dependants/dependants.xhtml"/>  <span></span>
                     <h:commandButton value="SDelete" onclick="return confirm('Are you sure You want to mark this dependant as deleted in database?');" action ="#{savedependantbean.softDeleteDependant(dependant.username)}"  style="color: orangered;font-size: 10px" outcome="/pages/protected/dependants/dependants.xhtml" />  <span></span>
-                    <p:link style = "color:green ;font-size: 10px;padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/update_dependant.xhtml?name=#{dependant.username}">
-                        <span class="ui-button-text">Update</span>
-                    </p:link>
+                   <p:commandButton value="Update" style = "color:green ;font-size: 9px;padding: 1px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" onclick="showDialog3();" update=":updateDependantForm:content"  >
+                        <f:setPropertyActionListener value="#{dependant.username}" target="#{savedependantbean.username}" />
+                       <f:setPropertyActionListener value="#{dependant.firstname}" target="#{savedependantbean.firstname}" />
+                       <f:setPropertyActionListener value="#{dependant.lastname}" target="#{savedependantbean.lastname}" />
+                       <f:setPropertyActionListener value="#{dependant.gender}" target="#{savedependantbean.gender}" />
+                       <f:setPropertyActionListener value="#{dependant.dateOfBirth}" target="#{savedependantbean.dateOfBirth}" />
+                    </p:commandButton>
+
                 </p:column>
+
                 <!-- Add more columns as per your dependant attributes -->
             </p:dataTable>
             <br></br>
 
             <p:commandButton value="Back" action="#{savedependantbean.back()}" styleClass="button" />
-            <p:link value="Attach Dependant" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/dependants/register.xhtml?id=#{dependantdisplaybean.user_id}"/>
-            <p:commandLink value="Delete all" onclick="return confirm('Are you sure You want to completely delete all dependants of this user from database?');" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px;color: red" action="#{savedependantbean.deleteAllDependantsOfUser(dependantdisplaybean.user_id)}" />
         </h:form>
     </ui:define>
 </ui:composition>

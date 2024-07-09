@@ -144,11 +144,13 @@
         }
 
     </style>
+
 </h:head>
 <h:body>
     <div class="sidebar">
 
         <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+
             <h:graphicImage name="images/Admin.png" alt="Admin" />
             <ul>
                 <li>
@@ -167,12 +169,6 @@
                     <h:link outcome="/pages/protected/dependants/dependants_all.xhtml">
                         <span class="pi pi-user-plus"></span>
                         <h:outputText value="Dependants" />
-                    </h:link>
-                </li>
-                <li>
-                    <h:link outcome="/pages/protected/users/register.xhtml">
-                        <span class="pi pi-user-edit"></span>
-                        <h:outputText value="Register user" />
                     </h:link>
                 </li>
                 <li>
@@ -207,12 +203,6 @@
                     </h:link>
                 </li>
                 <li>
-                    <h:link outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}">
-                        <span class="pi pi-user-plus"></span>
-                        <h:outputText value="Add dependant" />
-                    </h:link>
-                </li>
-                <li>
                     <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
                         <span class="pi pi-folder-open"></span>
                         <h:outputText value="My profile" />
@@ -235,5 +225,56 @@
             <ui:insert name="content"/>
         </div>
     </div>
+
+    <script>
+        function showDialog() {
+            PF('registerDialog').show();
+        }
+
+        function handleDialogClose() {
+            if (!(PF('registerDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('registerDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('registerDialog').hide(); // Close dialog on successful registration
+            }
+        }
+
+        function showDialog2() {
+            PF('updateDialog').show();
+        }
+
+        function handleDialog2Close() {
+            if (!(PF('updateDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('updateDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('updateDialog').hide(); // Close dialog on successful registration
+            }
+        }
+
+        function showDialog3() {
+            PF('updateDependantDialog').show();
+        }
+        function handleDialog3Close() {
+            if (!(PF('updateDependantDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('updateDependantDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('updateDependantDialog').hide(); // Close dialog on successful registration
+            }
+        }
+
+        function showDialog4() {
+            PF('registerDependantDialog').show();
+        }
+
+        function handleDialog4Close() {
+            if (!(PF('registerDependantDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('registerDependantDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('registerDependantDialog').hide(); // Close dialog on successful registration
+            }
+        }
+    </script>
+
+
 </h:body>
 </html>

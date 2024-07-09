@@ -83,23 +83,24 @@ public class DependantDao {
             SessionConfiguration.shutdown();
         }
     }
-    public  void updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, String gender){
+    public  void updateDependant(String firstName, String lastName, String userName, Date dateOfBirth, Dependant.Gender gender){
         try {
             SessionFactory sf = SessionConfiguration.getSessionFactory();
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("update Dependant set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth ,gender = :gender , deleted_at = null where username = :userName ");
+            Query qry = session.createQuery("update Dependant set firstname =:firstName , lastname = :lastName, dateOfBirth= :dateOfBirth ,gender = :gender, deleted_at = null where username = :userName ");
             qry.setParameter("userName", userName);
             qry.setParameter("firstName", firstName);
             qry.setParameter("lastName", lastName);
             qry.setParameter("dateOfBirth", dateOfBirth);
             qry.setParameter("gender", gender);
             qry.executeUpdate();
+            System.out.println("Dependant updated successfully in Dao");
             trs.commit();
-            System.out.println("Dependant updated successfully");
             SessionConfiguration.shutdown();
         }
         catch (Exception e){
+            e.printStackTrace();
             SessionConfiguration.shutdown();
         }
     }
@@ -128,24 +129,6 @@ public class DependantDao {
             Session session = sf.openSession();
             Transaction trs = session.beginTransaction();
             Query qry = session.createQuery("from Dependant");
-            dependants = qry.list();
-            trs.commit();
-            SessionConfiguration.shutdown();
-        }
-        catch (Exception e){
-            SessionConfiguration.shutdown();
-        }
-        return dependants;
-    }
-    public  List<Dependant> returnDependantsPaginated(int start, int size) {
-        List<Dependant> dependants = new ArrayList<>();
-        try {
-            SessionFactory sf = SessionConfiguration.getSessionFactory();
-            Session session = sf.openSession();
-            Transaction trs = session.beginTransaction();
-            Query qry = session.createQuery("from Dependant");
-            qry.setFirstResult(start-1);
-            qry.setMaxResults(size);
             dependants = qry.list();
             trs.commit();
             SessionConfiguration.shutdown();

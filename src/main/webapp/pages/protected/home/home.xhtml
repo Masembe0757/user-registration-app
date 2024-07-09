@@ -16,7 +16,7 @@
             display: flex;
         }
         .sidebar {
-            width: 130px;
+            width: 140px;
             background-color: #2d3e50;
             color: white;
             padding: 20px;
@@ -121,12 +121,66 @@
         }
 
     </style>
+    <script>
+        function showDialog() {
+            PF('registerDialog').show();
+        }
+
+        function handleDialogClose() {
+            if (!(PF('registerDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('registerDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('registerDialog').hide(); // Close dialog on successful registration
+            }
+        }
+        function showDialog4() {
+            PF('registerDependantDialog').show();
+        }
+
+        function handleDialog4Close() {
+            if (!(PF('registerDependantDialog').jq.find('.ui-messages-error').length == 0)) {
+                PF('registerDependantDialog').show(); // Keep dialog open on validation error
+            } else {
+                PF('registerDependantDialog').hide(); // Close dialog on successful registration
+            }
+        }
+    </script>
 </h:head>
 <h:body>
 
 
 
     <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+        <h:form id="registerForm">
+
+            <p:dialog  widgetVar="registerDialog" modal="true" resizable="false">
+                <p:panel header="Register user" styleClass="login-panel">
+                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                    <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                        <h:outputLabel for="FirstName" value= "Firstname: "/>
+                        <p:inputText id="FirstName" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
+                        <h:outputLabel for="LastName" value="Lastname: "/>
+                        <p:inputText id="LastName" value="#{saveuserbean.lastname}" required="false" label ="Lastname"/>
+                        <h:outputLabel for="UserName" value="Username: "/>
+                        <p:inputText id="UserName" value="#{saveuserbean.username}" required="true" label="Username"/>
+                        <h:outputLabel for="password1" value="Password:" />
+                        <p:password id="password1" value="#{saveuserbean.password1}" required="true" label="Password" feedback="true" />
+                        <h:outputLabel for="password2" value="Confirm:" />
+                        <p:password id="password2" value="#{saveuserbean.password2}" required="true" label="Password" feedback="true" />
+                        <h:outputLabel for="Email" value="Email: "/>
+                        <p:inputText id="Email" value="#{saveuserbean.email}" required="true" label="Email"/>
+                        <h:outputLabel for="DateOfBirth" value="Birthdate: "/>
+                        <p:calendar id="DateOfBirth" value="#{saveuserbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:commandButton value="Register" action="#{saveuserbean.saveUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" update =":registerForm @form"  oncomplete="handleDialogClose();" style="width: 100%;" />
+                </p:panel>
+            </p:dialog>
+        </h:form>
+
+
+
 
     <div class="sidebar">
         <h:graphicImage name="images/Admin.png" alt="Admin" />
@@ -150,10 +204,12 @@
                 </h:link>
             </li>
             <li>
-                <h:link outcome="/pages/protected/users/register.xhtml">
+                <h:form>
+                <h:commandLink onclick="showDialog(); return false;"  >
                     <span class="pi pi-user-edit"></span>
                     <h:outputText value="Register user" />
-                </h:link>
+                </h:commandLink>
+                </h:form>
             </li>
             <li>
                 <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
@@ -203,7 +259,33 @@
 </ui:fragment>
 
 
-<ui:fragment rendered="#{not saveuserbean.isAdmin()}">
+ <ui:fragment rendered="#{not saveuserbean.isAdmin()}">
+    <h:form id="registerDependantDialog">
+        <p:dialog widgetVar="registerDependantDialog" modal="true" resizable="false">
+            <p:panel header="Register dependant" styleClass="login-panel">
+                <p:messages id= "messages2"  autoUpdate="true" closable="true" />
+                <p:panelGrid columns="2" id ="content" style="margin-bottom: 10px;" columnClasses="label, value">
+                    <h:outputLabel for="FirstName2" value= "Firstname: "/>
+                    <h:inputText id="FirstName2" value="#{savedependantbean.firstname}" required="true" label ="Firstname"/>
+                    <h:outputLabel for="LastName2" value="Lastname: "/>
+                    <h:inputText id="LastName2" value="#{savedependantbean.lastname}" required="false" label ="Lastname"/>
+                    <h:outputLabel for="username2" value="Username:" />
+                    <h:inputText id="username2" value="#{savedependantbean.username}" required="true" label="Username" />
+                    <h:outputLabel for="gender2" value="Gender: " />
+                    <p:selectOneRadio id="gender2" value="#{savedependantbean.gender}" required="true" label="gender">
+                        <f:selectItem itemLabel="Male" itemValue="male" />
+                        <f:selectItem itemLabel="Female" itemValue="female" />
+                    </p:selectOneRadio>
+                    <h:outputLabel for="DateOfBirth2" value="Birthdate: "/>
+                    <p:calendar id="DateOfBirth2" value="#{savedependantbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </p:calendar>
+                </p:panelGrid>
+                <p:commandButton value="Register" action="#{savedependantbean.saveDependant(savedependantbean.dateOfBirth,savedependantbean.firstname,savedependantbean.lastname,savedependantbean.username,savedependantbean.gender,saveuserbean.id)}" update=":registerDependantDialog @form" oncomplete="handleDialog4Close();" styleClass="ui-button-primary" style="width: 100%;" />
+            </p:panel>
+
+        </p:dialog>
+    </h:form>
 
     <div class="sidebar">
         <h:graphicImage name="images/R.png" alt="User logo" />
@@ -221,10 +303,13 @@
                 </h:link>
             </li>
             <li>
-                <h:link outcome="/pages/protected/dependants/register.xhtml?id=#{saveuserbean.getCurrentId()}">
+                <h:form>
+                <p:commandLink onclick="showDialog4();" update=":registerDependantDialog:content" >
                     <span class="pi pi-user-plus"></span>
                     <h:outputText value="Add dependant" />
-                </h:link>
+                    <f:setPropertyActionListener value="#{saveuserbean.getCurrentId()}" target="#{saveuserbean.id}" />
+                </p:commandLink>
+                </h:form>
             </li>
             <li>
                 <h:link outcome="/pages/protected/users/user_details.xhtml?name=#{saveuserbean.getCurrentUserName()}">
@@ -270,9 +355,15 @@
             <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
         </div>
     </div>
+
+
+
 </ui:fragment>
 
     <h:outputScript>
+
+
+
         function chartExtender() {
             this.cfg.seriesDefaults.rendererOptions = {
                 barPadding: 10,
@@ -316,6 +407,9 @@
                 shadow: false
             };
         }
+
+
+
     </h:outputScript>
 
 

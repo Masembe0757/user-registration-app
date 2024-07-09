@@ -4,6 +4,7 @@ import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.models.User;
 import org.primefaces.model.chart.*;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -30,7 +31,6 @@ public class UserChartBean {
 
     @PostConstruct
     public void init() {
-
         createWeeklyActivityModel();
         createGenderStatisticsModel();
     }

@@ -12,6 +12,7 @@ public class Dependant extends Account{
     @ManyToOne
     private User user;
 
+
     public Gender getGender() {
         return gender;
     }

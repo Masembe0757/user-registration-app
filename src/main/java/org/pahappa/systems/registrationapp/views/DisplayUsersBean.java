@@ -22,6 +22,34 @@ public class DisplayUsersBean implements Serializable {
     private int id;
     private String username;
     private String firstname;
+    private int pageSize = 5;
+    private int currentPage = 1;
+    private long totalRecords;
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public long getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(long totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
     public List<User> getUsers() {
         return users;
     }
@@ -99,10 +127,9 @@ public class DisplayUsersBean implements Serializable {
     }
     public List<User> searchUserByName(String name){
         List<User> users = UserService.getUserService().returnAllUsers();
-        List<User> usersPag = UserService.getUserService().returnPaginatedAllUsers(1,5);
         List<User> userList = new ArrayList<>();
         if(name.isEmpty()){
-            for (User user : usersPag) {
+            for (User user : users) {
                 if (user.getDeleted_at() == null) {
                     userList.add(user);
                 }

@@ -3,8 +3,9 @@ import org.pahappa.systems.registrationapp.dao.DependantDao;
 import org.pahappa.systems.registrationapp.models.Dependant;
 import org.pahappa.systems.registrationapp.services.DependantService;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionListener;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,11 +109,11 @@ public class DisplayDependantBean implements Serializable {
         return  dependantList;
     }
     public List<Dependant> searchDependantByName(String name) {
-        List<Dependant> dependantsPag = DependantDao.getDependantDao().returnDependantsPaginated(1,5);
+        List<Dependant> dependants =DependantDao.getDependantDao().returnDependants();
         List<Dependant> dependantList = new ArrayList<>();
 
         if (name.isEmpty()) {
-            for (Dependant dependant : dependantsPag) {
+            for (Dependant dependant : dependants) {
                 if (dependant.getDeleted_at() == null) {
                     dependantList.add(dependant);
                 }
@@ -139,6 +140,5 @@ public class DisplayDependantBean implements Serializable {
             return dateFormat.format(date);
         }
     }
-
 
 }

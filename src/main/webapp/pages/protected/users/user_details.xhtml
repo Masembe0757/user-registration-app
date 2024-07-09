@@ -9,6 +9,38 @@
     </f:metadata>
 
     <ui:define name="content">
+
+
+        <h:form id="updateForm">
+            <p:dialog header="Update User" widgetVar="updateDialog" modal="true">
+                <p:panel header="Update user #{saveuserbean.username} " styleClass="login-panel">
+                    <p:messages id="messages" autoUpdate="true" closable="true" />
+                    <p:panelGrid columns="2" id="content" style="margin-bottom: 10px;" columnClasses="label, value">
+                        <h:outputLabel for="UserName" value= "Username: "/>
+                        <h:inputText id="UserName" value="#{saveuserbean.username}" disabled="true" required="true" label ="Username"/>
+                        <h:outputLabel for="FirstName" value= "Firstname: "/>
+                        <h:inputText id="FirstName" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
+                        <h:outputLabel for="LastName" value="Lastname: "/>
+                        <h:inputText id="LastName" value="#{saveuserbean.lastname}" required="false" label ="Lastname"/>
+                        <h:outputLabel for="password1" value="Password:" />
+                        <p:password id="password1" value="#{saveuserbean.password1}" required="true" label="Password" feedback="true" />
+                        <h:outputLabel for="password2" value="Confirm:" />
+                        <p:password id="password2" value="#{saveuserbean.password2}" required="true" label="Password" feedback="true" />
+                        <h:outputLabel for="Email" value="Email: "/>
+                        <h:inputText id="Email" value="#{saveuserbean.email}" required="true" label="Email"/>
+                        <h:outputLabel for="DateOfBirth" value="Birthdate: "/>
+                        <p:calendar id="DateOfBirth" value="#{saveuserbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:commandButton value="Update" action="#{saveuserbean.updateUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" ajax="false" styleClass="ui-button-primary" style="width: 100%;" />
+                </p:panel>
+
+            </p:dialog>
+        </h:form>
+
+
+
         <h:form class="autoMargin">
                     <h1>These are your details #{saveuserbean.username}</h1>
                     <p:dataTable value="#{displayusersbean.searchUserOfName(saveuserbean.username)}" var="user" emptyMessage="No users found">
@@ -30,10 +62,18 @@
                         <p:column colspan="2" headerText="Password">
                             #{user.password}
                         </p:column>
+
                         <p:column headerText="Actions">
-                            <p:link style="color: green;"  styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{saveuserbean.username}">
-                                <span class="ui-button-text">Update</span>
-                            </p:link>
+
+                            <p:commandButton value="Update" style="color: green;font-size: 10px; padding: 3px "  styleClass="ui-button ui-widget ui-state-default ui-corner-all" onclick="showDialog2();" update=":updateForm:content">
+                                <f:setPropertyActionListener value="#{user.username}" target="#{saveuserbean.username}" />
+                                <f:setPropertyActionListener value="#{user.firstname}" target="#{saveuserbean.firstname}" />
+                                <f:setPropertyActionListener value="#{user.lastname}" target="#{saveuserbean.lastname}" />
+                                <f:setPropertyActionListener value="#{user.dateOfBirth}" target="#{saveuserbean.dateOfBirth}" />
+                                <f:setPropertyActionListener value="#{user.password}" target="#{saveuserbean.password1}" />
+                                <f:setPropertyActionListener value="#{user.password}" target="#{saveuserbean.password2}" />
+                                <f:setPropertyActionListener value="#{user.email}" target="#{saveuserbean.email}" />
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
             <br/>

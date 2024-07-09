@@ -4,19 +4,122 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/template/template.xhtml">
-
     <ui:define name="content">
         <ui:fragment rendered="#{saveuserbean.isAdmin()}">
+
+
+            <h:form id="registerForm">
+
+                <p:dialog  widgetVar="registerDialog" modal="true" resizable="false">
+                    <p:panel header="Register user" styleClass="login-panel">
+                        <p:messages id="messages" autoUpdate="true" closable="true" />
+                        <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                            <h:outputLabel for="FirstName" value= "Firstname: "/>
+                            <p:inputText id="FirstName" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
+                            <h:outputLabel for="LastName" value="Lastname: "/>
+                            <p:inputText id="LastName" value="#{saveuserbean.lastname}" required="false" label ="Lastname"/>
+                            <h:outputLabel for="UserName" value="Username: "/>
+                            <p:inputText id="UserName" value="#{saveuserbean.username}" required="true" label="Username"/>
+                            <h:outputLabel for="password1" value="Password:" />
+                            <p:password id="password1" value="#{saveuserbean.password1}" required="true" label="Password" feedback="true" />
+                            <h:outputLabel for="password2" value="Confirm:" />
+                            <p:password id="password2" value="#{saveuserbean.password2}" required="true" label="Password" feedback="true" />
+                            <h:outputLabel for="Email" value="Email: "/>
+                            <p:inputText id="Email" value="#{saveuserbean.email}" required="true" label="Email"/>
+                            <h:outputLabel for="DateOfBirth" value="Birthdate: "/>
+                            <p:calendar id="DateOfBirth" value="#{saveuserbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </p:calendar>
+                        </p:panelGrid>
+                        <p:commandButton value="Register" action="#{saveuserbean.saveUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" update =":registerForm @form"  oncomplete="handleDialogClose();" style="width: 100%;" />
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+
+
+
+
+            <h:form id="updateForm">
+                <p:dialog widgetVar="updateDialog" modal="true" resizable="false">
+                    <p:panel header="Update user"  styleClass="login-panel">
+                        <p:messages id="messages1"  autoUpdate="true" closable="true" />
+                        <p:panelGrid columns="2" id="content" style="margin-bottom: 10px;" columnClasses="label, value">
+                            <h:outputLabel for="Username" value= "Username: "/>
+                            <h:inputText id="Username" value="#{saveuserbean.firstname}" disabled="true" required="true" label ="Firstname"/>
+                            <h:outputLabel for="FirstName1" value= "Firstname: "/>
+                            <h:inputText id="FirstName1" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
+                            <h:outputLabel for="LastName1" value="Lastname: "/>
+                            <h:inputText id="LastName1" value="#{saveuserbean.lastname}" required="false" label ="Lastname"/>
+                            <h:outputLabel for="password11" value="Password:" />
+                            <p:password id="password11" value="#{saveuserbean.password1}" required="true" label="Password" feedback="true" />
+                            <h:outputLabel for="password21" value="Confirm:" />
+                            <p:password id="password21" value="#{saveuserbean.password2}" required="true" label="Password" feedback="true" />
+                            <h:outputLabel for="Email1" value="Email: "/>
+                            <h:inputText id="Email1" value="#{saveuserbean.email}" required="true" label="Email"/>
+                            <h:outputLabel for="DateOfBirth1" value="Birthdate: "/>
+                            <p:calendar id="DateOfBirth1" value="#{saveuserbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </p:calendar>
+                        </p:panelGrid>
+                        <p:commandButton value="Update" action="#{saveuserbean.updateUser(saveuserbean.firstname,saveuserbean.lastname,saveuserbean.username,saveuserbean.dateOfBirth,saveuserbean.password1,saveuserbean.password2,saveuserbean.email)}" update =":registerForm @form" oncomplete="handleDialog2Close();" style="width: 100%;" />
+                    </p:panel>
+
+                </p:dialog>
+            </h:form>
+
+
+            <h:form id="registerDependantDialog">
+                <p:dialog widgetVar="registerDependantDialog" modal="true" resizable="false">
+                    <p:panel header="Register dependant" styleClass="login-panel">
+                        <p:messages id= "messages2"  autoUpdate="true" closable="true" />
+                        <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
+                            <h:outputLabel for="FirstName2" value= "Firstname: "/>
+                            <h:inputText id="FirstName2" value="#{savedependantbean.firstname}" required="true" label ="Firstname"/>
+                            <h:outputLabel for="LastName2" value="Lastname: "/>
+                            <h:inputText id="LastName2" value="#{savedependantbean.lastname}" required="false" label ="Lastname"/>
+                            <h:outputLabel for="username2" value="Username:" />
+                            <h:inputText id="username2" value="#{savedependantbean.username}" required="true" label="Username" />
+                            <h:outputLabel for="gender2" value="Gender: " />
+                            <p:selectOneRadio id="gender2" value="#{savedependantbean.gender}" required="true" label="gender">
+                                <f:selectItem itemLabel="Male" itemValue="male" />
+                                <f:selectItem itemLabel="Female" itemValue="female" />
+                            </p:selectOneRadio>
+                            <h:outputLabel for="DateOfBirth2" value="Birthdate: "/>
+                            <p:calendar id="DateOfBirth2" value="#{savedependantbean.dateOfBirth}" pattern="yyyy-MM-dd" required="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </p:calendar>
+                        </p:panelGrid>
+                        <p:commandButton value="Register" action="#{savedependantbean.saveDependant(savedependantbean.dateOfBirth,savedependantbean.firstname,savedependantbean.lastname,savedependantbean.username,savedependantbean.gender,saveuserbean.id)}" update=":registerDependantDialog @form" oncomplete="handleDialog4Close();" styleClass="ui-button-primary" style="width: 100%;" />
+                    </p:panel>
+
+                </p:dialog>
+            </h:form>
+
+
+
+
+
+
         <h:form class="autoMargin">
                     <h1>System has the following users</h1>
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="5">
                         <h:outputLabel for="searchName" value="Filter by name: " icon="pi pi-search" />
                         <h:inputText id="searchName" value="#{displayusersbean.name}" >
                             <f:ajax event="keyup" render="results" listener="displayusersbean.searchUserByName(displayusersbean.name)" />
                         </h:inputText>
+                      <!-- <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/> -->
+                        <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 4.5px; color: red" />
+                        <p:commandButton value="Register User" onclick="showDialog();" />
                     </h:panelGrid>
-                    <p:dataTable scrollable="true" id="results" paginator="true" rows="10" paginatorPosition="bottom"   styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
-                        <p:column headerText="User name">
+                    <p:dataTable
+                            scrollable="true"
+                             id="results"
+                             paginator="true"
+                            rows="5"
+                            paginatorPosition="bottom"
+                            styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
+
+                        <p:column headerText="User name" sortBy="#{user.username}" >
                             #{user.username}
                         </p:column>
                         <p:column headerText="First name">
@@ -32,20 +135,25 @@
                             <p:link style="font-size: 10px;padding: 3px" styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/dependants.xhtml?id=#{user.id}">
                                 <span class="ui-button-text">Dependants</span>
                             </p:link>
-                            <p:link style="font-size: 10px;padding: 3px" styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/dependants/register.xhtml?id=#{user.id}">
-                                <span class="ui-button-text">Attach</span>
-                            </p:link>
-                            <p:link style="color: green;font-size: 10px; padding: 3px " styleClass="ui-button ui-widget ui-state-default ui-corner-all" outcome="/pages/protected/users/update_user.xhtml?name=#{user.username}">
-                                <span class="ui-button-text">Update</span>
-                            </p:link>
-                            <h:commandButton icon="pi pi-trash" onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" style="color: red; font-size: 10px;padding: 3px" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/> <span></span>
+                            <p:commandButton value="Attach" style="font-size: 9px;padding: 1px" styleClass="ui-button ui-widget ui-state-default ui-corner-all" onclick="showDialog4();" >
+                                <f:setPropertyActionListener value="#{user.id}" target="#{saveuserbean.id}" />
+                            </p:commandButton>
+                            <p:commandButton value="Update" style="color: green;font-size: 9px; padding: 1px "  styleClass="ui-button ui-widget ui-state-default ui-corner-all" onclick="showDialog2();" update=":updateForm:content">
+                                <f:setPropertyActionListener value="#{user.username}" target="#{saveuserbean.username}" />
+                                <f:setPropertyActionListener value="#{user.firstname}" target="#{saveuserbean.firstname}" />
+                                <f:setPropertyActionListener value="#{user.lastname}" target="#{saveuserbean.lastname}" />
+                                <f:setPropertyActionListener value="#{user.dateOfBirth}" target="#{saveuserbean.dateOfBirth}" />
+                                <f:setPropertyActionListener value="#{user.password}" target="#{saveuserbean.password1}" />
+                                <f:setPropertyActionListener value="#{user.password}" target="#{saveuserbean.password2}" />
+                                <f:setPropertyActionListener value="#{user.email}" target="#{saveuserbean.email}" />
+                            </p:commandButton>
+                            <h:commandButton  onclick="return confirm('Are you sure You want to completely delete this user from database?');" value="Delete" style="color: red; font-size: 10px;padding: 3px" action="#{saveuserbean.deleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/> <span></span>
                             <h:commandButton onclick="return confirm('Are you sure You want to mark this user as deleted in database?');" value="SoftDelete" style="color: orangered;font-size: 10px;padding: 3px" action="#{saveuserbean.softDeleteUser(user.username)}" outcome="/pages/protected/users/users.xhtml"/>
                             <h:commandButton onclick="return confirm('Are you sure You want to make this user an admin?');" value="MakeAdmin" action="#{saveuserbean.makeAdmin(user.username)}" style="color: blueviolet;font-size: 10px;padding: 3px" />
 
                         </p:column>
                     </p:dataTable>
-            <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/>
-            <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 4.5px; color: red" />
+
         </h:form>
     </ui:fragment>
         <ui:fragment rendered="#{not saveuserbean.isAdmin()}"  >

@@ -22,6 +22,15 @@ public class SaveUserBean implements Serializable {
     private String email;
     private String password1;
     private String password2;
+    private int user_id;
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public String getPassword1() {
         return password1;
@@ -103,19 +112,14 @@ public class SaveUserBean implements Serializable {
         return (User) externalContext.getSessionMap().get("currentUser");
     }
 
-    public String saveUser(String firstName, String lastName, String userName, Date dateOfBirth, String pass1,String pass2, String email) {
+    public void  saveUser(String firstName, String lastName, String userName, Date dateOfBirth, String pass1,String pass2, String email) {
 
         String message = UserService.getUserService().addUser(firstName,lastName,userName,dateOfBirth,pass1,pass2,email);
         if(message.isEmpty()) {
-            return  "/pages/protected/users/users.xhtml?faces-redirect=true";
-            //Emailing
-
-
 
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/protected/users/register.xhtml";
         }
     }
 
@@ -130,20 +134,13 @@ public class SaveUserBean implements Serializable {
         }
 
     }
-    public String updateUser(String firstName, String lastName, String userName, Date dateOfBirth, String password1,String password2, String email) {
+    public void updateUser(String firstName, String lastName, String userName, Date dateOfBirth, String password1,String password2, String email) {
         String message = UserService.getUserService().updateUserOfUserName(firstName, lastName, userName, dateOfBirth, password1,password2, email);
         if(message.isEmpty()) {
-            if(getCurrentUser().getRole()==1){
-                return  "/pages/protected/users/users.xhtml?faces-redirect=true";
-            }else if(getCurrentUser().getRole()==0){
-                return  "/pages/protected/users/user_details.xhtml?faces-redirect=true";
-            }
         }else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-            return "/pages/protected/users/update_user.xhtml";
         }
-        return "";
     }
     public String softDeleteUser(String userName) {
         String message = UserService.getUserService().softDeleteUserOfUserName(userName);
@@ -208,4 +205,6 @@ public class SaveUserBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "User is already an admin", null));
         }
     }
+
+
 }
