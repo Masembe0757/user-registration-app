@@ -174,7 +174,7 @@ public class AdminChartBean {
         genderStatisticsModel.setLegendPosition("w");
         genderStatisticsModel.setFill(false);
         genderStatisticsModel.setShowDataLabels(true);
-        genderStatisticsModel.setDiameter(200);
+        genderStatisticsModel.setDiameter(220);
         genderStatisticsModel.setShadow(true); // Adding shadow for depth
         genderStatisticsModel.setSliceMargin(5); // Adding margin between slices
         genderStatisticsModel.setExtender("pieChartExtender");

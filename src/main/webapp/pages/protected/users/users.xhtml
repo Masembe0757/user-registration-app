@@ -10,7 +10,7 @@
 
             <h:form id="registerForm">
 
-                <p:dialog  widgetVar="registerDialog" modal="true" resizable="false">
+                <p:dialog  widgetVar="registerDialog" modal="true" resizable="false" width="500">
                     <p:panel header="Register user" styleClass="login-panel">
                         <p:messages id="messages" autoUpdate="true" closable="true" />
                         <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
@@ -40,12 +40,12 @@
 
 
             <h:form id="updateForm">
-                <p:dialog widgetVar="updateDialog" modal="true" resizable="false">
+                <p:dialog widgetVar="updateDialog" modal="true" resizable="false" width="500">
                     <p:panel header="Update user"  styleClass="login-panel">
                         <p:messages id="messages1"  autoUpdate="true" closable="true" />
                         <p:panelGrid columns="2" id="content" style="margin-bottom: 10px;" columnClasses="label, value">
                             <h:outputLabel for="Username" value= "Username: "/>
-                            <h:inputText id="Username" value="#{saveuserbean.firstname}" disabled="true" required="true" label ="Firstname"/>
+                            <h:inputText id="Username" value="#{saveuserbean.username}" disabled="true" required="true" label ="Firstname"/>
                             <h:outputLabel for="FirstName1" value= "Firstname: "/>
                             <h:inputText id="FirstName1" value="#{saveuserbean.firstname}" required="true" label ="Firstname"/>
                             <h:outputLabel for="LastName1" value="Lastname: "/>
@@ -69,7 +69,7 @@
 
 
             <h:form id="registerDependantDialog">
-                <p:dialog widgetVar="registerDependantDialog" modal="true" resizable="false">
+                <p:dialog widgetVar="registerDependantDialog" modal="true" resizable="false" width="500">
                     <p:panel header="Register dependant" styleClass="login-panel">
                         <p:messages id= "messages2"  autoUpdate="true" closable="true" />
                         <p:panelGrid columns="2" style="margin-bottom: 10px;" columnClasses="label, value">
@@ -105,7 +105,7 @@
                     <h:panelGrid columns="5">
                         <h:outputLabel for="searchName" value="Filter by name: " icon="pi pi-search" />
                         <h:inputText id="searchName" value="#{displayusersbean.name}" >
-                            <f:ajax event="keyup" render="results" listener="displayusersbean.searchUserByName(displayusersbean.name)" />
+                            <f:ajax event="keyup" render="results" listener="#{displayusersbean.searchUserByName(displayusersbean.name)}" />
                         </h:inputText>
                       <!-- <p:link value="Register User" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 5px" outcome="/pages/protected/users/register.xhtml"/> -->
                         <h:commandButton value="Delete all" onclick="return confirm('Are you sure you want to delete all users?');" action="#{saveuserbean.deleteAllUsers()}" styleClass="ui-button ui-widget ui-state-default ui-corner-all" style="padding: 4.5px; color: red" />
@@ -119,7 +119,7 @@
                             paginatorPosition="bottom"
                             styleClass="ui-datatable-scrollable-body" value="#{displayusersbean.searchUserByName(displayusersbean.name)}" var="user" emptyMessage="No users found">
 
-                        <p:column headerText="User name" sortBy="#{user.username}" >
+                        <p:column headerText="User name" >
                             #{user.username}
                         </p:column>
                         <p:column headerText="First name">

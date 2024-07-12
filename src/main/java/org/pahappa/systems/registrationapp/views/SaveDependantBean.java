@@ -104,12 +104,7 @@ public class SaveDependantBean implements Serializable {
     public String saveDependant(Date dateOfBirth, String firstName, String lastName, String userName, String gender, int user_id) {
         String message = DependantService.getDependantService().attachDependant(dateOfBirth, firstName, lastName, userName, gender, user_id);
         if (message.isEmpty()) {
-            if(getCurrentUser().getRole()==0){
-                return "/pages/protected/dependants/dependants.xhtml?faces-redirect=true";
-            }
-            else {
-                return "/pages/protected/dependants/dependants_all.xhtml?faces-redirect=true";
-            }
+            return "/pages/protected/home/home.xhtml";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
@@ -165,9 +160,9 @@ public class SaveDependantBean implements Serializable {
 
     public String back() {
         if (getCurrentUser().getRole() == 1) {
-            return "/pages/protected/users/users.xhtml";
+            return "/pages/protected/dependants/dependants_all.xhtml";
         } else {
-            return "/pages/protected/home/home.xhtml";
+            return "/pages/protected/home/home.xhtml?faces-redirect=true";
         }
     }
 

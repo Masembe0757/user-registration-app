@@ -251,7 +251,7 @@
         </div>
         <f:event type="preRenderView" listener="#{adminChartBean.updateCharts()}" />
         <div class="charts">
-            <p:chart type="bar" model="#{adminChartBean.weeklyActivityModel}" />
+            <p:chart type="bar" model="#{adminChartBean.weeklyActivityModel}" style="width: 550px; height: 300px"/>
             <p:chart type="pie" model="#{adminChartBean.genderStatisticsModel}" />
         </div>
     </div>
@@ -351,7 +351,7 @@
         </div>
         <f:event type="preRenderView" listener="#{userChartBean.updateCharts()}" />
         <div class="charts">
-            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" />
+            <p:chart type="bar" model="#{userChartBean.weeklyActivityModel}" style="width: 550px; height: 300px" />
             <p:chart type="pie" model="#{userChartBean.genderStatisticsModel}" />
         </div>
     </div>

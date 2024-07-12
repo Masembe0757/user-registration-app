@@ -75,7 +75,7 @@ public class UserService {
 
 
     private  boolean isValidEmail(String email) {
-        final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+        final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();
